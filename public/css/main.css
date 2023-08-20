@@ -1,0 +1,20 @@
+:root {
+	--color-primary: #0069ff;
+	--color-primary-050: #f7faff;
+	--color-primary-100: #edf4ff;
+	--color-primary-200: #cde1ff;
+	--color-primary-300: #86afec;
+	--color-primary-400: #649bed;
+	--color-primary-500: #4886e2;
+	--color-primary-600: #2478f6;
+	--color-primary-700: #0c5ed7;
+	--color-primary-800: #003e9b;
+	--color-primary-900: #071f42;
+	--color-content-background: #fff;
+
+	--container-width: 60rem;
+}
+
+html, body { font-family: sans-serif; font-size: 16px; background-color: var(--color-primary-050); }
+
+.container { width: var(--container-width); max-width: 100%; padding: 0 1rem; margin: auto; }
