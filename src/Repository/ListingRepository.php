@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Listing;
+use App\Util\Geography;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +24,51 @@ class ListingRepository extends ServiceEntityRepository
         parent::__construct($registry, Listing::class);
     }
 
-//    /**
-//     * @return Listing[] Returns an array of Listing objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('l.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Finds listings matching the criterias in a radius of `$maximumRange`
+     * around the provided location.
+     *
+     * If `$fromDate` and/or `$toDate` are provided, availability will be taken
+     * into account and only available listings will be returned.
+     *
+     * @param integer $maximumRange (in KM)
+     * @param ?callable $queryCustomizer A callable that receives the `QueryBuilder` instance to add custom criteria.
+     * @return array<int,Listing>
+     */
+    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, ?callable $queryCustomizer = null, ?DateTimeInterface $fromDate = null, ?DateTimeInterface $toDate = null): array
+    {
+        // The logic of this geographical serach has been heavily sourced from this article:
+        // https://aaronfrancis.com/2021/efficient-distance-querying-in-my-sql
 
-//    public function findOneBySomeField($value): ?Listing
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $maxRangeInMeters = $maximumRange * 1000;
+        $roughBoundingBox = Geography::createBoundingBox($latitude, $longitude, $maximumRange);
+
+        $queryBuilder = $this->createQueryBuilder('l')
+            // Filter by a rough bounding box that benefits from DB indexes
+            ->andWhere('l.latitude >= :minLat')
+            ->setParameter('minLat', $roughBoundingBox->minimumLatitude)
+            ->andWhere('l.latitude <= :maxLat')
+            ->setParameter('maxLat', $roughBoundingBox->maximumLatitude)
+            ->andWhere('l.longitude >= :minLng')
+            ->setParameter('minLng', $roughBoundingBox->minimumLongitude)
+            ->andWhere('l.longitude <= :maxLng')
+            ->setParameter('maxLng', $roughBoundingBox->maximumLongitude)
+            // Filter by location in a more specific but less efficient way
+            ->andWhere('(MT_Distance_sphere(point(l.longitude, l.latitude), point(:userLat, :userLng))) <= :maxRangeInMeters')
+            ->setParameter('userLat', $latitude)
+            ->setParameter('userLng', $longitude)
+            ->setParameter('maxRangeInMeters', $maxRangeInMeters);
+
+        if ($queryCustomizer) {
+            $queryCustomizer($queryBuilder);
+        }
+
+        // @TODO: add availability check
+
+        return $queryBuilder
+            ->orderBy('l.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
