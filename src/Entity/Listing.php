@@ -6,6 +6,8 @@ use App\Entity\Trait\TimestampableTrait;
 use App\Entity\Trait\UlidTrait;
 use App\Enum\Site;
 use App\Repository\ListingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -51,6 +53,14 @@ class Listing
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $internalId = null;
+
+    #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Unavailability::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $unavailabilities;
+
+    public function __construct()
+    {
+        $this->unavailabilities = new ArrayCollection();
+    }
 
     public function getName(): ?string
     {
@@ -175,5 +185,23 @@ class Listing
     public function getIdentifier(): string
     {
         return $this->getInternalId() ?: $this->getUrl();
+    }
+
+    /**
+     * @return Collection<int, Unavailability>
+     */
+    public function getUnavailabilities(): Collection
+    {
+        return $this->unavailabilities;
+    }
+
+    /**
+     * @param Collection<int, Unavailability> $unavailabilities
+     */
+    public function setUnavailabilities(Collection $unavailabilities): static
+    {
+        $this->unavailabilities = $unavailabilities;
+
+        return $this;
     }
 }

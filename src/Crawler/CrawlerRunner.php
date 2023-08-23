@@ -4,18 +4,23 @@ namespace App\Crawler;
 
 use App\Config\SiteConfigLoader;
 use App\Crawler\Exception\MissingCrawlerException;
+use App\Crawler\Model\DetailedListingData;
+use App\Crawler\Model\Unavailability as UnavailabilityModel;
 use App\Entity\CrawlLog;
 use App\Entity\Listing;
+use App\Entity\Unavailability;
 use App\Enum\LogType;
 use App\Enum\Site;
 use App\Message\ListingGeocodingMessage;
 use App\Model\Log;
 use App\Repository\ListingRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class CrawlerRunner
@@ -32,6 +37,7 @@ class CrawlerRunner
         private EntityManagerInterface $entityManager,
         private ListingRepository $listingRepository,
         private SiteConfigLoader $siteConfigLoader,
+        private KernelInterface $kernel,
         private MessageBusInterface $bus,
         #[TaggedIterator('app.crawler_driver')]
         iterable $drivers,
@@ -63,7 +69,7 @@ class CrawlerRunner
             /** @var array<string,Listing> */
             $originalListings = [];
 
-            foreach ($this->listingRepository->findBy(['site' => $site]) as $originalListing) {
+            foreach ($this->listingRepository->findBy(['parentSite' => $site]) as $originalListing) {
                 $originalListings[$originalListing->getIdentifier()] = $originalListing;
             }
 
@@ -87,6 +93,8 @@ class CrawlerRunner
                     unset($originalListings[$index]);
                 }
 
+                $listing->setParentSite($site);
+                $this->fillListingFromCrawledDetails($listing, $listingDetails);
                 $this->entityManager()->persist($listing);
                 $this->entityManager()->flush();
 
@@ -112,6 +120,10 @@ class CrawlerRunner
         } catch (Exception $exception) {
             $log->setFailed(true);
             $writeLog(LogType::Error, $exception);
+
+            if ($this->kernel->isDebug()) {
+                throw $exception;
+            }
         }
     }
 
@@ -136,7 +148,32 @@ class CrawlerRunner
     {
         $log->addLog(new Log($type, $message));
 
+        if ($this->kernel->isDebug()) {
+            echo "[" . date("Y-m-d H:i:s") . "] " . $message . PHP_EOL;
+        }
+
         $this->entityManager()->persist($log);
         $this->entityManager()->flush();
+    }
+
+    private function fillListingFromCrawledDetails(Listing $listing, DetailedListingData $detailedListingData): Listing
+    {
+        $listing->setName($detailedListingData->listingData->name);
+        $listing->setUrl($detailedListingData->listingData->url);
+        $listing->setAddress($detailedListingData->listingData->address);
+        $listing->setDescription($detailedListingData->description);
+        $listing->setDogsAllowed($detailedListingData->dogsAllowed);
+        $listing->setImageUrl($detailedListingData->imageUrl);
+        $listing->setInternalId($detailedListingData->listingData->internalId);
+        $listing->setUnavailabilities(
+            new ArrayCollection(
+                array_map(
+                    fn (UnavailabilityModel $unavailabilityModel) => Unavailability::fromModel($unavailabilityModel, $listing),
+                    $detailedListingData->unavailabilities
+                )
+            )
+        );
+
+        return $listing;
     }
 }

@@ -4,19 +4,18 @@ namespace App\MessageHandler;
 
 use App\Message\ListingGeocodingMessage;
 use App\Repository\ListingRepository;
-use Doctrine\ORM\EntityManager;
-use Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use Geocoder\Provider\Provider;
 use Geocoder\Query\GeocodeQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-#[AsMessageHandler("messenger.bus.default", "async")]
+#[AsMessageHandler("messenger.bus.default")]
 final class ListingGeocodingMessageHandler
 {
     public function __construct(
         private ListingRepository $listingRepository,
-        private EntityManager $entityManager,
+        private EntityManagerInterface $entityManager,
         private Provider $mapboxGeocoder,
         private LoggerInterface $logger,
     ) {

@@ -29,6 +29,7 @@ class CrawlCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        set_time_limit(30);
         $this->crawlerRunner->crawlEverything();
 
         $io->success('Crawl completed!');
