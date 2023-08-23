@@ -11,6 +11,19 @@ The idea is simple:
 We don't manage booking or any other parts of the process: we just help users
 find available rentals that match their criteria and availabilities.
 
+## Setting up the project
+
+1. Clone the repository.
+2. Install dependencies with Composer:
+	```bash
+	composer install
+	```
+3. Install the browser drivers:
+	```bash
+	vendor/bin/bdi detect drivers
+	```
+
+
 ## Contributing
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)

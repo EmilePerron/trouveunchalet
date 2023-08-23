@@ -44,6 +44,18 @@
             "version": "1.0"
         }
     },
+    "php-http/discovery": {
+        "version": "1.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.18",
+            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
+        },
+        "files": [
+            "config/packages/http_discovery.yaml"
+        ]
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
@@ -170,6 +182,15 @@
             "config/packages/notifier.yaml"
         ]
     },
+    "symfony/panther": {
+        "version": "2.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "292a3236e81f55b545b09b9954ab097248972ab3"
+        }
+    },
     "symfony/phpunit-bridge": {
         "version": "6.3",
         "recipe": {
@@ -287,6 +308,18 @@
     },
     "twig/extra-bundle": {
         "version": "v3.7.0"
+    },
+    "willdurand/geocoder-bundle": {
+        "version": "5.19",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "5.0",
+            "ref": "b272ad4fbfcd45a20e7cbfdc4ad1b0e27a62fd3b"
+        },
+        "files": [
+            "config/packages/bazinga_geocoder.yaml"
+        ]
     },
     "zenstruck/foundry": {
         "version": "1.35",

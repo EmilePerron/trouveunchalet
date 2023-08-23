@@ -13,4 +13,9 @@ trait UlidTrait
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.ulid_generator')]
     private ?Ulid $id;
+
+    public function getId(): ?Ulid
+    {
+        return $this->id;
+    }
 }

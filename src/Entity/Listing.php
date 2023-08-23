@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Trait\TimestampableTrait;
 use App\Entity\Trait\UlidTrait;
+use App\Enum\Site;
 use App\Repository\ListingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,9 +43,14 @@ class Listing
     #[ORM\Column(nullable: true)]
     private ?bool $dogsAllowed = null;
 
-    #[ORM\ManyToOne(inversedBy: 'listings')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\Column(nullable: false, enumType: Site::class)]
     private ?Site $parentSite = null;
+
+    #[ORM\Column(length: 512, nullable: true)]
+    private ?string $imageUrl = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $internalId = null;
 
     public function getName(): ?string
     {
@@ -135,10 +141,39 @@ class Listing
         return $this->parentSite;
     }
 
-    public function setParentSite(?Site $parentSite): static
+    public function setParentSite(Site $parentSite): static
     {
         $this->parentSite = $parentSite;
 
         return $this;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(?string $imageUrl): static
+    {
+        $this->imageUrl = $imageUrl;
+
+        return $this;
+    }
+
+    public function getInternalId(): ?string
+    {
+        return $this->internalId;
+    }
+
+    public function setInternalId(?string $internalId): static
+    {
+        $this->internalId = $internalId;
+
+        return $this;
+    }
+
+    public function getIdentifier(): string
+    {
+        return $this->getInternalId() ?: $this->getUrl();
     }
 }

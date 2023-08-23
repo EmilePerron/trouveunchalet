@@ -26,7 +26,6 @@ class SearchController extends AbstractController
                 $request->query->get('longitude'),
                 $request->query->getInt('max_distance'),
             );
-            dump($listings);
         }
 
         return $this->render('search.html.twig', [

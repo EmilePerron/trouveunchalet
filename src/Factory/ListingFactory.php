@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Listing;
+use App\Enum\Site;
 use App\Repository\ListingRepository;
 use Zenstruck\Foundry\ModelFactory;
 use Zenstruck\Foundry\Proxy;
@@ -31,8 +32,6 @@ final class ListingFactory extends ModelFactory
 {
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#factories-as-services
-     *
-     * @todo inject services if required
      */
     public function __construct()
     {
@@ -41,8 +40,6 @@ final class ListingFactory extends ModelFactory
 
     /**
      * @see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories
-     *
-     * @todo add your default values here
      */
     protected function getDefaults(): array
     {
@@ -54,7 +51,7 @@ final class ListingFactory extends ModelFactory
             'url' => self::faker()->url(),
             'description' => self::faker()->text(350),
             'dogsAllowed' => self::faker()->boolean(),
-            'parentSite' => SiteFactory::random(),
+            'parentSite' => array_rand(Site::cases()),
         ];
     }
 

@@ -44,6 +44,9 @@ class ListingRepository extends ServiceEntityRepository
         $roughBoundingBox = Geography::createBoundingBox($latitude, $longitude, $maximumRange);
 
         $queryBuilder = $this->createQueryBuilder('l')
+            // Ignore listings without latitude or longitude
+            ->andWhere('l.latitude IS NOT NULL')
+            ->andWhere('l.longitude IS NOT NULL')
             // Filter by a rough bounding box that benefits from DB indexes
             ->andWhere('l.latitude >= :minLat')
             ->setParameter('minLat', $roughBoundingBox->minimumLatitude)
