@@ -51,7 +51,7 @@ final class ListingFactory extends ModelFactory
             'url' => self::faker()->url(),
             'description' => self::faker()->text(350),
             'dogsAllowed' => self::faker()->boolean(),
-            'parentSite' => Site::cases()[array_rand(Site::cases())],
+            'parentSite' => self::faker()->randomElement(Site::cases()),
         ];
     }
 

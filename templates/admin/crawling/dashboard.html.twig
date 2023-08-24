@@ -1,0 +1,56 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Crawling{% endblock %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Site</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Duration</th>
+                <th>Logs</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td>
+                        {% if log.failed %}
+                            <span class="text-danger">failed</span>
+                        {% elseif log.dateCompleted %}
+                            <span class="text-success">done</span>
+                        {% else %}
+                            <span class="text-primary">in progress</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ log.site.value }}</td>
+                    <td>
+                        {{ log.dateStarted|date('Y-m-d H:i:s') }}
+                        <br>
+                        <small>{{ log.dateStarted|ago }}</small>
+                    </td>
+                    <td>
+                        {{ log.dateCompleted ? log.dateCompleted|date('Y-m-d H:i:s') : 'N/A' }}
+                        <br>
+                        <small>{{ log.dateCompleted ? log.dateCompleted|ago : 'N/A' }}</small>
+                    </td>
+                    <td>
+                        {{ "" }}
+                    </td>
+                    <td>
+                        <details>
+                            <summary>View logs</summary>
+
+                            {% for log_message in log.logs %}
+                                <div class="{{ log_message.type.value == 'error' ? 'text-danger' : '' }}">{{ log_message|nl2br }}</div>
+                            {% endfor %}
+                        </details>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

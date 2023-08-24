@@ -15,4 +15,9 @@ class Log
     ) {
         $this->date = new DateTimeImmutable();
     }
+
+    public function __toString()
+    {
+        return "[" . $this->date->format("Y-m-d H:i:s") . "] " . strtoupper($this->type->value) . " " . $this->message;
+    }
 }

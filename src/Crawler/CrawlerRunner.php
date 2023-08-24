@@ -146,10 +146,11 @@ class CrawlerRunner
 
     private function log(CrawlLog $log, LogType $type, string $message): void
     {
-        $log->addLog(new Log($type, $message));
+        $logMessage = new Log($type, $message);
+        $log->addLog($logMessage);
 
         if ($this->kernel->isDebug()) {
-            echo "[" . date("Y-m-d H:i:s") . "] " . $message . PHP_EOL;
+            echo $logMessage . PHP_EOL;
         }
 
         $this->entityManager()->persist($log);

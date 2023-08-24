@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Trait\TimestampableTrait;
 use App\Entity\Trait\UlidTrait;
 use App\Enum\Site;
 use App\Model\Log;
@@ -15,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class CrawlLog
 {
     use UlidTrait;
+    use TimestampableTrait;
 
     #[ORM\Column(nullable: false, enumType: Site::class)]
     private Site $site;
@@ -28,7 +30,7 @@ class CrawlLog
     /**
      * @var array<int,Log>
      */
-    #[ORM\Column(type: Types::JSON)]
+    #[ORM\Column(type: Types::ARRAY)]
     private array $logs = [];
 
     #[ORM\Column(nullable: true)]
@@ -86,6 +88,16 @@ class CrawlLog
     public function getLogs(): array
     {
         return $this->logs;
+    }
+
+    /**
+     * @param array<int,Log> $logs
+     */
+    public function setLogs(array $logs): static
+    {
+        $this->logs = $logs;
+
+        return $this;
     }
 
     public function addLog(Log $log): static
