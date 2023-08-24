@@ -49,7 +49,6 @@ class ChaletsALouer extends AbstractCrawlerDriver
             }
 
             try {
-                break;
                 $nextPageLink = $this->client->findElement(WebDriverBy::cssSelector(".pager strong + a"));
                 $nextPageNumber = trim($nextPageLink->getText());
                 $currentPagerNumber = $nextPageNumber - 1;

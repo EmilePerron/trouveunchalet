@@ -2,6 +2,17 @@
 
 {% block title %}Crawling{% endblock %}
 
+{% block stylesheets %}
+    <style>
+        table { margin: 1rem auto; }
+        table, th, td { vertical-align: top; text-align: left; border-collapse: collapse; }
+        tr { border: none; border-bottom: 1rem solid var(--color-primary-050); }
+        th, td { padding: .5em 1em; font-size: .85rem; background-color: white; border: none; border-radius: .5em; }
+        details { width: 80ch; max-height: 200px; font-family: monospace; font-size: .9em; line-height: 1.25; overflow: scroll; white-space: nowrap; }
+        small { color: #999; }
+    </style>
+{% endblock %}
+
 {% block body %}
     <table>
         <thead>
@@ -9,7 +20,6 @@
                 <th>Status</th>
                 <th>Site</th>
                 <th>Start</th>
-                <th>End</th>
                 <th>Duration</th>
                 <th>Logs</th>
             </tr>
@@ -19,26 +29,25 @@
                 <tr>
                     <td>
                         {% if log.failed %}
-                            <span class="text-danger">failed</span>
+                            <strong class="text-danger">failed</strong>
                         {% elseif log.dateCompleted %}
-                            <span class="text-success">done</span>
+                            <strong class="text-success">done</strong>
                         {% else %}
-                            <span class="text-primary">in progress</span>
+                            <strong class="text-primary">in progress</strong>
                         {% endif %}
                     </td>
                     <td>{{ log.site.value }}</td>
                     <td>
-                        {{ log.dateStarted|date('Y-m-d H:i:s') }}
+                        {{ log.dateStarted|ago }}
                         <br>
-                        <small>{{ log.dateStarted|ago }}</small>
+                        <small>{{ log.dateStarted|date('Y-m-d H:i:s') }}</small>
                     </td>
                     <td>
-                        {{ log.dateCompleted ? log.dateCompleted|date('Y-m-d H:i:s') : 'N/A' }}
-                        <br>
-                        <small>{{ log.dateCompleted ? log.dateCompleted|ago : 'N/A' }}</small>
-                    </td>
-                    <td>
-                        {{ "" }}
+                        {% if log.dateCompleted %}
+                            {{ (log.dateCompleted.timestamp - log.dateStarted.timestamp)|duration }}
+                        {% else %}
+                            N/A
+                        {% endif %}
                     </td>
                     <td>
                         <details>
