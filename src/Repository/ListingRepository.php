@@ -40,6 +40,10 @@ class ListingRepository extends ServiceEntityRepository
         // The logic of this geographical serach has been heavily sourced from this article:
         // https://aaronfrancis.com/2021/efficient-distance-querying-in-my-sql
 
+        // Reduce precision on user latitude & longitude to allow for caching
+        $latitude = round($latitude, 2);
+        $longitude = round($longitude, 2);
+
         $maxRangeInMeters = $maximumRange * 1000;
         $roughBoundingBox = Geography::createBoundingBox($latitude, $longitude, $maximumRange);
 
@@ -57,7 +61,7 @@ class ListingRepository extends ServiceEntityRepository
             ->andWhere('l.longitude <= :maxLng')
             ->setParameter('maxLng', $roughBoundingBox->maximumLongitude)
             // Filter by location in a more specific but less efficient way
-            ->andWhere('(MT_Distance_sphere(point(l.longitude, l.latitude), point(:userLat, :userLng))) <= :maxRangeInMeters')
+            ->andWhere('(MT_Distance_sphere(point(l.longitude, l.latitude), point(:userLng, :userLat))) <= :maxRangeInMeters')
             ->setParameter('userLat', $latitude)
             ->setParameter('userLng', $longitude)
             ->setParameter('maxRangeInMeters', $maxRangeInMeters);
@@ -71,6 +75,8 @@ class ListingRepository extends ServiceEntityRepository
         return $queryBuilder
             ->orderBy('l.name', 'ASC')
             ->getQuery()
+            ->setCacheable(true)
+            ->setResultCacheLifetime(3600)
             ->getResult()
         ;
     }

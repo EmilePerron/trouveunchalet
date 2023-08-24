@@ -162,7 +162,7 @@ class CrawlerRunner
         $listing->setName($detailedListingData->listingData->name);
         $listing->setUrl($detailedListingData->listingData->url);
         $listing->setAddress($detailedListingData->listingData->address);
-        $listing->setDescription($detailedListingData->description);
+        $listing->setDescription(str_replace("\n\n\n", "\n\n", $detailedListingData->description));
         $listing->setDogsAllowed($detailedListingData->dogsAllowed);
         $listing->setImageUrl($detailedListingData->imageUrl);
         $listing->setInternalId($detailedListingData->listingData->internalId);

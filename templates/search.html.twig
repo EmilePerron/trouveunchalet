@@ -83,7 +83,7 @@
 							.setLngLat([{{ listing.longitude }}, {{ listing.latitude }}])
 							.setHTML(`
 								<strong>{{ listing.name }}</strong>
-								<div class="description">{{ listing.description }}</div>
+								<div class="description">{{ listing.description|excerpt|nl2br }}</div>
 								<a href="{{ listing.url }}" target="_blank">Aller au site</a>
 								{% if listing.imageUrl %}
 									<hr>
