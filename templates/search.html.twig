@@ -43,7 +43,7 @@
 			<button type="submit">Rechercher</button>
 		</form>
 
-		{% if listings|length %}
+		{% if app.request.query.get('latitude') %}
 			<h2>Results</h2>
 			
 			<ul>
@@ -56,13 +56,14 @@
 			<script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
 			<script>
 				const url = new URL(location.href);
+				const maxDistance = url.searchParams.get('max_distance') ?? 150;
 
 				mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbGVwZXJyb24iLCJhIjoiY2xsaXk4anRhMWdrMjNycGptZnB3aGt3ZCJ9.fEw_ryk5aSXgltd0XDboTQ';
 				const map = new mapboxgl.Map({
 					container: 'map',
 					style: 'mapbox://styles/mapbox/streets-v12',
 					center: [url.searchParams.get('longitude'), url.searchParams.get('latitude')],
-					zoom: 9,
+					zoom: maxDistance < 100 ? 10 : (maxDistance < 200 ? 8 : (maxDistance < 300 ? 7 : 6)),
 				});
 				
 				const markerHeight = 50;
@@ -101,6 +102,10 @@
 				{% endfor %}
 			</script>
 		{% endif %}
+	</div>
+
+	<div class="container">
+		{% include 'parts/regions_slider.html.twig' %}
 	</div>
 {% endblock %}
 

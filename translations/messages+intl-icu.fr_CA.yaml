@@ -11,3 +11,7 @@ brand:
 nav:
   search: Rechercher
   favorites: Favoris
+
+region:
+  generic_cta_camping: Voir les campings
+  generic_cta_chalet: Voir les chalets

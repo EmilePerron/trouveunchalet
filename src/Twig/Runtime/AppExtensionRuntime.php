@@ -5,6 +5,7 @@ namespace App\Twig\Runtime;
 use App\Config\BrandConfig;
 use App\Config\BrandConfigLoader;
 use App\Config\CurrentBrandConfig;
+use App\Config\RegionConfigLoader;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -15,6 +16,7 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
     public function __construct(
         private CurrentBrandConfig $currentBrandConfig,
         private RequestStack $requestStack,
+        private RegionConfigLoader $regionConfigLoader,
         BrandConfigLoader $brandConfigLoader,
     ) {
         foreach ($brandConfigLoader->getBrands() as $brand) {
@@ -80,5 +82,22 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
         }
 
         return $url;
+    }
+
+    public function regions(bool $randomize = false): array
+    {
+        static $regions = null;
+
+        if ($regions === null) {
+            $regions = $this->regionConfigLoader->getRegions();
+        }
+
+        if ($randomize) {
+            $randomizedRegions = $regions;
+            shuffle($randomizedRegions);
+            return $randomizedRegions;
+        }
+
+        return $regions;
     }
 }

@@ -25,6 +25,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('brand', [AppExtensionRuntime::class, 'brand']),
             new TwigFunction('other_brand', [AppExtensionRuntime::class, 'otherBrand']),
             new TwigFunction('other_brand_url', [AppExtensionRuntime::class, 'otherBrandUrl']),
+            new TwigFunction('regions', [AppExtensionRuntime::class, 'regions']),
         ];
     }
 }
