@@ -7,6 +7,13 @@ services:
       - "3306:3306"
   ###< doctrine/doctrine-bundle ###
 
+  app:
+    build:
+      args:
+        SUPERVISOR_BASE_STAGE: app_php_dev
+    environment:
+      SERVER_NAME: localhost, trouvetoncamping.local, trouvetonchalet.local
+
   ###> symfony/mailer ###
   mailer:
     image: schickling/mailcatcher

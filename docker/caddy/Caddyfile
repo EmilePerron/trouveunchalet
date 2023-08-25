@@ -1,0 +1,24 @@
+{
+    # Debug
+    {$CADDY_DEBUG}
+}
+
+{$SERVER_NAME}
+
+log
+
+route {
+    root * /srv/app/public
+
+    # Disable Topics tracking if not enabled explicitly: https://github.com/jkarlin/topics
+    header ?Permissions-Policy "browsing-topics=()"
+
+    header ?Access-Control-Allow-Origin *
+    header ?Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+    header ?Access-Control-Allow-Headers *
+    header ?Access-Control-Max-Age "3600"
+
+    php_fastcgi {$PHP_FPM_HOSTNAME:app}:9000
+    encode zstd gzip
+    file_server
+}

@@ -19,9 +19,39 @@ services:
       interval: 3s
       timeout: 3s
       retries: 10
-###< doctrine/doctrine-bundle ###
+  ###< doctrine/doctrine-bundle ###
+
+  app:
+    build:
+      context: .
+      target: app_supervisor
+    depends_on:
+      - database
+    restart: unless-stopped
+    healthcheck:
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    environment:
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+    volumes:
+      - .:/srv/app
+      - ./docker/php/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
+      # If you develop on Mac or Windows you can remove the vendor/ directory
+      #  from the bind-mount for better performance by enabling the next line:
+      #- /srv/app/vendor
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
 
 volumes:
+  caddy_data:
+  caddy_config:
   ###> doctrine/doctrine-bundle ###
   db-data:
-###< doctrine/doctrine-bundle ###
+    ###< doctrine/doctrine-bundle ###
