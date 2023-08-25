@@ -122,4 +122,5 @@ COPY docker/php/supervisord.conf /etc/supervisor/supervisord.conf
 EXPOSE 80
 EXPOSE 443
 
+ENTRYPOINT ["docker-entrypoint"]
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]

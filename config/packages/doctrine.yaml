@@ -8,10 +8,6 @@ doctrine:
 
         profiling_collect_backtrace: "%kernel.debug%"
 
-        options:
-            1009: "/etc/ssl/cert.pem"
-            1014: true
-
         types:
             geometry: CrEOF\Spatial\DBAL\Types\GeometryType
             point: CrEOF\Spatial\DBAL\Types\Geometry\PointType
@@ -106,6 +102,10 @@ when@prod:
             result_cache_driver:
                 type: pool
                 pool: doctrine.result_cache_pool
+        dbal:
+            options:
+                1009: "/etc/ssl/cert.pem"
+                1014: true
 
     framework:
         cache:
