@@ -76,6 +76,7 @@ RUN set -eux; \
 	chmod +x bin/console; \
 	sync
 
+RUN vendor/bin/bdi detect drivers
 
 # STAGE app_php_dev
 # Dev image
