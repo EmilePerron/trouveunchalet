@@ -63,6 +63,12 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
 
     public function otherBrandUrl(): string
     {
+        static $url = null;
+
+        if ($url !== null) {
+            return $url;
+        }
+
         $request = $this->requestStack->getMainRequest();
         $domainIndex = array_search($request->getHost(), $this->currentBrandConfig->domains);
 
