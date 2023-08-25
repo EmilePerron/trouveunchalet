@@ -9,8 +9,8 @@ doctrine:
         profiling_collect_backtrace: "%kernel.debug%"
 
         options:
-            !php/const:PDO::MYSQL_ATTR_SSL_CA: : "/etc/ssl/cert.pem"
-            !php/const:PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT: : true
+            1009: "/etc/ssl/cert.pem"
+            1014: true
 
         types:
             geometry: CrEOF\Spatial\DBAL\Types\GeometryType
