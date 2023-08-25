@@ -64,6 +64,8 @@ RUN set -eux; \
 	composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
 	composer clear-cache
 
+RUN vendor/bin/bdi detect drivers
+
 # copy sources
 COPY . .
 RUN rm -Rf docker/
@@ -75,8 +77,6 @@ RUN set -eux; \
 	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; \
 	sync
-
-RUN vendor/bin/bdi detect drivers
 
 # STAGE app_php_dev
 # Dev image
