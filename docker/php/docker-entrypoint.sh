@@ -41,6 +41,12 @@ if [ "$1" = 'php-fpm' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 #			php bin/console doctrine:migrations:migrate --no-interaction
 #		fi
 #	fi
+
+	echo "Ensuring file permissions are adequate"
+	chown -R www-data:www-data var public config
+	chown www-data:www-data .
+
+	bin/console cache:clear
 fi
 
 exec docker-php-entrypoint "$@"
