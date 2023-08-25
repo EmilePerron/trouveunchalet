@@ -4,9 +4,6 @@ namespace App\Config;
 
 use App\Enum\Site;
 use Exception;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Yaml\Yaml;
 
 class SiteConfigLoader
 {
@@ -16,15 +13,11 @@ class SiteConfigLoader
     private readonly array $configs;
 
     public function __construct(
-        #[Autowire('%kernel.project_dir%')]
-        string $projectDirectory,
+        ConfigLoader $configLoader
     ) {
-        $fileLocator = new FileLocator(["{$projectDirectory}/config"]);
-        $configFiles = $fileLocator->locate('sites.yaml', null, false);
-        $rawSitesConfig = Yaml::parseFile(is_array($configFiles) ? current($configFiles) : $configFiles);
         $configs = [];
 
-        foreach ($rawSitesConfig as $key => $config) {
+        foreach ($configLoader->loadConfig("sites.yaml") as $key => $config) {
             $configs[$key] = SiteConfig::fromArray($config);
         }
 

@@ -4,99 +4,104 @@
 
 {% block stylesheets %}
 	<link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+	<style>
+		.listing-popup { font-family: var(--font-family); }
+	</style>
 {% endblock %}
 
 {% block body %}
-	<form action="{{ path('search') }}" method="GET" id="search-form">
-		<div class="errors"></div>
+	<div class="container">
+		<form action="{{ path('search') }}" method="GET" id="search-form">
+			<div class="errors"></div>
 
-		<input type="hidden" name="latitude">
-		<input type="hidden" name="longitude">
+			<input type="hidden" name="latitude">
+			<input type="hidden" name="longitude">
 
-		<fieldset>
-			<legend>Où voulez-vous aller?</legend>
+			<fieldset>
+				<legend>Où voulez-vous aller?</legend>
 
-			<label for="max-distance">Sélectionner la distance maximale</label>
-			<select name="max_distance" id="max-distance">
-				<option value="" selected disabled></option>
-				<option value="50">50km</option>
-				<option value="100">100km</option>
-				<option value="200">200km</option>
-				<option value="300">300km</option>
-				<option value="750">750km</option>
-			</select>
-		</fieldset>
+				<label for="max-distance">Sélectionner la distance maximale</label>
+				<select name="max_distance" id="max-distance">
+					<option value="" selected disabled></option>
+					<option value="50">50km</option>
+					<option value="100">100km</option>
+					<option value="200">200km</option>
+					<option value="300">300km</option>
+					<option value="750">750km</option>
+				</select>
+			</fieldset>
 
-		<fieldset>
-			<legend>Critères</legend>
+			<fieldset>
+				<legend>Critères</legend>
 
-			<div class="checkbox">
-				<input type="checkbox" name="dogs" value="1" id="dogs-input">
-				<label for="dogs-input">Les chiens doivent être acceptés</label>
-			</div>
-		</fieldset>
+				<div class="checkbox">
+					<input type="checkbox" name="dogs" value="1" id="dogs-input">
+					<label for="dogs-input">Les chiens doivent être acceptés</label>
+				</div>
+			</fieldset>
 
-		<button type="submit">Rechercher</button>
-	</form>
+			<button type="submit">Rechercher</button>
+		</form>
 
-	{% if listings|length %}
-		<h2>Results</h2>
-		
-		<ul>
-			{% for listing in listings %}
-				<li>{{ listing.name }}</li>
-			{% endfor %}
-		</ul>
-
-		<div id='map' style='width: 100%; height: 600px;'></div>
-		<script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
-		<script>
-			const url = new URL(location.href);
-
-			mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbGVwZXJyb24iLCJhIjoiY2xsaXk4anRhMWdrMjNycGptZnB3aGt3ZCJ9.fEw_ryk5aSXgltd0XDboTQ';
-			const map = new mapboxgl.Map({
-				container: 'map',
-				style: 'mapbox://styles/mapbox/streets-v12',
-				center: [url.searchParams.get('longitude'), url.searchParams.get('latitude')],
-				zoom: 9,
-			});
+		{% if listings|length %}
+			<h2>Results</h2>
 			
-			const markerHeight = 50;
-			const markerRadius = 10;
-			const linearOffset = 25;
-			const popupOffsets = {
-				'top': [0, 0],
-				'top-left': [0, 0],
-				'top-right': [0, 0],
-				'bottom': [0, -markerHeight],
-				'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-				'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-				'left': [markerRadius, (markerHeight - markerRadius) * -1],
-				'right': [-markerRadius, (markerHeight - markerRadius) * -1]
-			};
+			<ul>
+				{% for listing in listings %}
+					<li>{{ listing.name }}</li>
+				{% endfor %}
+			</ul>
 
-			{% for listing in listings %}
-				new mapboxgl.Marker()
-					.setLngLat([{{ listing.longitude }}, {{ listing.latitude }}])
-					.setPopup(
-						new mapboxgl.Popup({offset: popupOffsets, className: 'listing-popup'})
-							.setLngLat([{{ listing.longitude }}, {{ listing.latitude }}])
-							.setHTML(`
-								<strong>{{ listing.name }}</strong>
-								<div class="description">{{ listing.description|excerpt|nl2br }}</div>
-								<a href="{{ listing.url }}" target="_blank">Aller au site</a>
-								{% if listing.imageUrl %}
-									<hr>
-									<img src="{{ listing.imageUrl }}" alt="">
-								{% endif %}
-							`)
-							.setMaxWidth("300px")
-							.addTo(map)
-					)
-					.addTo(map);
-			{% endfor %}
-		</script>
-	{% endif %}
+			<div id='map' style='width: 100%; height: 600px;'></div>
+			<script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
+			<script>
+				const url = new URL(location.href);
+
+				mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbGVwZXJyb24iLCJhIjoiY2xsaXk4anRhMWdrMjNycGptZnB3aGt3ZCJ9.fEw_ryk5aSXgltd0XDboTQ';
+				const map = new mapboxgl.Map({
+					container: 'map',
+					style: 'mapbox://styles/mapbox/streets-v12',
+					center: [url.searchParams.get('longitude'), url.searchParams.get('latitude')],
+					zoom: 9,
+				});
+				
+				const markerHeight = 50;
+				const markerRadius = 10;
+				const linearOffset = 25;
+				const popupOffsets = {
+					'top': [0, 0],
+					'top-left': [0, 0],
+					'top-right': [0, 0],
+					'bottom': [0, -markerHeight],
+					'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+					'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+					'left': [markerRadius, (markerHeight - markerRadius) * -1],
+					'right': [-markerRadius, (markerHeight - markerRadius) * -1]
+				};
+
+				{% for listing in listings %}
+					new mapboxgl.Marker()
+						.setLngLat([{{ listing.longitude }}, {{ listing.latitude }}])
+						.setPopup(
+							new mapboxgl.Popup({offset: popupOffsets, className: 'listing-popup'})
+								.setLngLat([{{ listing.longitude }}, {{ listing.latitude }}])
+								.setHTML(`
+									<strong>{{ listing.name }}</strong>
+									<div class="description">{{ listing.description|excerpt|nl2br }}</div>
+									<a href="{{ listing.url }}" target="_blank">Aller au site</a>
+									{% if listing.imageUrl %}
+										<hr>
+										<img src="{{ listing.imageUrl }}" alt="">
+									{% endif %}
+								`)
+								.setMaxWidth("300px")
+								.addTo(map)
+						)
+						.addTo(map);
+				{% endfor %}
+			</script>
+		{% endif %}
+	</div>
 {% endblock %}
 
 {% block javascripts %}

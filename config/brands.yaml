@@ -1,0 +1,13 @@
+camping:
+  slug: camping
+  icon: campground
+  domains:
+    - trouvetoncamping.ca
+    - trouvetoncamping.dev
+
+chalet:
+  slug: chalet
+  icon: house-tree
+  domains:
+    - trouvetonchalet.ca
+    - trouvetonchalet.dev

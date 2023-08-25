@@ -1,0 +1,13 @@
+brand:
+  camping:
+    short_name: Camping
+    name: Trouve ton Camping
+    name_html: Trouve ton <strong>Camping</strong>
+  chalet:
+    short_name: Chalet
+    name: Trouve ton Chalet
+    name_html: Trouve ton <strong>Chalet</strong>
+
+nav:
+  search: Rechercher
+  favorites: Favoris

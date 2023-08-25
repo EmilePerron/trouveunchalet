@@ -22,6 +22,9 @@ class AppExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
+            new TwigFunction('brand', [AppExtensionRuntime::class, 'brand']),
+            new TwigFunction('other_brand', [AppExtensionRuntime::class, 'otherBrand']),
+            new TwigFunction('other_brand_url', [AppExtensionRuntime::class, 'otherBrandUrl']),
         ];
     }
 }

@@ -2,13 +2,26 @@
 
 namespace App\Twig\Runtime;
 
+use App\Config\BrandConfig;
+use App\Config\BrandConfigLoader;
+use App\Config\CurrentBrandConfig;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class AppExtensionRuntime implements RuntimeExtensionInterface
 {
-    public function __construct()
-    {
-        // Inject dependencies if needed
+    private readonly BrandConfig $otherBrand;
+
+    public function __construct(
+        private CurrentBrandConfig $currentBrandConfig,
+        private RequestStack $requestStack,
+        BrandConfigLoader $brandConfigLoader,
+    ) {
+        foreach ($brandConfigLoader->getBrands() as $brand) {
+            if ($brand->slug != $this->currentBrandConfig->slug) {
+                $this->otherBrand = $brand;
+            }
+        }
     }
 
     public function excerpt(string $text, int $maxLength = 300): string
@@ -36,5 +49,30 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
         }
 
         return trim($excerpt);
+    }
+
+    public function brand(): BrandConfig
+    {
+        return $this->currentBrandConfig;
+    }
+
+    public function otherBrand(): BrandConfig
+    {
+        return $this->otherBrand;
+    }
+
+    public function otherBrandUrl(): string
+    {
+        $request = $this->requestStack->getMainRequest();
+        $domainIndex = array_search($request->getHost(), $this->currentBrandConfig->domains);
+
+        $url = $request->getScheme() . "://";
+        $url .= $this->otherBrand->domains[$domainIndex];
+
+        if ($request->getPort()) {
+            $url .= ":" . $request->getPort();
+        }
+
+        return $url;
     }
 }

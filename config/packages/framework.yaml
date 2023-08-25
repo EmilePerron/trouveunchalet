@@ -1,6 +1,6 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    secret: '%env(APP_SECRET)%'
+    secret: "%env(APP_SECRET)%"
     #csrf_protection: true
     http_method_override: false
     handle_all_throwables: true
@@ -17,6 +17,15 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    assets:
+        base_urls:
+            - "%main_asset_base_url%"
+
+    # Locales and internationalization
+    set_locale_from_accept_language: true
+    set_content_language_from_locale: true
+    enabled_locales: "%app.locales%"
 
 when@test:
     framework:

@@ -1,26 +1,59 @@
 :root {
-	--color-primary: #0069ff;
-	--color-primary-050: #f7faff;
-	--color-primary-100: #edf4ff;
-	--color-primary-200: #cde1ff;
-	--color-primary-300: #86afec;
-	--color-primary-400: #649bed;
-	--color-primary-500: #4886e2;
-	--color-primary-600: #2478f6;
-	--color-primary-700: #0c5ed7;
-	--color-primary-800: #003e9b;
-	--color-primary-900: #071f42;
-	--color-danger: #b92211;
-	--color-warning: #dbb612;
-	--color-success: #11b954;
-	--color-content-background: #fff;
+	--font-family: Urbanist, sans-serif;
+	--color-primary: #3a614a;
+	--color-primary-050: #eff5f2;
+	--color-primary-100: #cfe2d7;
+	--color-primary-200: #afcfbc;
+	--color-primary-300: #8fbca2;
+	--color-primary-400: #6fa987;
+	--color-primary-500: #56906e;
+	--color-primary-600: #437055;
+	--color-primary-700: #30503d;
+	--color-primary-800: #1d3025;
+	--color-primary-900: #0a100c;
+	--color-gray-100: #f5f5f5;
+	--color-gray-200: #d9d9d9;
+	--color-gray-300: #bfbfbf;
+	--color-gray-400: #a6a6a6;
+	--color-gray-500: #8c8c8c;
+	--color-gray-600: #737373;
+	--color-gray-700: #595959;
+	--color-gray-800: #404040;
+	--color-gray-900: #262626;
+	--color-danger-100: #fdeae8;
+	--color-danger-200: #f9bfb9;
+	--color-danger-300: #f4958a;
+	--color-danger-400: #f06b5c;
+	--color-danger-500: #ec402d;
+	--color-danger-600: #d22713;
+	--color-danger-700: #a31e0f;
+	--color-danger-800: #75150b;
+	--color-danger-900: #460d06;
+	--color-warning-100: #fdf9e7;
+	--color-warning-200: #f9edb8;
+	--color-warning-300: #f5e189;
+	--color-warning-400: #f1d65a;
+	--color-warning-500: #eeca2b;
+	--color-warning-600: #d4b011;
+	--color-warning-700: #a5890e;
+	--color-warning-800: #76620a;
+	--color-warning-900: #473b06;
+	--color-success-100: #e8fdf0;
+	--color-success-200: #b9f9d2;
+	--color-success-300: #8af4b5;
+	--color-success-400: #5cf097;
+	--color-success-500: #2dec79;
+	--color-success-600: #13d25f;
+	--color-success-700: #0fa34a;
+	--color-success-800: #0b7535;
+	--color-success-900: #064620;
 
 	--container-width: 60rem;
 }
 
-html, body { font-family: sans-serif; font-size: 16px; background-color: var(--color-primary-050); }
+html, body { font-family: var(--font-family); font-size: 16px; color: var(--color-primary-900); background-color: var(--color-gray-100); }
 
-.container { width: var(--container-width); max-width: 100%; padding: 0 1rem; margin: auto; }
+.container { width: var(--container-width); max-width: 100%; margin: auto; }
 
 .text-danger { color: var(--color-danger); }
 .text-warning { color: var(--color-warning); }

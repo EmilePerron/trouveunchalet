@@ -1,18 +1,48 @@
+{% set current_route = app.request.get('_route') %}
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>{% block title %}Welcome!{% endblock %} - {{ ('brand.'~brand().slug~'.name')|trans }}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        
+
+        <link rel="preconnect" href="https://api.fonts.coollabs.io">
+        <link href="https://api.fonts.coollabs.io/css2?family=Urbanist:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+
         <link rel="stylesheet" href="{{ asset('css/reset.css') }}">
         <link rel="stylesheet" href="{{ asset('css/base.css') }}">
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('fontawesome/css/all.min.css') }}">
 
         {% block stylesheets %}
         {% endblock %}
     </head>
     <body>
+        <header>
+            <a href="/" class="brand">
+                <i class="fas fa-{{ brand().icon }}"></i>
+                {{ ('brand.'~brand().slug~'.name_html')|trans|raw }}
+            </a>
+
+            <nav>
+                <a href="{{ path('search') }}" {{ current_route == 'search' ? 'aria-current="page"' : '' }}>
+                    <i class="fas fa-magnifying-glass"></i>
+                    <span>{% trans %}nav.search{% endtrans %}</span>
+                </a>
+                <a href="/" {{ current_route == 'favorites' ? 'aria-current="page"' : '' }}>
+                    <i class="fas fa-star"></i>
+                    <span>{% trans %}nav.favorites{% endtrans %}</span>
+                </a>
+                <a href="{{ other_brand_url() }}" >
+                    <i class="fas fa-{{ other_brand().icon }}"></i>
+                    <span> {{ ('brand.'~other_brand().slug~'.short_name')|trans|raw }}</span>
+                </a>
+            </nav>
+        </header>
+
+        {% include 'search_form/'~brand().slug~'.html.twig' %}
+
         {% block body %}{% endblock %}
 
         {% block javascripts %}

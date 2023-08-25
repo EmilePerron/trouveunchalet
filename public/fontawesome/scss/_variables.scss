@@ -1,0 +1,143 @@
+// variables
+// --------------------------
+
+$fa-css-prefix          : fa !default;
+$fa-style               : 900 !default;
+$fa-style-family        : "Font Awesome 6 Pro" !default;
+
+$fa-display             : inline-block !default;
+
+$fa-fw-width            : fa-divide(20em, 16) !default;
+$fa-inverse             : #fff !default;
+
+$fa-border-color        : #eee !default;
+$fa-border-padding      : .2em .25em .15em !default;
+$fa-border-radius       : .1em !default;
+$fa-border-style        : solid !default;
+$fa-border-width        : .08em !default;
+
+$fa-size-scale-2xs      : 10 !default;
+$fa-size-scale-xs       : 12 !default;
+$fa-size-scale-sm       : 14 !default;
+$fa-size-scale-base     : 16 !default;
+$fa-size-scale-lg       : 20 !default;
+$fa-size-scale-xl       : 24 !default;
+$fa-size-scale-2xl      : 32 !default;
+
+$fa-sizes: (
+  "2xs"                 : $fa-size-scale-2xs,
+  "xs"                  : $fa-size-scale-xs,
+  "sm"                  : $fa-size-scale-sm,
+  "lg"                  : $fa-size-scale-lg,
+  "xl"                  : $fa-size-scale-xl,
+  "2xl"                 : $fa-size-scale-2xl
+) !default;
+
+$fa-li-width            : 2em !default;
+$fa-li-margin           : $fa-li-width * fa-divide(5, 4) !default;
+
+$fa-pull-margin         : .3em !default;
+
+$fa-primary-opacity     : 1 !default;
+$fa-secondary-opacity   : .4 !default;
+
+$fa-stack-vertical-align: middle !default;
+$fa-stack-width         : ($fa-fw-width * 2) !default;
+$fa-stack-z-index       : auto !default;
+
+$fa-font-display        : block !default;
+$fa-font-path           : "../webfonts" !default;
+
+$fa-var-trees: \f724;
+$fa-var-bars: \f0c9;
+$fa-var-navicon: \f0c9;
+$fa-var-campground: \f6bb;
+$fa-var-tree: \f1bb;
+$fa-var-users: \f0c0;
+$fa-var-angle-right: \f105;
+$fa-var-user: \f007;
+$fa-var-star: \f005;
+$fa-var-wifi: \f1eb;
+$fa-var-wifi-3: \f1eb;
+$fa-var-wifi-strong: \f1eb;
+$fa-var-arrow-right: \f061;
+$fa-var-house-water: \f74f;
+$fa-var-house-flood: \f74f;
+$fa-var-arrow-left: \f060;
+$fa-var-arrow-left-long: \f177;
+$fa-var-long-arrow-left: \f177;
+$fa-var-gear: \f013;
+$fa-var-cog: \f013;
+$fa-var-ellipsis-vertical: \f142;
+$fa-var-ellipsis-v: \f142;
+$fa-var-house: \f015;
+$fa-var-home: \f015;
+$fa-var-home-alt: \f015;
+$fa-var-home-lg-alt: \f015;
+$fa-var-sun: \f185;
+$fa-var-house-tree: \e1b3;
+$fa-var-arrow-right-long: \f178;
+$fa-var-long-arrow-right: \f178;
+$fa-var-ellipsis: \f141;
+$fa-var-ellipsis-h: \f141;
+$fa-var-magnifying-glass: \f002;
+$fa-var-search: \f002;
+$fa-var-plus: \2b;
+$fa-var-add: \2b;
+$fa-var-spinner: \f110;
+$fa-var-gears: \f085;
+$fa-var-cogs: \f085;
+$fa-var-sun-bright: \e28f;
+$fa-var-sun-alt: \e28f;
+$fa-var-dog: \f6d3;
+$fa-var-notdef: \e1fe;
+
+
+$fa-icons: (
+  "trees": $fa-var-trees,
+  "bars": $fa-var-bars,
+  "navicon": $fa-var-navicon,
+  "campground": $fa-var-campground,
+  "tree": $fa-var-tree,
+  "users": $fa-var-users,
+  "angle-right": $fa-var-angle-right,
+  "user": $fa-var-user,
+  "star": $fa-var-star,
+  "wifi": $fa-var-wifi,
+  "wifi-3": $fa-var-wifi-3,
+  "wifi-strong": $fa-var-wifi-strong,
+  "arrow-right": $fa-var-arrow-right,
+  "house-water": $fa-var-house-water,
+  "house-flood": $fa-var-house-flood,
+  "arrow-left": $fa-var-arrow-left,
+  "arrow-left-long": $fa-var-arrow-left-long,
+  "long-arrow-left": $fa-var-long-arrow-left,
+  "gear": $fa-var-gear,
+  "cog": $fa-var-cog,
+  "ellipsis-vertical": $fa-var-ellipsis-vertical,
+  "ellipsis-v": $fa-var-ellipsis-v,
+  "house": $fa-var-house,
+  "home": $fa-var-home,
+  "home-alt": $fa-var-home-alt,
+  "home-lg-alt": $fa-var-home-lg-alt,
+  "sun": $fa-var-sun,
+  "house-tree": $fa-var-house-tree,
+  "arrow-right-long": $fa-var-arrow-right-long,
+  "long-arrow-right": $fa-var-long-arrow-right,
+  "ellipsis": $fa-var-ellipsis,
+  "ellipsis-h": $fa-var-ellipsis-h,
+  "magnifying-glass": $fa-var-magnifying-glass,
+  "search": $fa-var-search,
+  "plus": $fa-var-plus,
+  "add": $fa-var-add,
+  "spinner": $fa-var-spinner,
+  "gears": $fa-var-gears,
+  "cogs": $fa-var-cogs,
+  "sun-bright": $fa-var-sun-bright,
+  "sun-alt": $fa-var-sun-alt,
+  "dog": $fa-var-dog,
+  "notdef": $fa-var-notdef,
+);
+
+$fa-brand-icons: (
+);

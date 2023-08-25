@@ -1,0 +1,549 @@
+angle-right:
+  aliases:
+    unicodes:
+      composite:
+        - 203a
+      secondary:
+        - 10f105
+  changes:
+    - 3.0.0
+    - 5.0.0
+    - 5.11.0
+    - 6.0.0-beta1
+    - 6.2.0
+  label: angle-right
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f105
+  voted: false
+arrow-left:
+  aliases:
+    unicodes:
+      composite:
+        - '2190'
+      secondary:
+        - 10f060
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta2
+    - 6.2.0
+  label: arrow-left
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f060
+  voted: false
+arrow-left-long:
+  aliases:
+    names:
+      - long-arrow-left
+    unicodes:
+      secondary:
+        - 10f177
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Arrow left long
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f177
+  voted: false
+arrow-right:
+  aliases:
+    unicodes:
+      composite:
+        - '2192'
+      secondary:
+        - 10f061
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta2
+    - 6.2.0
+  label: arrow right
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f061
+  voted: false
+arrow-right-long:
+  aliases:
+    names:
+      - long-arrow-right
+    unicodes:
+      secondary:
+        - 10f178
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Arrow right long
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f178
+  voted: false
+bars:
+  aliases:
+    names:
+      - navicon
+    unicodes:
+      secondary:
+        - 10f0c9
+  changes:
+    - 2.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: Bars
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f0c9
+  voted: false
+campground:
+  aliases:
+    unicodes:
+      composite:
+        - 26fa
+      secondary:
+        - 10f6bb
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: Campground
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - duotone
+  unicode: f6bb
+  voted: false
+dog:
+  aliases:
+    unicodes:
+      composite:
+        - 1f415
+      secondary:
+        - 10f6d3
+  changes:
+    - 5.4.0
+    - 5.12.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: Dog
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+  unicode: f6d3
+  voted: false
+ellipsis:
+  aliases:
+    names:
+      - ellipsis-h
+    unicodes:
+      secondary:
+        - 10f141
+  changes:
+    - 3.1.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: Ellipsis
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f141
+  voted: false
+ellipsis-vertical:
+  aliases:
+    names:
+      - ellipsis-v
+    unicodes:
+      secondary:
+        - 10f142
+  changes:
+    - 3.1.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: Ellipsis vertical
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f142
+  voted: false
+gear:
+  aliases:
+    names:
+      - cog
+    unicodes:
+      composite:
+        - '2699'
+      secondary:
+        - 10f013
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+  label: Gear
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+  unicode: f013
+  voted: false
+gears:
+  aliases:
+    names:
+      - cogs
+    unicodes:
+      secondary:
+        - 10f085
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+  label: Gears
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+  unicode: f085
+  voted: false
+house:
+  aliases:
+    names:
+      - home
+      - home-alt
+      - home-lg-alt
+    unicodes:
+      composite:
+        - 1f3e0
+        - f80a
+        - f80c
+      primary:
+        - f80a
+        - f80c
+      secondary:
+        - 10f015
+        - 10f80a
+        - 10f80c
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.7.0
+    - 6.0.0-beta1
+    - 6.0.0-beta2
+    - 6.0.0-beta3
+    - 6.1.0
+    - 6.2.0
+  label: House
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f015
+  voted: false
+house-tree:
+  changes:
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: House Tree
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - duotone
+  unicode: e1b3
+  voted: false
+house-water:
+  aliases:
+    names:
+      - house-flood
+    unicodes:
+      secondary:
+        - 10f74f
+  changes:
+    - 5.5.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: House with Water
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+  unicode: f74f
+  voted: false
+magnifying-glass:
+  aliases:
+    names:
+      - search
+    unicodes:
+      composite:
+        - 1f50d
+      secondary:
+        - 10f002
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Magnifying glass
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f002
+  voted: false
+notdef:
+  changes:
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Notdef
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+    - duotone
+  unicode: e1fe
+  voted: false
+plus:
+  aliases:
+    names:
+      - add
+    unicodes:
+      composite:
+        - '2795'
+        - f067
+      primary:
+        - f067
+      secondary:
+        - 102b
+        - 10f067
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.0.13
+    - 6.0.0-beta1
+    - 6.2.0
+  label: plus
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: 2b
+  voted: false
+spinner:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f110
+  changes:
+    - 3.0.0
+    - 5.0.0
+    - 5.10.2
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+  label: Spinner
+  search:
+    terms: []
+  styles:
+    - regular
+  unicode: f110
+  voted: false
+star:
+  aliases:
+    unicodes:
+      composite:
+        - 2b50
+        - f006
+      secondary:
+        - 10f005
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.10.2
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+  label: Star
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+  unicode: f005
+  voted: false
+sun:
+  aliases:
+    unicodes:
+      composite:
+        - '2600'
+      secondary:
+        - 10f185
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 5.5.0
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Sun
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f185
+  voted: false
+sun-bright:
+  aliases:
+    names:
+      - sun-alt
+  changes:
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Sun bright
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+  unicode: e28f
+  voted: false
+tree:
+  aliases:
+    unicodes:
+      composite:
+        - 1f332
+      secondary:
+        - 10f1bb
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Tree
+  search:
+    terms: []
+  styles:
+    - solid
+    - regular
+  unicode: f1bb
+  voted: false
+trees:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f724
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Trees
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f724
+  voted: false
+user:
+  aliases:
+    unicodes:
+      composite:
+        - 1f464
+        - f2c0
+      secondary:
+        - 10f007
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.0.3
+    - 5.0.11
+    - 6.0.0-beta1
+    - 6.2.0
+  label: User
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f007
+  voted: false
+users:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f0c0
+  changes:
+    - 2.0.0
+    - 5.0.0
+    - 5.0.3
+    - 5.0.11
+    - 6.0.0-beta1
+    - 6.2.0
+  label: Users
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f0c0
+  voted: false
+wifi:
+  aliases:
+    names:
+      - wifi-3
+      - wifi-strong
+    unicodes:
+      secondary:
+        - 10f1eb
+  changes:
+    - 4.2.0
+    - 5.0.0
+    - 5.3.0
+    - 5.10.1
+    - 5.11.1
+    - 6.0.0-beta1
+    - 6.2.0
+  label: WiFi
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f1eb
+  voted: false
