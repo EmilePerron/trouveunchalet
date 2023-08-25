@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Crawler\Model\ListingData;
 use App\Entity\Listing;
+use App\Enum\Site;
 use App\Util\Geography;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -79,5 +81,21 @@ class ListingRepository extends ServiceEntityRepository
             ->setResultCacheLifetime(3600)
             ->getResult()
         ;
+    }
+
+    public function findFromListingData(Site $site, ListingData $listingData): ?Listing
+    {
+        $identifierKey = $listingData->internalId ? "internalId" : "url";
+        $identifier = $listingData->internalId ?: $listingData->url;
+
+        return $this->createQueryBuilder('l')
+            ->andWhere('l.site = :site')
+            ->setParameter('site', $site->value)
+            ->andWhere("l.{$identifierKey} = :identifier")
+            ->setParameter('identifier', $identifier)
+            ->getQuery()
+            ->setCacheable(true)
+            ->setResultCacheLifetime(3600 * 24 * 30)
+            ->getOneOrNullResult();
     }
 }

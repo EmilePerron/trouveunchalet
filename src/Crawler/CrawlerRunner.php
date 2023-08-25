@@ -5,6 +5,7 @@ namespace App\Crawler;
 use App\Config\SiteConfigLoader;
 use App\Crawler\Exception\MissingCrawlerException;
 use App\Crawler\Model\DetailedListingData;
+use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability as UnavailabilityModel;
 use App\Entity\CrawlLog;
 use App\Entity\Listing;
@@ -12,6 +13,7 @@ use App\Entity\Unavailability;
 use App\Enum\LogType;
 use App\Enum\Site;
 use App\Message\ListingGeocodingMessage;
+use App\Message\RequestCrawlingMessage;
 use App\Model\Log;
 use App\Repository\ListingRepository;
 use DateTimeImmutable;
@@ -62,10 +64,8 @@ class CrawlerRunner
         };
         $writeLog(LogType::Info, "Preparing to crawl.");
 
-        $siteConfig = $this->siteConfigLoader->getSiteConfig($site);
-
         try {
-            $driver = $this->drivers[$siteConfig->crawler] ?? throw new MissingCrawlerException("Site {$site} should be crawled with driver '{$siteConfig->crawler}', but no such driver exists");
+            $driver = $this->getDriver($site);
             /** @var array<string,Listing> */
             $originalListings = [];
 
@@ -81,29 +81,19 @@ class CrawlerRunner
             $writeLog(LogType::Info, "Found {$listingCount} listings.");
 
             foreach ($crawledListingsData as $roughListingData) {
-                $this->log($log, LogType::Info, "Crawling for listing details: {$roughListingData->url}.");
+                $this->log($log, LogType::Info, "Scheduling crawling for listing details: {$roughListingData->url}.");
 
-                $listingDetails = $driver->getListingDetails($roughListingData, $writeLog);
-                $index = $listingDetails->listingData->getIdentifier();
-
-                $listing = new Listing();
+                $index = $roughListingData->getIdentifier();
 
                 if (isset($originalListings[$index])) {
-                    $listing = $originalListings[$index];
                     unset($originalListings[$index]);
                 }
 
-                $listing->setParentSite($site);
-                $this->fillListingFromCrawledDetails($listing, $listingDetails);
-                $this->entityManager()->persist($listing);
-                $this->entityManager()->flush();
-
-                if (!$listing->getLatitude()) {
-                    $this->bus->dispatch(new ListingGeocodingMessage($listing->getId()));
-                }
-
+                $this->bus->dispatch(new RequestCrawlingMessage(
+                    site: $site->value,
+                    listingData: $roughListingData,
+                ));
                 $log->setCrawledCount($log->getCrawledCount() + 1);
-                $writeLog(LogType::Info, "Successfully crawled and updated listing details.");
             }
 
             $writeLog(LogType::Info, "Removing unavailable listings...");
@@ -117,6 +107,45 @@ class CrawlerRunner
 
             $log->setDateCompleted(new DateTimeImmutable());
             $writeLog(LogType::Info, "Crawling completed!");
+        } catch (Exception $exception) {
+            $log->setFailed(true);
+            $writeLog(LogType::Error, $exception);
+
+            if ($this->kernel->isDebug()) {
+                throw $exception;
+            }
+        }
+    }
+
+    public function crawlListing(Site $site, ListingData $listingData): void
+    {
+        $log = new CrawlLog($site);
+        $writeLog = function (LogType $type, string $message) use ($log) {
+            $this->log($log, $type, $message);
+        };
+        $writeLog(LogType::Info, "Preparing to crawl.");
+
+        try {
+            $driver = $this->getDriver($site);
+
+            $this->log($log, LogType::Info, "Crawling for listing details: {$listingData->url}.");
+
+            $listingDetails = $driver->getListingDetails($listingData, $writeLog);
+
+            $existingListing = $this->listingRepository->findFromListingData($site, $listingData);
+            $listing = $existingListing ?: new Listing();
+
+            $listing->setParentSite($site);
+            $this->fillListingFromCrawledDetails($listing, $listingDetails);
+            $this->entityManager()->persist($listing);
+            $this->entityManager()->flush();
+
+            if (!$listing->getLatitude()) {
+                $this->bus->dispatch(new ListingGeocodingMessage($listing->getId()));
+            }
+
+            $log->setCrawledCount($log->getCrawledCount() + 1);
+            $writeLog(LogType::Info, "Successfully crawled and updated listing details.");
         } catch (Exception $exception) {
             $log->setFailed(true);
             $writeLog(LogType::Error, $exception);
@@ -176,5 +205,13 @@ class CrawlerRunner
         );
 
         return $listing;
+    }
+
+    private function getDriver(Site $site): CrawlerDriverInterface
+    {
+        $siteConfig = $this->siteConfigLoader->getSiteConfig($site);
+        $driver = $this->drivers[$siteConfig->crawler] ?? throw new MissingCrawlerException("Site {$site} should be crawled with driver '{$siteConfig->crawler}', but no such driver exists");
+
+        return $driver;
     }
 }

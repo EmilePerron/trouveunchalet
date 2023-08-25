@@ -4,6 +4,8 @@
 
 {% block stylesheets %}
     <style>
+        a { display: inline-block; background: var(--color-primary); color: white; padding: 1rem; margin: 3rem; text-decoration: none; font-weight: 600; }
+        a:hover { background-color: var(--color-primary-700); }
         table { margin: 1rem auto; }
         table, th, td { vertical-align: top; text-align: left; border-collapse: collapse; }
         tr { border: none; border-bottom: 1rem solid var(--color-primary-050); }
@@ -14,6 +16,10 @@
 {% endblock %}
 
 {% block body %}
+    <div style="text-align:center">
+        <a href="{{ path('admin_crawling_request_all_sites') }}">Request crawling for all sites</a>
+    </div>
+
     <table>
         <thead>
             <tr>
