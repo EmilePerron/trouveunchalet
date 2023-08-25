@@ -65,7 +65,11 @@ RUN set -eux; \
 	composer install --prefer-dist --no-dev --no-autoloader --no-scripts --no-progress; \
 	composer clear-cache
 
-RUN vendor/bin/bdi detect drivers
+# Install browser automation dependencies
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories; \
+	apk update; \
+	apk add firefox; \
+	vendor/bin/bdi detect drivers
 
 # copy sources
 COPY . .
