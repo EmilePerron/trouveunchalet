@@ -74,12 +74,7 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
         $request = $this->requestStack->getMainRequest();
         $domainIndex = array_search($request->getHost(), $this->currentBrandConfig->domains);
 
-        $url = $request->getScheme() . "://";
-        $url .= $this->otherBrand->domains[$domainIndex];
-
-        if ($request->getPort()) {
-            $url .= ":" . $request->getPort();
-        }
+        $url = "https://" . $this->otherBrand->domains[$domainIndex];
 
         return $url;
     }
