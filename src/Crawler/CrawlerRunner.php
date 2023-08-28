@@ -147,6 +147,7 @@ class CrawlerRunner
             }
 
             $log->setCrawledCount($log->getCrawledCount() + 1);
+            $log->setDateCompleted(new DateTimeImmutable());
             $writeLog(LogType::Info, "Successfully crawled and updated listing details.");
         } catch (Exception $exception) {
             $log->setFailed(true);
