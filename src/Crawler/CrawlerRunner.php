@@ -143,6 +143,8 @@ class CrawlerRunner
 
             $listing->setParentSite($site);
             $this->fillListingFromCrawledDetails($listing, $listingDetails);
+            $this->entityManager()->persist($listing);
+            $this->entityManager()->flush();
 
             if (!$listing->getLatitude()) {
                 $writeLog(LogType::Info, "Requesting geocoding information...");
@@ -155,12 +157,11 @@ class CrawlerRunner
                     $result = $results->first();
                     $listing->setLatitude($result->getCoordinates()->getLatitude());
                     $listing->setLongitude($result->getCoordinates()->getLongitude());
+                    $this->entityManager()->persist($listing);
+                    $this->entityManager()->flush();
                     $writeLog(LogType::Info, "Coordinates updated.");
                 }
             }
-
-            $this->entityManager()->persist($listing);
-            $this->entityManager()->flush();
 
             $log->setDateCompleted(new DateTimeImmutable());
             $writeLog(LogType::Info, "Successfully crawled and updated listing details.");
