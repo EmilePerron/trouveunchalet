@@ -21,3 +21,13 @@ services:
             - "../src/DependencyInjection/"
             - "../src/Entity/"
             - "../src/Kernel.php"
+
+    geocoding_cache_adapter:
+        class: Symfony\Component\Cache\Adapter\DoctrineDbalAdapter
+        arguments:
+            - "%env(DATABASE_URL)%"
+
+    geocoding_cache:
+        class: Symfony\Component\Cache\Psr16Cache
+        arguments:
+            - "@geocoding_cache_adapter"

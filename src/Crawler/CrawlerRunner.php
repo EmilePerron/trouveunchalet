@@ -148,6 +148,10 @@ class CrawlerRunner
 
             if (!$listing->getLatitude()) {
                 $writeLog(LogType::Info, "Requesting geocoding information...");
+                // @TODO: Switch to MapBox's "permanent geocoding" feature.
+                // This can be done by passing the `geocodingMode` param with the value `'mapbox.places-permanent'`
+                // when instanciating `Geocoder\Provider\Mapbox\Mapbox`
+                // Cost is 5$ per 1,000 calls, which seems reasonable if good caching is in place to prevent duplicate calls.
                 $results = $this->mapboxGeocoder->geocodeQuery(GeocodeQuery::create($listing->getAddress()));
 
                 if ($results->isEmpty()) {
