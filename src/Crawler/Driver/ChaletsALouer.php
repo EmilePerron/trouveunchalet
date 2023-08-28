@@ -2,7 +2,7 @@
 
 namespace App\Crawler\Driver;
 
-use App\Crawler\AbstractCrawlerDriver;
+use App\Crawler\AbstractHttpBrowserCrawlerDriver;
 use App\Crawler\Model\DetailedListingData;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
@@ -11,58 +11,44 @@ use App\Enum\LogType;
 use App\Enum\Site;
 use Closure;
 use DateTimeImmutable;
-use Facebook\WebDriver\Exception\NoSuchElementException;
-use Facebook\WebDriver\WebDriverBy;
+use Symfony\Component\DomCrawler\Crawler;
 
-class ChaletsALouer extends AbstractCrawlerDriver
+class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 {
-    public function findAllListings(Site $site, Closure $writeLog): array
+    public function findAllListings(Site $site, Closure $enqueueListing, Closure $writeLog): array
     {
         $listings = [];
 
-        $this->client->request("GET", "https://www.chaletsalouer.com/fr/location-de-chalet/?rechercheActive=1");
+        $crawler = $this->client->request("GET", "https://www.chaletsalouer.com/fr/location-de-chalet/?rechercheActive=1");
 
         while (true) {
             $writeLog(LogType::Debug, "Page loaded. Starting to scan listings...");
+            $elements = $crawler->filter("#container-listing .container-listing-chalet:not(.incitatif)");
 
-            $this->client->waitForVisibility("#container-listing .container-listing-chalet");
-            $elements = $this->client->findElements(WebDriverBy::cssSelector("#container-listing .container-listing-chalet:not(.incitatif)"));
+            $elements->each(function (Crawler $element) use (&$listings, &$enqueueListing) {
+                $headingLink = $element->filter("h2 a.nomEtablissement");
+                $locationElement = $element->filter(".details .text > p:first-child");
+                $internalIdElement = $element->filter("[data-noetablissement]");
 
-            foreach ($elements as $element) {
-                $headingLink = $element->findElement(WebDriverBy::cssSelector("h2 a.nomEtablissement"));
-                $locationElement = $element->findElement(WebDriverBy::cssSelector(".details .text > p:first-child"));
-                $internalIdElement = $element->findElement(WebDriverBy::cssSelector("[data-noetablissement]"));
-                $internalId = $internalIdElement->getAttribute("data-noetablissement");
+                $internalId = $internalIdElement->attr("data-noetablissement");
+                $url = $headingLink->link()->getUri();
 
-                $url = $headingLink->getAttribute("href");
-
-                if (str_starts_with($url, "/")) {
-                    $url = "https://www.chaletsalouer.com" . $url;
-                }
-
-                $listings[] = new ListingData(
-                    name: trim($headingLink->getText()),
-                    address: trim($locationElement->getText()),
+                $listingData = new ListingData(
+                    name: trim($headingLink->text(normalizeWhitespace: true)),
+                    address: trim($locationElement->text(normalizeWhitespace: true)),
                     url: $url,
                     internalId: $internalId,
                 );
-            }
+                $listings[] = $listingData;
+                $enqueueListing($listingData);
+            });
 
-            try {
-                $nextPageLink = $this->client->findElement(WebDriverBy::cssSelector(".pager strong + a"));
-                $nextPageNumber = trim($nextPageLink->getText());
-                $currentPagerNumber = $nextPageNumber - 1;
+            // Move on to the next page
+            $nextPageLink = $crawler->filter(".pager strong + a");
 
-                $writeLog(LogType::Debug, "Moving to page {$nextPageNumber}");
-
-                $nextPageLink->click();
-
-                // Wait until page has changed
-                $this->client->waitFor(".pager a[href*='page={$currentPagerNumber}'] + strong");
-            } catch (NoSuchElementException) {
-                // Ran out of pagination links - this means we're on the last page!
-                break;
-            }
+            $nextPageNumber = trim($nextPageLink->text());
+            $writeLog(LogType::Debug, "Moving to page {$nextPageNumber}");
+            $crawler = $this->client->request('GET', $nextPageLink->link()->getUri());
         }
 
         return $listings;
@@ -74,7 +60,7 @@ class ChaletsALouer extends AbstractCrawlerDriver
             $listing = ListingData::createFromListing($listing);
         }
 
-        $this->client->request('GET', $listing->url);
+        $crawler = $this->client->request('GET', $listing->url);
         $writeLog(LogType::Debug, "Page loaded. Starting to scan for details...");
 
         /**
@@ -89,7 +75,20 @@ class ChaletsALouer extends AbstractCrawlerDriver
          *
          * @var array<int,array{'dateEtablissementReservation':string,'garderDateEtablissementReservation':int,'noEtablissement':string,'typeEtablissementReservation':int}> $bookingInfo
          */
-        $bookingInfo = $this->client->executeScript("return tableauDates;");
+
+        $bookingInfo = [];
+        $crawler->filter("script:not([src])")->each(function (Crawler $script) use (&$bookingInfo) {
+            $scriptContent = $script->html();
+
+            if (!str_contains($scriptContent, "var tableauDates = ")) {
+                return;
+            }
+
+            $jsonStartPos = strpos($scriptContent, "var tableauDates = ") + 19;
+            $jsonEndPos = strpos($scriptContent, ']', $jsonStartPos + 1) + 1;
+            $bookingInfoJson = substr($scriptContent, $jsonStartPos, $jsonEndPos - $jsonStartPos);
+            $bookingInfo = json_decode($bookingInfoJson, true);
+        });
         $unavailabilities = [];
 
         foreach ($bookingInfo as $booking) {
@@ -100,13 +99,18 @@ class ChaletsALouer extends AbstractCrawlerDriver
             );
         }
 
+        $description = "";
+        $crawler->filter("#tab-description p")->each(function (Crawler $paragraph) use (&$description) {
+            $description .= $paragraph->text(normalizeWhitespace: true) . "\n\n";
+        });
+
         $detailedListing = new DetailedListingData(
             listingData: $listing,
             unavailabilities: $unavailabilities,
-            description: $this->client->executeScript('return [...document.querySelectorAll("#tab-description p")].map(el => el.textContent).join("\n\n");'),
-            imageUrl: $this->client->executeScript('return document.querySelector(".slick-slide.slick-active.slick-current").style.backgroundImage.slice(4, -1).replace(/"/g, "");'),
+            description: $description,
+            imageUrl: $crawler->filter('link[rel="image_src"]')->attr('href'),
             // Listings have a link with a specific search filter and the label "Animaux interdits" in listings that don't allow animals
-            dogsAllowed: $this->client->executeScript('return !document.querySelector(`a[href*="&animauxPermis=0"]`)'),
+            dogsAllowed: $crawler->filter('a[href*="&animauxPermis=0"]')->count() === 0,
         );
 
         return $detailedListing;

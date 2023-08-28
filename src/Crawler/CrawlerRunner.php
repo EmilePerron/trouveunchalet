@@ -74,7 +74,15 @@ class CrawlerRunner
             }
 
             $writeLog(LogType::Info, "Starting to look for listings.");
-            $crawledListingsData = $driver->findAllListings($site, $writeLog);
+
+            $enqueueListing = function (ListingData $listingData) use ($site) {
+                $this->bus->dispatch(new RequestCrawlingMessage(
+                    site: $site->value,
+                    listingData: $listingData,
+                ));
+            };
+
+            $crawledListingsData = $driver->findAllListings($site, $enqueueListing, $writeLog);
 
             $listingCount = count($crawledListingsData);
             $log->setTotalListingCount($listingCount)->setCrawledCount(0);
@@ -88,12 +96,6 @@ class CrawlerRunner
                 if (isset($originalListings[$index])) {
                     unset($originalListings[$index]);
                 }
-
-                $this->bus->dispatch(new RequestCrawlingMessage(
-                    site: $site->value,
-                    listingData: $roughListingData,
-                ));
-                $log->setCrawledCount($log->getCrawledCount() + 1);
             }
 
             $writeLog(LogType::Info, "Removing unavailable listings...");

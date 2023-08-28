@@ -89,7 +89,7 @@ class ListingRepository extends ServiceEntityRepository
         $identifier = $listingData->internalId ?: $listingData->url;
 
         return $this->createQueryBuilder('l')
-            ->andWhere('l.site = :site')
+            ->andWhere('l.parentSite = :site')
             ->setParameter('site', $site->value)
             ->andWhere("l.{$identifierKey} = :identifier")
             ->setParameter('identifier', $identifier)
