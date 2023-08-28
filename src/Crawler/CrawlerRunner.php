@@ -145,22 +145,23 @@ class CrawlerRunner
             $this->fillListingFromCrawledDetails($listing, $listingDetails);
 
             if (!$listing->getLatitude()) {
+                $writeLog(LogType::Info, "Requesting geocoding information...");
                 $results = $this->mapboxGeocoder->geocodeQuery(GeocodeQuery::create($listing->getAddress()));
 
                 if ($results->isEmpty()) {
+                    $writeLog(LogType::Error, "Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
                     $this->logger->error("Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
                 } else {
                     $result = $results->first();
                     $listing->setLatitude($result->getCoordinates()->getLatitude());
                     $listing->setLongitude($result->getCoordinates()->getLongitude());
+                    $writeLog(LogType::Info, "Coordinates updated.");
                 }
             }
 
             $this->entityManager()->persist($listing);
             $this->entityManager()->flush();
 
-
-            $log->setCrawledCount($log->getCrawledCount() + 1);
             $log->setDateCompleted(new DateTimeImmutable());
             $writeLog(LogType::Info, "Successfully crawled and updated listing details.");
         } catch (Exception $exception) {
