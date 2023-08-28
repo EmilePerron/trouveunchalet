@@ -46,6 +46,10 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
             // Move on to the next page
             $nextPageLink = $crawler->filter(".pager strong + a");
 
+            if ($nextPageLink->count() === 0) {
+                break;
+            }
+
             $nextPageNumber = trim($nextPageLink->text());
             $writeLog(LogType::Debug, "Moving to page {$nextPageNumber}");
             $crawler = $this->client->request('GET', $nextPageLink->link()->getUri());
