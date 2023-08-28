@@ -12,7 +12,6 @@ use App\Entity\Listing;
 use App\Entity\Unavailability;
 use App\Enum\LogType;
 use App\Enum\Site;
-use App\Message\ListingGeocodingMessage;
 use App\Message\RequestCrawlingMessage;
 use App\Model\Log;
 use App\Repository\ListingRepository;
@@ -21,6 +20,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Geocoder\Provider\Provider;
+use Geocoder\Query\GeocodeQuery;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -41,6 +43,8 @@ class CrawlerRunner
         private SiteConfigLoader $siteConfigLoader,
         private KernelInterface $kernel,
         private MessageBusInterface $bus,
+        private Provider $mapboxGeocoder,
+        private LoggerInterface $logger,
         #[TaggedIterator('app.crawler_driver')]
         iterable $drivers,
     ) {
@@ -139,12 +143,22 @@ class CrawlerRunner
 
             $listing->setParentSite($site);
             $this->fillListingFromCrawledDetails($listing, $listingDetails);
+
+            if (!$listing->getLatitude()) {
+                $results = $this->mapboxGeocoder->geocodeQuery(GeocodeQuery::create($listing->getAddress()));
+
+                if ($results->isEmpty()) {
+                    $this->logger->error("Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
+                } else {
+                    $result = $results->first();
+                    $listing->setLatitude($result->getCoordinates()->getLatitude());
+                    $listing->setLongitude($result->getCoordinates()->getLongitude());
+                }
+            }
+
             $this->entityManager()->persist($listing);
             $this->entityManager()->flush();
 
-            if (!$listing->getLatitude()) {
-                $this->bus->dispatch(new ListingGeocodingMessage($listing->getId()));
-            }
 
             $log->setCrawledCount($log->getCrawledCount() + 1);
             $log->setDateCompleted(new DateTimeImmutable());
