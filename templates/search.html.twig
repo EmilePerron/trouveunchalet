@@ -5,6 +5,7 @@
 {% block stylesheets %}
 	<link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
 	<style>
+		listing-map { width: 100%; height: 400px; }
 		.listing-popup { font-family: var(--font-family); }
 	</style>
 {% endblock %}
@@ -43,65 +44,15 @@
 			<button type="submit">Rechercher</button>
 		</form>
 
-		{% if app.request.query.get('latitude') %}
-			<h2>Results</h2>
-			
-			<ul>
-				{% for listing in listings %}
-					<li>{{ listing.name }}</li>
-				{% endfor %}
-			</ul>
+		<ul>
+			{% for listing in listings %}
+				<li>{{ listing.name }}</li>
+			{% endfor %}
+		</ul>
 
-			<div id='map' style='width: 100%; height: 600px;'></div>
-			<script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
-			<script>
-				const url = new URL(location.href);
-				const maxDistance = url.searchParams.get('max_distance') ?? 150;
-
-				mapboxgl.accessToken = 'pk.eyJ1IjoiZW1pbGVwZXJyb24iLCJhIjoiY2xsaXk4anRhMWdrMjNycGptZnB3aGt3ZCJ9.fEw_ryk5aSXgltd0XDboTQ';
-				const map = new mapboxgl.Map({
-					container: 'map',
-					style: 'mapbox://styles/mapbox/streets-v12',
-					center: [url.searchParams.get('longitude'), url.searchParams.get('latitude')],
-					zoom: maxDistance < 100 ? 10 : (maxDistance < 200 ? 8 : (maxDistance < 300 ? 7 : 6)),
-				});
-				
-				const markerHeight = 50;
-				const markerRadius = 10;
-				const linearOffset = 25;
-				const popupOffsets = {
-					'top': [0, 0],
-					'top-left': [0, 0],
-					'top-right': [0, 0],
-					'bottom': [0, -markerHeight],
-					'bottom-left': [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-					'bottom-right': [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-					'left': [markerRadius, (markerHeight - markerRadius) * -1],
-					'right': [-markerRadius, (markerHeight - markerRadius) * -1]
-				};
-
-				{% for listing in listings %}
-					new mapboxgl.Marker()
-						.setLngLat([{{ listing.longitude }}, {{ listing.latitude }}])
-						.setPopup(
-							new mapboxgl.Popup({offset: popupOffsets, className: 'listing-popup'})
-								.setLngLat([{{ listing.longitude }}, {{ listing.latitude }}])
-								.setHTML(`
-									<strong>{{ listing.name }}</strong>
-									<div class="description">{{ listing.description|excerpt|nl2br }}</div>
-									<a href="{{ listing.url }}" target="_blank">Aller au site</a>
-									{% if listing.imageUrl %}
-										<hr>
-										<img src="{{ listing.imageUrl }}" alt="">
-									{% endif %}
-								`)
-								.setMaxWidth("300px")
-								.addTo(map)
-						)
-						.addTo(map);
-				{% endfor %}
-			</script>
-		{% endif %}
+		<div id="map">
+			<listing-map mapbox-public-key="{{ mapbox_public_token }}"></listing-map>
+		</div>
 	</div>
 
 	<div class="container">
@@ -110,6 +61,7 @@
 {% endblock %}
 
 {% block javascripts %}
+	<script type="module" src="{{ asset('js/component/listing-map.js') }}"></script>
 	<script type="module">
 		const searchForm = document.querySelector("#search-form");
 		const maxRangeSelect = searchForm.querySelector("#max-distance");
@@ -120,7 +72,7 @@
 				(position) => {
 					searchForm.querySelector('[name="latitude"]').value = position.coords.latitude;
 					searchForm.querySelector('[name="longitude"]').value = position.coords.longitude;
-				}, 
+				},
 				(error) => {
 					errorsElement.textContent = error.message;
 				}

@@ -6,10 +6,12 @@ use App\Entity\Trait\TimestampableTrait;
 use App\Entity\Trait\UlidTrait;
 use App\Enum\Site;
 use App\Repository\ListingRepository;
+use App\Util\Excerpt;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * A `Listing` represents a single unit that can be rented (e.g. a cottage, or
@@ -24,30 +26,37 @@ class Listing
     use TimestampableTrait;
     use UlidTrait;
 
+    #[Groups(["summary"])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(length: 512)]
     private ?string $address = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 7, nullable: true)]
     private ?string $latitude = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 7, nullable: true)]
     private ?string $longitude = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?bool $dogsAllowed = null;
 
     #[ORM\Column(nullable: false, enumType: Site::class)]
     private ?Site $parentSite = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $imageUrl = null;
 
@@ -132,6 +141,12 @@ class Listing
         $this->description = $description;
 
         return $this;
+    }
+
+    #[Groups(["summary"])]
+    public function getExcerpt(): ?string
+    {
+        return Excerpt::excerpt($this->description ?? "");
     }
 
     public function isDogsAllowed(): ?bool
