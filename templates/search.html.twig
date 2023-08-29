@@ -51,7 +51,7 @@
 		</ul>
 
 		<div id="map">
-			<listing-map mapbox-public-key="{{ mapbox_public_token }}"></listing-map>
+			{% include 'parts/map.html.twig' %}
 		</div>
 	</div>
 
@@ -61,7 +61,6 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script type="module" src="{{ asset('js/component/listing-map.js') }}"></script>
 	<script type="module">
 		const searchForm = document.querySelector("#search-form");
 		const maxRangeSelect = searchForm.querySelector("#max-distance");

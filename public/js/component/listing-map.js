@@ -1,5 +1,5 @@
+import { convertListingToGeoJsonFeature } from "../geojson.js";
 import "./listing-map-popup.js";
-import "https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js";
 
 const markerHeight = 50;
 const markerRadius = 10;
@@ -13,6 +13,10 @@ const popupOffsets = {
 	"bottom-right": [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
 	left: [markerRadius, (markerHeight - markerRadius) * -1],
 	right: [-markerRadius, (markerHeight - markerRadius) * -1],
+};
+const sourceDataTemplate = {
+	type: "FeatureCollection",
+	features: [],
 };
 
 const stylesheet = new CSSStyleSheet();
@@ -40,6 +44,12 @@ export class ListingMap extends HTMLElement {
 
 	/** Mapbox map object */
 	#map = null;
+
+	/** Mapbox spiderifier instance */
+	#spiderifier = null;
+
+	/** Mapbox popup instance */
+	#previousPopup = null;
 
 	/** @var {HTMLElement} #emptyStateOverlay */
 	#emptyStateOverlay;
@@ -87,8 +97,9 @@ export class ListingMap extends HTMLElement {
 		this.#searchFilters.set("latitude", url.searchParams.get("latitude") ?? "");
 		this.#searchFilters.set("longitude", url.searchParams.get("longitude") ?? "");
 
-		this.#initializeMapbox();
-		this.#search();
+		this.#initializeMapbox().then(() => {
+			this.#search();
+		});
 	}
 
 	async #getSearchCoords() {
@@ -127,12 +138,197 @@ export class ListingMap extends HTMLElement {
 		const maxDistance = this.#searchFilters.get("search_radius");
 		mapboxgl.accessToken = this.#mapboxPublicKey;
 
-		this.#map = new mapboxgl.Map({
+		const map = new mapboxgl.Map({
 			container: this.querySelector(".map"),
 			style: "mapbox://styles/mapbox/streets-v12",
 			center: [coords.longitude, coords.latitude],
 			zoom: maxDistance < 100 ? 10 : maxDistance < 200 ? 8 : maxDistance < 300 ? 7 : 6,
 		});
+		this.#map = map;
+
+		map.on("move", () => {
+			this.#searchHereOverlay.setAttribute("aria-hidden", "false");
+		});
+
+		this.#spiderifier = new MapboxglSpiderifier(map, {
+			onClick: (e, spiderLeg) => {
+				e.preventDefault();
+				e.stopPropagation();
+
+				if (this.#previousPopup) {
+					this.#previousPopup.remove();
+				}
+
+				var popup = this.createListingPopup(spiderLeg.feature, MapboxglSpiderifier.popupOffsetForSpiderLeg(spiderLeg));
+				spiderLeg.mapboxMarker.setPopup(popup);
+				popup.addTo(map);
+
+				this.#previousPopup = popup;
+			},
+		});
+
+		await new Promise((resolve) => {
+			map.on("load", () => {
+				map.addSource("listings", {
+					type: "geojson",
+					data: sourceDataTemplate,
+					cluster: true,
+					// clusterMaxZoom: 15, // Max zoom to cluster points on
+					clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+				});
+
+				map.addLayer({
+					id: "clusters",
+					type: "circle",
+					source: "listings",
+					filter: ["has", "point_count"],
+					paint: {
+						// Use step expressions (https://docs.mapbox.com/style-spec/reference/expressions/#step)
+						// with three steps to implement three types of circles:
+						//   * Blue, 20px circles when point count is less than 10
+						//   * Yellow, 30px circles when point count is between 10 and 25
+						//   * Pink, 40px circles when point count is greater than or equal to 25
+						"circle-color": ["step", ["get", "point_count"], "#437055", 10, "#30503d", 30, "#1d3025"],
+						"circle-radius": ["step", ["get", "point_count"], 20, 10, 30, 30, 40],
+					},
+				});
+
+				map.addLayer({
+					id: "cluster-count",
+					type: "symbol",
+					source: "listings",
+					filter: ["has", "point_count"],
+					layout: {
+						"text-field": ["get", "point_count_abbreviated"],
+						"text-font": ["DIN Offc Pro Bold", "Arial Unicode MS Bold"],
+						"text-size": 14,
+					},
+					paint: {
+						"text-color": "#ffffff",
+					},
+				});
+
+				map.addLayer({
+					id: "unclustered-point",
+					type: "circle",
+					source: "listings",
+					filter: ["!", ["has", "point_count"]],
+					paint: {
+						"circle-color": "#56906e",
+						"circle-radius": 10,
+						"circle-stroke-width": 1,
+						"circle-stroke-color": "#fff",
+					},
+				});
+
+				map.on("zoom", (e) => {
+					this.#spiderifier.unspiderfy();
+				});
+
+				// Zoom in on a cluster on click
+				map.on("click", "clusters", async (e) => {
+					const features = map.queryRenderedFeatures(e.point, {
+						layers: ["clusters"],
+					});
+
+					if (!features.length) {
+						return;
+					}
+
+					const clusterId = features[0].properties.cluster_id;
+					const source = map.getSource("listings");
+
+					const clusterChildren = await new Promise((resolve, reject) => {
+						source.getClusterChildren(clusterId, (error, children) => {
+							if (error) {
+								reject(error);
+							} else {
+								resolve(children);
+							}
+						});
+					});
+
+					let shouldSpiderResults = true;
+					let previousCoordinate = clusterChildren[0].geometry.coordinates;
+
+					for (const children of clusterChildren) {
+						if (children.geometry.coordinates[0] !== previousCoordinate[0] || children.geometry.coordinates[1] !== previousCoordinate[1]) {
+							shouldSpiderResults = false;
+							break;
+						}
+					}
+
+					if (shouldSpiderResults) {
+						map.getSource("listings").getClusterLeaves(clusterId, 50, 0, (err, leafFeatures) => {
+							if (err) {
+								return console.error("error while getting leaves of a cluster", err);
+							}
+							var markers = leafFeatures.map((leafFeature) => leafFeature.properties);
+							this.#spiderifier.spiderfy(features[0].geometry.coordinates, markers);
+						});
+					} else {
+						map.getSource("listings").getClusterExpansionZoom(clusterId, (err, zoom) => {
+							if (err) {
+								console.error(err);
+								return;
+							}
+
+							map.easeTo({
+								center: features[0].geometry.coordinates,
+								zoom: zoom,
+							});
+						});
+					}
+				});
+
+				// When clicking on a specific point...
+				map.on("click", "unclustered-point", (e) => {
+					const coordinates = e.features[0].geometry.coordinates.slice();
+					const listing = e.features[0].properties;
+
+					// Ensure that if the map is zoomed out such that
+					// multiple copies of the feature are visible, the
+					// popup appears over the copy being pointed to.
+					while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+						coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+					}
+
+					this.createListingPopup(listing, coordinates).addTo(map);
+				});
+
+				map.on("mouseenter", "unclustered-point", () => {
+					map.getCanvas().style.cursor = "pointer";
+				});
+				map.on("mouseleave", "unclustered-point", () => {
+					map.getCanvas().style.cursor = "";
+				});
+
+				map.on("mouseenter", "clusters", () => {
+					map.getCanvas().style.cursor = "pointer";
+				});
+				map.on("mouseleave", "clusters", () => {
+					map.getCanvas().style.cursor = "";
+				});
+
+				resolve();
+			});
+		});
+	}
+
+	createListingPopup(listing, coordinatesOrOffset) {
+		const popup = new mapboxgl.Popup({
+			closeOnClick: true,
+		})
+			.setHTML(`<listing-map-popup listing-data="${JSON.stringify(listing).replaceAll('"', "&#34;")}"></listing-map-popup>`)
+			.setMaxWidth(null);
+
+		if (Array.isArray(coordinatesOrOffset)) {
+			popup.setLngLat(coordinatesOrOffset);
+		} else {
+			popup.setOffset(coordinatesOrOffset);
+		}
+
+		return popup;
 	}
 
 	async #search() {
@@ -167,6 +363,8 @@ export class ListingMap extends HTMLElement {
 	}
 
 	async #searchHereCallback() {
+		this.#searchHereOverlay.setAttribute("aria-hidden", "true");
+
 		// Update latitude and longitude based on map position
 		this.#searchFilters.set("latitude", this.#map.getCenter().lat);
 		this.#searchFilters.set("longitude", this.#map.getCenter().lng);
@@ -177,23 +375,10 @@ export class ListingMap extends HTMLElement {
 	#renderListings() {
 		this.#emptyStateOverlay.setAttribute("aria-hidden", this.#listings.length === 0 ? "false" : "true");
 
-		console.log(this.#listings);
-		for (const listing of this.#listings) {
-			new mapboxgl.Marker()
-				.setLngLat([listing.longitude, listing.latitude])
-				.setPopup(
-					new mapboxgl.Popup({ offset: popupOffsets, className: "listing-popup" })
-						.setLngLat([listing.longitude, listing.latitude])
-						.setHTML(
-							`
-							<listing-map-popup listing-data="${JSON.stringify(listing).replaceAll('"', "&#34;")}"></listing-map-popup>
-						`
-						)
-						.setMaxWidth(null)
-						.addTo(this.#map)
-				)
-				.addTo(this.#map);
-		}
+		const source = this.#map.getSource("listings");
+		const updatedData = sourceDataTemplate;
+		updatedData.features = this.#listings.map(convertListingToGeoJsonFeature);
+		source.setData(updatedData);
 	}
 }
 
