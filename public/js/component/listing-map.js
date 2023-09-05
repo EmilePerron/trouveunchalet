@@ -1,4 +1,5 @@
 import { convertListingToGeoJsonFeature } from "../geojson.js";
+import { ListingServiceEvents, listingService } from "../service/listing-service.js";
 import "./listing-map-popup.js";
 
 const markerHeight = 50;
@@ -30,17 +31,8 @@ stylesheet.replaceSync(`
 `);
 
 export class ListingMap extends HTMLElement {
-	/** @var {array} listings */
-	#listings = [];
-
 	/** Mapbox public key. Provided via the `mapbox-public-key` attribute. */
 	#mapboxPublicKey = "";
-
-	/** Filters that will be used to search calls */
-	#searchFilters = new URLSearchParams("");
-
-	/** Whether the listings are being loaded right now */
-	#isLoading = false;
 
 	/** Mapbox map object */
 	#map = null;
@@ -82,6 +74,16 @@ export class ListingMap extends HTMLElement {
 		this.#searchHereButton.addEventListener("click", () => {
 			this.#searchHereCallback();
 		});
+
+		ListingServiceEvents.eventTarget.addEventListener(ListingServiceEvents.EVENT_LOADING, () => {
+			this.setAttribute("aria-busy", "true");
+			this.#searchHereOverlay.setAttribute("aria-hidden", "true");
+		});
+		ListingServiceEvents.eventTarget.addEventListener(ListingServiceEvents.EVENT_LOADED, () => {
+			this.setAttribute("aria-busy", "false");
+			this.#searchHereOverlay.setAttribute("aria-hidden", "true");
+			this.#renderListings();
+		});
 	}
 
 	connectedCallback() {
@@ -91,58 +93,24 @@ export class ListingMap extends HTMLElement {
 			throw new Error("A valid Mapbox public key must be provided via the `mapbox-public-key` attribute.");
 		}
 
-		// Load search and filtering data from the URL when possible.
-		const url = new URL(location.href);
-		this.#searchFilters.set("search_radius", url.searchParams.get("max_distance") ?? 150);
-		this.#searchFilters.set("latitude", url.searchParams.get("latitude") ?? "");
-		this.#searchFilters.set("longitude", url.searchParams.get("longitude") ?? "");
-
 		this.#initializeMapbox().then(() => {
-			this.#search();
+			listingService.search();
 		});
 	}
 
-	async #getSearchCoords() {
-		let latitude = this.#searchFilters.get("latitude");
-		let longitude = this.#searchFilters.get("longitude");
-
-		if (!latitude || !longitude) {
-			const geolocationPermission = await navigator.permissions.query({ name: "geolocation" });
-
-			if (geolocationPermission.state == "granted") {
-				try {
-					const userLocation = await new Promise((resolve, reject) => {
-						navigator.geolocation.getCurrentPosition((position) => {
-							resolve(position.coords);
-						}, reject);
-					});
-					latitude = userLocation.latitude;
-					longitude = userLocation.longitude;
-				} catch (error) {
-					// oh well.
-				}
-			}
-
-			// Provide a default to load the map somewhere...
-			if (!latitude || !longitude) {
-				latitude = 48.512461;
-				longitude = -71.88658;
-			}
+	async #initializeMapbox() {
+		if (!listingService.latitude || !listingService.longitude) {
+			await listingService.updateCoordsWithUserGeolocation();
 		}
 
-		return { latitude, longitude };
-	}
-
-	async #initializeMapbox() {
-		const coords = await this.#getSearchCoords();
-		const maxDistance = this.#searchFilters.get("search_radius");
+		const searchRadius = listingService.searchRadius;
 		mapboxgl.accessToken = this.#mapboxPublicKey;
 
 		const map = new mapboxgl.Map({
 			container: this.querySelector(".map"),
 			style: "mapbox://styles/mapbox/streets-v12",
-			center: [coords.longitude, coords.latitude],
-			zoom: maxDistance < 100 ? 10 : maxDistance < 200 ? 8 : maxDistance < 300 ? 7 : 6,
+			center: [listingService.longitude, listingService.latitude],
+			zoom: searchRadius < 100 ? 10 : searchRadius < 200 ? 8 : searchRadius < 300 ? 7 : 6,
 		});
 		this.#map = map;
 
@@ -331,53 +299,20 @@ export class ListingMap extends HTMLElement {
 		return popup;
 	}
 
-	async #search() {
-		if (this.#isLoading) {
-			return;
-		}
-
-		if (!this.#searchFilters.get("latitude")) {
-			const coords = await this.#getSearchCoords();
-			this.#searchFilters.set("latitude", coords.latitude);
-			this.#searchFilters.set("longitude", coords.longitude);
-		}
-
-		this.#isLoading = true;
-		this.setAttribute("aria-busy", "true");
-
-		try {
-			const url = new URL("/api/listing/search", window.location.origin);
-			this.#searchFilters.forEach((value, key) => {
-				url.searchParams.set(key, value);
-			});
-
-			const response = await fetch(url);
-			const results = await response.json();
-
-			this.#listings = results;
-			this.#renderListings();
-		} finally {
-			this.#isLoading = false;
-			this.setAttribute("aria-busy", "false");
-		}
-	}
-
 	async #searchHereCallback() {
-		this.#searchHereOverlay.setAttribute("aria-hidden", "true");
-
 		// Update latitude and longitude based on map position
-		this.#searchFilters.set("latitude", this.#map.getCenter().lat);
-		this.#searchFilters.set("longitude", this.#map.getCenter().lng);
+		listingService.latitude = this.#map.getCenter().lat;
+		listingService.longitude = this.#map.getCenter().lng;
 
-		this.#search();
+		listingService.search();
 	}
 
 	#renderListings() {
-		this.#emptyStateOverlay.setAttribute("aria-hidden", this.#listings.length === 0 ? "false" : "true");
+		this.#emptyStateOverlay.setAttribute("aria-hidden", listingService.listings.length === 0 ? "false" : "true");
 
 		const source = this.#map.getSource("listings");
 		const updatedData = sourceDataTemplate;
-		updatedData.features = this.#listings.map(convertListingToGeoJsonFeature);
+		updatedData.features = listingService.listings.map(convertListingToGeoJsonFeature);
 		source.setData(updatedData);
 	}
 }
