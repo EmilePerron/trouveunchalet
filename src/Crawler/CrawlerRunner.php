@@ -15,6 +15,7 @@ use App\Enum\Site;
 use App\Message\RequestCrawlingMessage;
 use App\Model\Log;
 use App\Repository\ListingRepository;
+use App\Util\Geocoder;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -43,7 +44,7 @@ class CrawlerRunner
         private SiteConfigLoader $siteConfigLoader,
         private KernelInterface $kernel,
         private MessageBusInterface $bus,
-        private Provider $mapboxGeocoder,
+        private Geocoder $geocoder,
         private LoggerInterface $logger,
         #[TaggedIterator('app.crawler_driver')]
         iterable $drivers,
@@ -148,19 +149,14 @@ class CrawlerRunner
 
             if (!$listing->getLatitude()) {
                 $writeLog(LogType::Info, "Requesting geocoding information...");
-                // @TODO: Switch to MapBox's "permanent geocoding" feature.
-                // This can be done by passing the `geocodingMode` param with the value `'mapbox.places-permanent'`
-                // when instanciating `Geocoder\Provider\Mapbox\Mapbox`
-                // Cost is 5$ per 1,000 calls, which seems reasonable if good caching is in place to prevent duplicate calls.
-                $results = $this->mapboxGeocoder->geocodeQuery(GeocodeQuery::create($listing->getAddress()));
+                $geolocation = $this->geocoder->geocodeListing($listing);
 
-                if ($results->isEmpty()) {
+                if (!$geolocation) {
                     $writeLog(LogType::Error, "Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
                     $this->logger->error("Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
                 } else {
-                    $result = $results->first();
-                    $listing->setLatitude($result->getCoordinates()->getLatitude());
-                    $listing->setLongitude($result->getCoordinates()->getLongitude());
+                    $listing->setLatitude($geolocation->getCoordinates()->getLatitude());
+                    $listing->setLongitude($geolocation->getCoordinates()->getLongitude());
                     $this->entityManager()->persist($listing);
                     $this->entityManager()->flush();
                     $writeLog(LogType::Info, "Coordinates updated.");
