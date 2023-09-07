@@ -3,13 +3,12 @@ import "./listing-list-item.js";
 
 const stylesheet = new CSSStyleSheet();
 stylesheet.replaceSync(`
-	listing-list { display: block; position: relative; }
+	listing-list { display: block; position: relative; scroll-margin-block-start: 1rem; }
 	listing-list ol { padding: 0; list-style: none; }
 	listing-list li:not(:last-child) { margin-bottom: 1rem; }
 	listing-list .pagination { display: flex; gap: 1rem; justify-content: center; align-item: center; margin: 2rem 0; }
-	listing-list .pagination button { display: flex; justify-content: center; align-items: center; aspect-ratio: 1/1; width: 4ch; font-weight: 600; background-color: white; border: none; border-radius: 50%; cursor: pointer; transition: all .15s ease; }
-	listing-list .pagination button:hover { background-color: var(--color-primary-100); }
-	listing-list .pagination button[aria-current="true"] { color: white; background-color: var(--color-primary-500); pointer-events: none; }
+	listing-list .pagination button { justify-content: center; aspect-ratio: 1 / 1; width: 4ch; border-radius: 50%; }
+	listing-list .pagination button[aria-current="true"] { color: white; background-color: var(--color-primary-400); pointer-events: none; }
 	listing-list .pagination > span { line-height: 1.5; }
 	listing-list .empty-state-element { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; background-color: var(--color-primary-800); background-color: color-mix(in srgb, var(--color-primary-800) 75%, transparent); }
 	listing-list [aria-hidden="true"] { display: none; }
@@ -101,6 +100,10 @@ export class ListingList extends HTMLElement {
 		const url = new URL(location.href);
 		url.searchParams.set("page", pageNumber);
 		history.pushState({}, "", url);
+
+		if (this.#initialized && this.closest("[hidden]") === null) {
+			this.scrollIntoView({ block: "start", behavior: "smooth" });
+		}
 	}
 
 	get currentPageListings() {

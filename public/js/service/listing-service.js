@@ -32,6 +32,9 @@ class ListingService {
 	/** Used to cancel old fetch requests that aren't wanted anymore. */
 	#abortController = new AbortController();
 
+	/** Whether the service has been used to load any data so far. */
+	#hasBeenUsed = false;
+
 	constructor() {
 		// Load search and filtering data from the URL when possible.
 		const url = new URL(location.href);
@@ -40,6 +43,33 @@ class ListingService {
 		this.longitude = url.searchParams.get("longitude") ?? "";
 
 		ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADING));
+
+		// Listen for links that would change the search filters to run them in-page instead.
+		window.addEventListener("click", (e) => {
+			if (!e.target.matches("a, a *")) {
+				return;
+			}
+
+			if (!this.#hasBeenUsed) {
+				return;
+			}
+
+			const linkUrl = new URL(e.target.closest("a").href);
+
+			if (linkUrl.searchParams.get("latitude")) {
+				e.preventDefault();
+
+				const newUrl = new URL(window.location.href);
+
+				for (const key of linkUrl.searchParams.keys()) {
+					newUrl.searchParams.set(key, linkUrl.searchParams.get(key));
+					this.#searchFilters.set(key, linkUrl.searchParams.get(key));
+				}
+
+				history.pushState({}, "", newUrl.toString());
+				this.search();
+			}
+		});
 	}
 
 	get isLoading() {
@@ -101,6 +131,8 @@ class ListingService {
 	}
 
 	async search() {
+		this.#hasBeenUsed = true;
+
 		// If the search query hasn't changed, do not query for it again.
 		if (this.#previousSearchQuery == this.#searchFilters.toString()) {
 			return;

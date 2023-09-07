@@ -91,6 +91,16 @@ export class ListingMap extends HTMLElement {
 			this.setAttribute("aria-busy", "false");
 			this.#searchHereOverlay.setAttribute("aria-hidden", "true");
 			this.#renderListings();
+
+			if (listingService.latitude != this.#map.getCenter().lat) {
+				const url = new URL(location.href);
+
+				if (url.searchParams.get("max_distance")) {
+					this.#map.setZoom(this.getZoomLevelFromSearchRadius(url.searchParams.get("max_distance")));
+				}
+
+				this.#map.panTo([listingService.longitude, listingService.latitude]);
+			}
 		});
 	}
 
@@ -118,7 +128,7 @@ export class ListingMap extends HTMLElement {
 			container: this.querySelector(".map"),
 			style: "mapbox://styles/mapbox/streets-v12",
 			center: [listingService.longitude, listingService.latitude],
-			zoom: searchRadius < 100 ? 10 : searchRadius < 200 ? 8 : searchRadius < 300 ? 7 : 6,
+			zoom: this.getZoomLevelFromSearchRadius(searchRadius),
 		});
 		this.#map = map;
 
@@ -289,6 +299,10 @@ export class ListingMap extends HTMLElement {
 				resolve();
 			});
 		});
+	}
+
+	getZoomLevelFromSearchRadius(searchRadius) {
+		return searchRadius < 100 ? 10 : searchRadius < 200 ? 8 : searchRadius < 300 ? 7 : 6;
 	}
 
 	createListingPopup(listing, coordinatesOrOffset) {
