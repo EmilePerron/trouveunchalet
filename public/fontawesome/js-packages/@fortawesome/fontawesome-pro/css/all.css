@@ -522,6 +522,12 @@ readers do not read off random characters that represent icons */
 .fa-navicon::before {
   content: "\f0c9"; }
 
+.fa-list::before {
+  content: "\f03a"; }
+
+.fa-list-squares::before {
+  content: "\f03a"; }
+
 .fa-campground::before {
   content: "\f6bb"; }
 
@@ -548,6 +554,12 @@ readers do not read off random characters that represent icons */
 
 .fa-wifi-strong::before {
   content: "\f1eb"; }
+
+.fa-map-location-dot::before {
+  content: "\f5a0"; }
+
+.fa-map-marked-alt::before {
+  content: "\f5a0"; }
 
 .fa-arrow-right::before {
   content: "\f061"; }
@@ -608,6 +620,12 @@ readers do not read off random characters that represent icons */
 
 .fa-ellipsis-h::before {
   content: "\f141"; }
+
+.fa-location-dot::before {
+  content: "\f3c5"; }
+
+.fa-map-marker-alt::before {
+  content: "\f3c5"; }
 
 .fa-magnifying-glass::before {
   content: "\f002"; }
@@ -723,6 +741,12 @@ readers do not read off random characters that represent icons */
 .fad.fa-navicon::after, .fa-duotone.fa-navicon::after {
   content: "\f0c9\f0c9"; }
 
+.fad.fa-list::after, .fa-duotone.fa-list::after {
+  content: "\f03a\f03a"; }
+
+.fad.fa-list-squares::after, .fa-duotone.fa-list-squares::after {
+  content: "\f03a\f03a"; }
+
 .fad.fa-campground::after, .fa-duotone.fa-campground::after {
   content: "\f6bb\f6bb"; }
 
@@ -749,6 +773,12 @@ readers do not read off random characters that represent icons */
 
 .fad.fa-wifi-strong::after, .fa-duotone.fa-wifi-strong::after {
   content: "\f1eb\f1eb"; }
+
+.fad.fa-map-location-dot::after, .fa-duotone.fa-map-location-dot::after {
+  content: "\f5a0\f5a0"; }
+
+.fad.fa-map-marked-alt::after, .fa-duotone.fa-map-marked-alt::after {
+  content: "\f5a0\f5a0"; }
 
 .fad.fa-arrow-right::after, .fa-duotone.fa-arrow-right::after {
   content: "\f061\f061"; }
@@ -809,6 +839,12 @@ readers do not read off random characters that represent icons */
 
 .fad.fa-ellipsis-h::after, .fa-duotone.fa-ellipsis-h::after {
   content: "\f141\f141"; }
+
+.fad.fa-location-dot::after, .fa-duotone.fa-location-dot::after {
+  content: "\f3c5\f3c5"; }
+
+.fad.fa-map-marker-alt::after, .fa-duotone.fa-map-marker-alt::after {
+  content: "\f3c5\f3c5"; }
 
 .fad.fa-magnifying-glass::after, .fa-duotone.fa-magnifying-glass::after {
   content: "\f002\f002"; }

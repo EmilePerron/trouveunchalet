@@ -522,6 +522,12 @@ readers do not read off random characters that represent icons */
 .fa-navicon::before {
   content: "\f0c9"; }
 
+.fa-list::before {
+  content: "\f03a"; }
+
+.fa-list-squares::before {
+  content: "\f03a"; }
+
 .fa-campground::before {
   content: "\f6bb"; }
 
@@ -548,6 +554,12 @@ readers do not read off random characters that represent icons */
 
 .fa-wifi-strong::before {
   content: "\f1eb"; }
+
+.fa-map-location-dot::before {
+  content: "\f5a0"; }
+
+.fa-map-marked-alt::before {
+  content: "\f5a0"; }
 
 .fa-arrow-right::before {
   content: "\f061"; }
@@ -608,6 +620,12 @@ readers do not read off random characters that represent icons */
 
 .fa-ellipsis-h::before {
   content: "\f141"; }
+
+.fa-location-dot::before {
+  content: "\f3c5"; }
+
+.fa-map-marker-alt::before {
+  content: "\f3c5"; }
 
 .fa-magnifying-glass::before {
   content: "\f002"; }

@@ -10,6 +10,12 @@ var faBars = {
   icon: [448, 512, ["navicon"], "f0c9", ["M0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256z", "M416 128H32C14.33 128 0 113.7 0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"]]
 };
 var faNavicon = faBars;
+var faList = {
+  prefix: 'fad',
+  iconName: 'list',
+  icon: [512, 512, ["list-squares"], "f03a", ["M160 96C160 78.33 174.3 64 192 64H480C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96zM160 256C160 238.3 174.3 224 192 224H480C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480z", "M16 72C16 58.75 26.75 48 40 48H88C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z"]]
+};
+var faListSquares = faList;
 var faCampground = {
   prefix: 'fad',
   iconName: 'campground',
@@ -47,6 +53,12 @@ var faWifi = {
 };
 var faWifi3 = faWifi;
 var faWifiStrong = faWifi;
+var faMapLocationDot = {
+  prefix: 'fad',
+  iconName: 'map-location-dot',
+  icon: [576, 512, ["map-marked-alt"], "f5a0", ["M416 503V200.4C419.5 193.5 422.7 186.7 425.6 179.9C426.1 178.6 426.6 177.4 427.1 176.1L543.1 129.7C558.9 123.4 576 135 576 152V422.8C576 432.6 570 441.4 560.9 445.1L416 503zM15.09 187.3L137.6 138.3C140 152.5 144.9 166.6 150.4 179.9C153.3 186.7 156.5 193.5 160 200.4V451.8L32.91 502.7C17.15 508.1 0 497.4 0 480.4V209.6C0 199.8 5.975 190.1 15.09 187.3H15.09zM384 504.3L191.1 449.4V255C212.5 286.3 234.3 314.6 248.2 331.1C268.7 357.6 307.3 357.6 327.8 331.1C341.7 314.6 363.5 286.3 384 255L384 504.3z", "M273.2 311.1C241.1 271.9 168 174.6 168 120C168 53.73 221.7 0 288 0C354.3 0 408 53.73 408 120C408 174.6 334.9 271.9 302.8 311.1C295.1 321.6 280.9 321.6 273.2 311.1V311.1zM288 152C310.1 152 328 134.1 328 112C328 89.91 310.1 72 288 72C265.9 72 248 89.91 248 112C248 134.1 265.9 152 288 152z"]]
+};
+var faMapMarkedAlt = faMapLocationDot;
 var faArrowRight = {
   prefix: 'fad',
   iconName: 'arrow-right',
@@ -111,6 +123,12 @@ var faEllipsis = {
   icon: [448, 512, ["ellipsis-h"], "f141", ["M280 256C280 286.9 254.9 312 224 312C193.1 312 168 286.9 168 256C168 225.1 193.1 200 224 200C254.9 200 280 225.1 280 256z", "M8 256C8 225.1 33.07 200 64 200C94.93 200 120 225.1 120 256C120 286.9 94.93 312 64 312C33.07 312 8 286.9 8 256zM328 256C328 225.1 353.1 200 384 200C414.9 200 440 225.1 440 256C440 286.9 414.9 312 384 312C353.1 312 328 286.9 328 256z"]]
 };
 var faEllipsisH = faEllipsis;
+var faLocationDot = {
+  prefix: 'fad',
+  iconName: 'location-dot',
+  icon: [384, 512, ["map-marker-alt"], "f3c5", ["M168.3 499.2C116.1 435 0 279.4 0 192C0 85.96 85.96 0 192 0C298 0 384 85.96 384 192C384 279.4 267 435 215.7 499.2C203.4 514.5 180.6 514.5 168.3 499.2H168.3zM192 272C236.2 272 272 236.2 272 192C272 147.8 236.2 112 192 112C147.8 112 112 147.8 112 192C112 236.2 147.8 272 192 272z", "M240 192C240 218.5 218.5 240 192 240C165.5 240 144 218.5 144 192C144 165.5 165.5 144 192 144C218.5 144 240 165.5 240 192z"]]
+};
+var faMapMarkerAlt = faLocationDot;
 var faMagnifyingGlass = {
   prefix: 'fad',
   iconName: 'magnifying-glass',
@@ -154,6 +172,8 @@ var icons = {
   faTrees: faTrees,
   faBars: faBars,
   faNavicon: faNavicon,
+  faList: faList,
+  faListSquares: faListSquares,
   faCampground: faCampground,
   faTree: faTree,
   faUsers: faUsers,
@@ -163,6 +183,8 @@ var icons = {
   faWifi: faWifi,
   faWifi3: faWifi3,
   faWifiStrong: faWifiStrong,
+  faMapLocationDot: faMapLocationDot,
+  faMapMarkedAlt: faMapMarkedAlt,
   faArrowRight: faArrowRight,
   faHouseWater: faHouseWater,
   faHouseFlood: faHouseFlood,
@@ -183,6 +205,8 @@ var icons = {
   faLongArrowRight: faLongArrowRight,
   faEllipsis: faEllipsis,
   faEllipsisH: faEllipsisH,
+  faLocationDot: faLocationDot,
+  faMapMarkerAlt: faMapMarkerAlt,
   faMagnifyingGlass: faMagnifyingGlass,
   faSearch: faSearch,
   faPlus: faPlus,
@@ -196,4 +220,4 @@ var icons = {
   faNotdef: faNotdef
 };
 
-export { icons as fad, prefix, faTrees, faBars, faNavicon, faCampground, faTree, faUsers, faAngleRight, faUser, faStar, faWifi, faWifi3, faWifiStrong, faArrowRight, faHouseWater, faHouseFlood, faArrowLeft, faArrowLeftLong, faLongArrowLeft, faGear, faCog, faEllipsisVertical, faEllipsisV, faHouse, faHome, faHomeAlt, faHomeLgAlt, faSun, faHouseTree, faArrowRightLong, faLongArrowRight, faEllipsis, faEllipsisH, faMagnifyingGlass, faSearch, faPlus, faAdd, faSpinner, faGears, faCogs, faSunBright, faSunAlt, faDog, faNotdef };
+export { icons as fad, prefix, faTrees, faBars, faNavicon, faList, faListSquares, faCampground, faTree, faUsers, faAngleRight, faUser, faStar, faWifi, faWifi3, faWifiStrong, faMapLocationDot, faMapMarkedAlt, faArrowRight, faHouseWater, faHouseFlood, faArrowLeft, faArrowLeftLong, faLongArrowLeft, faGear, faCog, faEllipsisVertical, faEllipsisV, faHouse, faHome, faHomeAlt, faHomeLgAlt, faSun, faHouseTree, faArrowRightLong, faLongArrowRight, faEllipsis, faEllipsisH, faLocationDot, faMapMarkerAlt, faMagnifyingGlass, faSearch, faPlus, faAdd, faSpinner, faGears, faCogs, faSunBright, faSunAlt, faDog, faNotdef };

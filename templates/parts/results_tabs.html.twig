@@ -1,0 +1,91 @@
+<div class="tabs" id="result-tabs-wrapper">
+  <div role="tablist" aria-label="Sample Tabs">
+    <button
+      role="tab"
+      aria-selected="true"
+      aria-controls="panel-map"
+      id="tab-map"
+      tabindex="0">
+	  <i class="fas fa-map-location-dot" aria-label=""></i>
+      Carte
+    </button>
+    <button
+      role="tab"
+      aria-selected="false"
+      aria-controls="panel-list"
+      id="tab-list"
+      tabindex="-1">
+	  <i class="fas fa-list" aria-label=""></i>
+      Liste
+    </button>
+  </div>
+  <div id="panel-map" role="tabpanel" tabindex="0" aria-labelledby="tab-map">
+    {% include 'parts/map.html.twig' %}
+  </div>
+  <div id="panel-list" role="tabpanel" tabindex="0" aria-labelledby="tab-list" hidden>
+    {% include 'parts/list.html.twig' %}
+  </div>
+</div>
+
+<script type="module">
+	window.addEventListener("DOMContentLoaded", () => {
+		const tabs = document.querySelectorAll('[role="tab"]');
+		const tabList = document.querySelector('[role="tablist"]');
+
+		// Add a click event handler to each tab
+		tabs.forEach((tab) => {
+			tab.addEventListener("click", changeTabs);
+		});
+
+		// Enable arrow navigation between tabs in the tab list
+		let tabFocus = 0;
+
+		tabList.addEventListener("keydown", (e) => {
+			// Move right
+			if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+				tabs[tabFocus].setAttribute("tabindex", -1);
+				if (e.key === "ArrowRight") {
+					tabFocus++;
+					// If we're at the end, go to the start
+					if (tabFocus >= tabs.length) {
+					tabFocus = 0;
+					}
+					// Move left
+				} else if (e.key === "ArrowLeft") {
+					tabFocus--;
+					// If we're at the start, move to the end
+					if (tabFocus < 0) {
+					tabFocus = tabs.length - 1;
+					}
+				}
+
+				tabs[tabFocus].setAttribute("tabindex", 0);
+				tabs[tabFocus].focus();
+			}
+		});
+	});
+
+	function changeTabs(e) {
+		const target = e.target;
+		const parent = target.parentNode;
+		const grandparent = parent.parentNode;
+
+		// Remove all current selected tabs
+		parent
+			.querySelectorAll('[aria-selected="true"]')
+			.forEach((t) => t.setAttribute("aria-selected", false));
+
+		// Set this tab as selected
+		target.setAttribute("aria-selected", true);
+
+		// Hide all tab panels
+		grandparent
+			.querySelectorAll('[role="tabpanel"]')
+			.forEach((p) => p.setAttribute("hidden", true));
+
+		// Show the selected panel
+		grandparent.parentNode
+			.querySelector(`#${target.getAttribute("aria-controls")}`)
+			.removeAttribute("hidden");
+	}
+</script>

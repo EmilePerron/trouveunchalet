@@ -2,14 +2,6 @@
 
 {% block title %}Search{% endblock %}
 
-{% block stylesheets %}
-	<link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
-	<style>
-		listing-map { width: 100%; height: 400px; }
-		.listing-popup { font-family: var(--font-family); }
-	</style>
-{% endblock %}
-
 {% block body %}
 	<div class="container">
 		<form action="{{ path('search') }}" method="GET" id="search-form">
@@ -44,13 +36,7 @@
 			<button type="submit">Rechercher</button>
 		</form>
 
-		<div id="list">
-			{% include 'parts/list.html.twig' %}
-		</div>
-
-		<div id="map">
-			{% include 'parts/map.html.twig' %}
-		</div>
+		{% include 'parts/results_tabs.html.twig' %}
 	</div>
 
 	<div class="container">

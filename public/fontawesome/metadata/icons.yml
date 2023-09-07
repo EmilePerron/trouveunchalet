@@ -310,6 +310,46 @@ house-water:
     - regular
   unicode: f74f
   voted: false
+list:
+  aliases:
+    names:
+      - list-squares
+    unicodes:
+      secondary:
+        - 10f03a
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.9.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: List
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f03a
+  voted: false
+location-dot:
+  aliases:
+    names:
+      - map-marker-alt
+    unicodes:
+      secondary:
+        - 10f3c5
+  changes:
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: Location dot
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f3c5
+  voted: false
 magnifying-glass:
   aliases:
     names:
@@ -330,6 +370,25 @@ magnifying-glass:
   styles:
     - solid
   unicode: f002
+  voted: false
+map-location-dot:
+  aliases:
+    names:
+      - map-marked-alt
+    unicodes:
+      secondary:
+        - 10f5a0
+  changes:
+    - 5.1.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: Map location dot
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: f5a0
   voted: false
 notdef:
   changes:

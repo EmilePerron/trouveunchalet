@@ -25,6 +25,11 @@ header nav a[aria-current] { color: var(--color-primary-100); }
 .slider.regions .region a:hover i::before { translate: 0.6ch; }
 .slider.regions .region:has(a:hover)::before { opacity: .5; }
 
+#result-tabs-wrapper { margin-top: 1rem; }
+#result-tabs-wrapper [role="tablist"] { display: flex; justify-content: flex-start; gap: 1ch; margin-bottom: 1ch; }
+
+#panel-map { border-radius: .5rem; overflow: hidden; }
+listing-map { width: 100%; height: 500px; }
 
 @media (max-width: 1080px) {
 	header { display: block; text-align: center; }

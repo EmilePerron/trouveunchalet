@@ -1,4 +1,4 @@
-projectName: Unsaved Project
+projectName: fontawesome-subset
 version: 6.2.0
 icons:
   - campground:
@@ -63,4 +63,10 @@ icons:
       - solid
       - regular
   - sun:
+      - solid
+  - map-location-dot:
+      - solid
+  - location-dot:
+      - solid
+  - list:
       - solid

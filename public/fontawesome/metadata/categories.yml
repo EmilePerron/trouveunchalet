@@ -38,6 +38,7 @@ business:
 camping:
   icons:
     - campground
+    - map-location-dot
     - tree
     - trees
   label: Camping
@@ -136,6 +137,7 @@ logistics:
 maps:
   icons:
     - house
+    - location-dot
     - magnifying-glass
     - plus
     - tree
@@ -208,6 +210,7 @@ shopping:
   label: Shopping
 social:
   icons:
+    - location-dot
     - star
     - user
     - users
@@ -222,7 +225,8 @@ sports-fitness:
   icons: []
   label: Sports + Fitness
 text-formatting:
-  icons: []
+  icons:
+    - list
   label: Text Formatting
 time:
   icons: []
@@ -237,6 +241,7 @@ transportation:
   label: Transportation
 travel-hotel:
   icons:
+    - map-location-dot
     - wifi
   label: Travel + Hotel
 users-people:

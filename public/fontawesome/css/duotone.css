@@ -61,6 +61,12 @@
 .fad.fa-navicon::after, .fa-duotone.fa-navicon::after {
   content: "\f0c9\f0c9"; }
 
+.fad.fa-list::after, .fa-duotone.fa-list::after {
+  content: "\f03a\f03a"; }
+
+.fad.fa-list-squares::after, .fa-duotone.fa-list-squares::after {
+  content: "\f03a\f03a"; }
+
 .fad.fa-campground::after, .fa-duotone.fa-campground::after {
   content: "\f6bb\f6bb"; }
 
@@ -87,6 +93,12 @@
 
 .fad.fa-wifi-strong::after, .fa-duotone.fa-wifi-strong::after {
   content: "\f1eb\f1eb"; }
+
+.fad.fa-map-location-dot::after, .fa-duotone.fa-map-location-dot::after {
+  content: "\f5a0\f5a0"; }
+
+.fad.fa-map-marked-alt::after, .fa-duotone.fa-map-marked-alt::after {
+  content: "\f5a0\f5a0"; }
 
 .fad.fa-arrow-right::after, .fa-duotone.fa-arrow-right::after {
   content: "\f061\f061"; }
@@ -147,6 +159,12 @@
 
 .fad.fa-ellipsis-h::after, .fa-duotone.fa-ellipsis-h::after {
   content: "\f141\f141"; }
+
+.fad.fa-location-dot::after, .fa-duotone.fa-location-dot::after {
+  content: "\f3c5\f3c5"; }
+
+.fad.fa-map-marker-alt::after, .fa-duotone.fa-map-marker-alt::after {
+  content: "\f3c5\f3c5"; }
 
 .fad.fa-magnifying-glass::after, .fa-duotone.fa-magnifying-glass::after {
   content: "\f002\f002"; }

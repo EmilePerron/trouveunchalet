@@ -27,6 +27,8 @@ export interface IconPack {
 export type IconName = 'trees' | 
   'bars' | 
   'navicon' | 
+  'list' | 
+  'list-squares' | 
   'campground' | 
   'tree' | 
   'users' | 
@@ -36,6 +38,8 @@ export type IconName = 'trees' |
   'wifi' | 
   'wifi3' | 
   'wifi-strong' | 
+  'map-location-dot' | 
+  'map-marked-alt' | 
   'arrow-right' | 
   'house-water' | 
   'house-flood' | 
@@ -56,6 +60,8 @@ export type IconName = 'trees' |
   'long-arrow-right' | 
   'ellipsis' | 
   'ellipsis-h' | 
+  'location-dot' | 
+  'map-marker-alt' | 
   'magnifying-glass' | 
   'search' | 
   'plus' | 
@@ -70,6 +76,8 @@ export type IconName = 'trees' |
   'trees' | 
   'bars' | 
   'navicon' | 
+  'list' | 
+  'list-squares' | 
   'campground' | 
   'tree' | 
   'users' | 
@@ -79,6 +87,8 @@ export type IconName = 'trees' |
   'wifi' | 
   'wifi3' | 
   'wifi-strong' | 
+  'map-location-dot' | 
+  'map-marked-alt' | 
   'arrow-right' | 
   'house-water' | 
   'house-flood' | 
@@ -99,6 +109,8 @@ export type IconName = 'trees' |
   'long-arrow-right' | 
   'ellipsis' | 
   'ellipsis-h' | 
+  'location-dot' | 
+  'map-marker-alt' | 
   'magnifying-glass' | 
   'search' | 
   'plus' | 
@@ -113,6 +125,8 @@ export type IconName = 'trees' |
   'trees' | 
   'bars' | 
   'navicon' | 
+  'list' | 
+  'list-squares' | 
   'campground' | 
   'tree' | 
   'users' | 
@@ -122,6 +136,8 @@ export type IconName = 'trees' |
   'wifi' | 
   'wifi3' | 
   'wifi-strong' | 
+  'map-location-dot' | 
+  'map-marked-alt' | 
   'arrow-right' | 
   'house-water' | 
   'house-flood' | 
@@ -142,6 +158,8 @@ export type IconName = 'trees' |
   'long-arrow-right' | 
   'ellipsis' | 
   'ellipsis-h' | 
+  'location-dot' | 
+  'map-marker-alt' | 
   'magnifying-glass' | 
   'search' | 
   'plus' | 
