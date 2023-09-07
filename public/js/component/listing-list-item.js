@@ -1,5 +1,4 @@
-import buttonsStylesheet from "../../css/button.css" assert { type: "css" };
-import faStylesheet from "../../fontawesome/css/all.min.css" assert { type: "css" };
+import { ButtonStylesheet, FontawesomeStylesheet } from "../global-stylesheets.js";
 
 const stylesheet = new CSSStyleSheet();
 stylesheet.replaceSync(`
@@ -7,7 +6,7 @@ stylesheet.replaceSync(`
 	.body { flex: 1 1; }
 	.gallery { flex: 0 1 250px; }
 	strong { display: block; margin-bottom: .5rem; font-size: 1.15em; }
-	.description { display: -webkit-box; -webkit-line-clamp: 5; line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+	.description { display: -webkit-box; -webkit-line-clamp: 5; line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
 	.button { margin-top: 1rem; }
 	img { width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center; border-radius: .25rem; background-color: var(--color-primary-050); }
 
@@ -24,7 +23,7 @@ export class ListingListItem extends HTMLElement {
 		super();
 
 		this.attachShadow({ mode: "open" });
-		this.shadowRoot.adoptedStyleSheets = [buttonsStylesheet, faStylesheet, stylesheet];
+		this.shadowRoot.adoptedStyleSheets = [stylesheet];
 	}
 
 	connectedCallback() {
@@ -34,6 +33,8 @@ export class ListingListItem extends HTMLElement {
 
 	#render() {
 		this.shadowRoot.innerHTML = `
+			${FontawesomeStylesheet.outerHTML}
+			${ButtonStylesheet.outerHTML}
 			<div class="gallery">
 				${
 					!this.#listingData?.imageUrl

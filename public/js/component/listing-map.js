@@ -1,7 +1,8 @@
 import { convertListingToGeoJsonFeature } from "../geojson.js";
 import { ListingServiceEvents, listingService } from "../service/listing-service.js";
-import mapboxStylesheet from "https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" assert { type: "css" };
 import "./listing-map-popup.js";
+
+document.head.insertAdjacentHTML("beforeend", '<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">');
 
 const markerHeight = 50;
 const markerRadius = 10;
@@ -20,7 +21,6 @@ const sourceDataTemplate = {
 	type: "FeatureCollection",
 	features: [],
 };
-document.adoptedStyleSheets.push(mapboxStylesheet);
 
 const stylesheet = new CSSStyleSheet();
 stylesheet.replaceSync(`
