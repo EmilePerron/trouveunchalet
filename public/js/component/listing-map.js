@@ -37,6 +37,12 @@ export class ListingMap extends HTMLElement {
 	/** Mapbox map object */
 	#map = null;
 
+	/**
+	 * Mapbox map initialization promise
+	 * @var {Promise}
+	 */
+	#mapInitialization = null;
+
 	/** Mapbox spiderifier instance */
 	#spiderifier = null;
 
@@ -93,7 +99,7 @@ export class ListingMap extends HTMLElement {
 			throw new Error("A valid Mapbox public key must be provided via the `mapbox-public-key` attribute.");
 		}
 
-		this.#initializeMapbox().then(() => {
+		this.mapInitialization = this.#initializeMapbox().then(() => {
 			listingService.search();
 		});
 	}
@@ -310,10 +316,12 @@ export class ListingMap extends HTMLElement {
 	#renderListings() {
 		this.#emptyStateOverlay.setAttribute("aria-hidden", listingService.listings.length === 0 ? "false" : "true");
 
-		const source = this.#map.getSource("listings");
-		const updatedData = sourceDataTemplate;
-		updatedData.features = listingService.listings.map(convertListingToGeoJsonFeature);
-		source.setData(updatedData);
+		this.mapInitialization.then(() => {
+			const source = this.#map.getSource("listings");
+			const updatedData = sourceDataTemplate;
+			updatedData.features = listingService.listings.map(convertListingToGeoJsonFeature);
+			source.setData(updatedData);
+		});
 	}
 }
 

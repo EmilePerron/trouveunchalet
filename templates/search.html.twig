@@ -44,11 +44,9 @@
 			<button type="submit">Rechercher</button>
 		</form>
 
-		<ul>
-			{% for listing in listings %}
-				<li>{{ listing.name }}</li>
-			{% endfor %}
-		</ul>
+		<div id="list">
+			{% include 'parts/list.html.twig' %}
+		</div>
 
 		<div id="map">
 			{% include 'parts/map.html.twig' %}

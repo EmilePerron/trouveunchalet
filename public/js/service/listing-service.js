@@ -26,6 +26,12 @@ class ListingService {
 	/** Whether the listings are being loaded right now */
 	#isLoading = false;
 
+	/** The previous search query as a URL search params string. Allows us to prevent duplicate requests. */
+	#previousSearchQuery = "";
+
+	/** Used to cancel old fetch requests that aren't wanted anymore. */
+	#abortController = new AbortController();
+
 	constructor() {
 		// Load search and filtering data from the URL when possible.
 		const url = new URL(location.href);
@@ -95,9 +101,13 @@ class ListingService {
 	}
 
 	async search() {
-		if (this.#isLoading) {
-			// @TODO: cancel previous request and make new one if the search query has changed
+		// If the search query hasn't changed, do not query for it again.
+		if (this.#previousSearchQuery == this.#searchFilters.toString()) {
 			return;
+		}
+
+		if (this.#isLoading) {
+			this.#abortController.abort("A newer search query has been submitted.");
 		}
 
 		ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADING));
@@ -107,6 +117,7 @@ class ListingService {
 		}
 
 		this.#isLoading = true;
+		this.#previousSearchQuery = this.#searchFilters.toString();
 
 		try {
 			const url = new URL("/api/listing/search", window.location.origin);
@@ -114,13 +125,17 @@ class ListingService {
 				url.searchParams.set(key, value);
 			});
 
-			const response = await fetch(url);
+			const response = await fetch(url, { signal: this.#abortController.signal });
 			const results = await response.json();
 
 			this.#listings = results;
-		} finally {
 			this.#isLoading = false;
+
 			ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADED));
+		} catch (err) {
+			if (err.name != "AbortError") {
+				throw err;
+			}
 		}
 	}
 }
