@@ -1,4 +1,4 @@
-header { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: var(--container-width); margin: 2rem auto; z-index: 10; }
+header { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: var(--container-width); margin: 2rem auto; z-index: 100; }
 header a.brand { font-weight: 600; text-decoration: none; color: inherit; transition: color .15s ease; }
 header a.brand i {margin-right: .5ch; }
 header a.brand:hover { color: var(--color-primary-500); }
@@ -25,16 +25,16 @@ header nav a[aria-current] { color: var(--color-primary-100); }
 .slider.regions .region a:hover i::before { translate: 0.6ch; }
 .slider.regions .region:has(a:hover)::before { opacity: .5; }
 
-#result-tabs-wrapper { margin-top: 1rem; }
+#result-tabs-wrapper { margin: 1rem 0; }
 #result-tabs-wrapper [role="tablist"] { display: flex; justify-content: flex-start; gap: 1ch; margin-bottom: 1ch; }
 
 #panel-map { border-radius: .5rem; overflow: hidden; }
 listing-map { width: 100%; height: 500px; }
 
 @media (max-width: 1080px) {
-	header { display: block; text-align: center; }
+	header { display: block; text-align: center; z-index: 100; }
 	header a.brand i { display: block; margin-bottom: .5rem; }
-	header nav { position: fixed; bottom: 0; left: -.25rem; right: -.25rem; gap: 0; width: auto; max-width: none; padding: 0 .25rem; border-radius: 2.5rem 2.5rem 0 0; }
+	header nav { position: fixed; bottom: 0; left: -.25rem; right: -.25rem; gap: 0; width: auto; max-width: none; padding: 0 .25rem; border-radius: 2.5rem 2.5rem 0 0; box-shadow: 0 0 0.5rem rgba(0, 0, 0, .15), 0 0 1rem rgba(0, 0, 0, .05); z-index: 100; }
 	header nav a { flex-grow: 1; gap: .5rem; padding-top: 1rem; padding-bottom: 1rem; font-size: .7rem; }
 	header nav a i { font-size: 1.25rem; }
 }
