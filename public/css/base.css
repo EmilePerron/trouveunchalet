@@ -1,4 +1,5 @@
-:root {
+:root,
+::backdrop {
 	--font-family: Urbanist, sans-serif;
 	--color-primary: #3a614a;
 	--color-primary-050: #eff5f2;
@@ -51,10 +52,51 @@
 	--container-width: 60rem;
 }
 
-html, body { font-family: var(--font-family); font-size: 16px; color: var(--color-primary-900); background-color: var(--color-gray-100); }
+html,
+body {
+	font-family: var(--font-family);
+	font-size: 16px;
+	color: var(--color-primary-900);
+	background-color: var(--color-gray-100);
+}
 
-.container { width: var(--container-width); max-width: 100%; margin: auto; }
+.container {
+	width: var(--container-width);
+	max-width: 100%;
+	margin: auto;
+}
 
-.text-danger { color: var(--color-danger-700); }
-.text-warning { color: var(--color-warning-700); }
-.text-success { color: var(--color-success-700); }
+.text-danger {
+	color: var(--color-danger-700);
+}
+
+.text-warning {
+	color: var(--color-warning-700);
+}
+
+.text-success {
+	color: var(--color-success-700);
+}
+
+select { display: block; padding: .5rem; font-size: .9rem; font-weight: 600; background-color: white; border: 1px solid var(--color-gray-200); border-radius: .25rem; }
+select:hover { color: var(--color-primary-600); border-color: var(--color-primary-300); transition: all .15s ease; }
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes dropIn {
+	0% {
+		translate: 0 -3rem;
+	}
+
+	100% {
+		translate: 0 0;
+	}
+}

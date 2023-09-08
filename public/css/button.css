@@ -2,4 +2,7 @@ button, .button { display: inline-flex; align-items: center; gap: 1ch; padding: 
 button:hover,
 .button:hover { background-color: var(--color-primary-500); }
 
+button.fullwidth,
+.button.fullwidth { width: 100%; justify-content: center; }
+
 button[aria-selected="true"] { color: var(--color-primary-800); background-color: var(--color-primary-100); pointer-events: none; }

@@ -1,8 +1,8 @@
 import { ListingServiceEvents, listingService } from "../service/listing-service.js";
 import "./listing-list-item.js";
 
-const stylesheet = new CSSStyleSheet();
-stylesheet.replaceSync(`
+const stylesheet = document.createElement("style");
+stylesheet.innerHTML = `
 	listing-list { display: block; position: relative; scroll-margin-block-start: 1rem; }
 	listing-list ol { padding: 0; list-style: none; }
 	listing-list li:not(:last-child) { margin-bottom: 1rem; }
@@ -12,8 +12,9 @@ stylesheet.replaceSync(`
 	listing-list .pagination > span { line-height: 1.5; }
 	listing-list .empty-state-element { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; background-color: var(--color-primary-800); background-color: color-mix(in srgb, var(--color-primary-800) 75%, transparent); }
 	listing-list [aria-hidden="true"] { display: none; }
-`);
-document.adoptedStyleSheets.push(stylesheet);
+`;
+document.head.append(stylesheet);
+
 const itemsPerPage = 10;
 
 export class ListingList extends HTMLElement {

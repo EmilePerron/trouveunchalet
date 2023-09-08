@@ -1,7 +1,7 @@
 import { ButtonStylesheet, FontawesomeStylesheet } from "../global-stylesheets.js";
 
-const stylesheet = new CSSStyleSheet();
-stylesheet.replaceSync(`
+const stylesheet = document.createElement("style");
+stylesheet.innerHTML = `
 	:host { display: flex; align-items: flex-start; width: 100%; padding: 1rem; gap: 1rem; background-color: white; border-radius: .35rem; }
 	.body { flex: 1 1; }
 	.gallery { flex: 0 1 250px; }
@@ -13,7 +13,7 @@ stylesheet.replaceSync(`
 	@media (max-width: 960px) {
 		:host { flex-direction: column; }
 	}
-`);
+`;
 
 export class ListingListItem extends HTMLElement {
 	/** @var {object} #listing */
@@ -23,7 +23,6 @@ export class ListingListItem extends HTMLElement {
 		super();
 
 		this.attachShadow({ mode: "open" });
-		this.shadowRoot.adoptedStyleSheets = [stylesheet];
 	}
 
 	connectedCallback() {
@@ -35,6 +34,7 @@ export class ListingListItem extends HTMLElement {
 		this.shadowRoot.innerHTML = `
 			${FontawesomeStylesheet.outerHTML}
 			${ButtonStylesheet.outerHTML}
+			${stylesheet.outerHTML}
 			<div class="gallery">
 				${
 					!this.#listingData?.imageUrl

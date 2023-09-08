@@ -1,5 +1,5 @@
-const stylesheet = new CSSStyleSheet();
-stylesheet.replaceSync(`
+const stylesheet = document.createElement("style");
+stylesheet.innerHTML = `
 	:host { display: flex; align-items: flex-start; width: min(500px, 70vw); gap: 1rem; }
 	.body { flex: 1 1; }
 	.gallery { flex: 0 1 200px; }
@@ -8,7 +8,7 @@ stylesheet.replaceSync(`
 	@media (max-width: 1280px) {
 		:host { flex-direction: column; width: min(300px, 70vw); }
 	}
-`);
+`;
 
 export class ListingMapPopup extends HTMLElement {
 	/** @var {object} #listing */
@@ -18,7 +18,6 @@ export class ListingMapPopup extends HTMLElement {
 		super();
 
 		this.attachShadow({ mode: "open" });
-		this.shadowRoot.adoptedStyleSheets = [stylesheet];
 	}
 
 	connectedCallback() {
@@ -28,6 +27,7 @@ export class ListingMapPopup extends HTMLElement {
 
 	#render() {
 		this.shadowRoot.innerHTML = `
+			${stylesheet.outerHTML}
 			<div class="body">
 				<strong>${this.#listingData.name}</strong>
 				<div class="description">${this.#listingData.excerpt.replaceAll("\n", "<br>")}</div>

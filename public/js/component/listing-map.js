@@ -22,15 +22,16 @@ const sourceDataTemplate = {
 	features: [],
 };
 
-const stylesheet = new CSSStyleSheet();
-stylesheet.replaceSync(`
+const stylesheet = document.createElement("style");
+stylesheet.innerHTML = `
 	listing-map { display: block; position: relative; }
 	listing-map .map { width: 100%; height: 100%; }
 	listing-map .empty-state-overlay { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; background-color: var(--color-primary-800); background-color: color-mix(in srgb, var(--color-primary-800) 75%, transparent); backdrop-filter: blur(2px); position: absolute; bottom: 0; left: 0; z-index: 1000; pointer-events: none; }
 	listing-map .search-here-overlay { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; position: absolute; top: 0; left: 0; z-index: 1001; pointer-events: none; }
 	listing-map .search-here-overlay button { pointer-events: auto; }
 	listing-map [aria-hidden="true"] { display: none; }
-`);
+`;
+document.head.append(stylesheet);
 
 export class ListingMap extends HTMLElement {
 	/** Mapbox public key. Provided via the `mapbox-public-key` attribute. */
@@ -63,7 +64,6 @@ export class ListingMap extends HTMLElement {
 	constructor() {
 		super();
 
-		document.adoptedStyleSheets.push(stylesheet);
 		this.innerHTML = `
 			<div class="map"></div>
 			<div class="empty-state-overlay" aria-hidden="true">

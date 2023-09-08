@@ -3,38 +3,10 @@
 {% block title %}Search{% endblock %}
 
 {% block body %}
+	<script type="module" src="{{ asset('js/component/listing-search-bar.js') }}"></script>
+
 	<div class="container">
-		<form action="{{ path('search') }}" method="GET" id="search-form">
-			<div class="errors"></div>
-
-			<input type="hidden" name="latitude">
-			<input type="hidden" name="longitude">
-
-			<fieldset>
-				<legend>Où voulez-vous aller?</legend>
-
-				<label for="max-distance">Sélectionner la distance maximale</label>
-				<select name="max_distance" id="max-distance">
-					<option value="" selected disabled></option>
-					<option value="50">50km</option>
-					<option value="100">100km</option>
-					<option value="200">200km</option>
-					<option value="300">300km</option>
-					<option value="750">750km</option>
-				</select>
-			</fieldset>
-
-			<fieldset>
-				<legend>Critères</legend>
-
-				<div class="checkbox">
-					<input type="checkbox" name="dogs" value="1" id="dogs-input">
-					<label for="dogs-input">Les chiens doivent être acceptés</label>
-				</div>
-			</fieldset>
-
-			<button type="submit">Rechercher</button>
-		</form>
+		<listing-search-bar></listing-search-bar>
 
 		{% include 'parts/results_tabs.html.twig' %}
 	</div>
@@ -42,24 +14,4 @@
 	<div class="container">
 		{% include 'parts/regions_slider.html.twig' %}
 	</div>
-{% endblock %}
-
-{% block javascripts %}
-	<script type="module">
-		const searchForm = document.querySelector("#search-form");
-		const maxRangeSelect = searchForm.querySelector("#max-distance");
-		const errorsElement = searchForm.querySelector(".errors");
-
-		maxRangeSelect.addEventListener("change", function () {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					searchForm.querySelector('[name="latitude"]').value = position.coords.latitude;
-					searchForm.querySelector('[name="longitude"]').value = position.coords.longitude;
-				},
-				(error) => {
-					errorsElement.textContent = error.message;
-				}
-			);
-		});
-	</script>
 {% endblock %}
