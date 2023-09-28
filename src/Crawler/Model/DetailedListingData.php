@@ -13,6 +13,8 @@ class DetailedListingData
         public readonly ?string $description = null,
         public readonly ?string $imageUrl = null,
         public readonly ?bool $dogsAllowed = null,
+		public readonly ?int $numberOfBedrooms = null,
+		public readonly ?int $numberOfGuests = null,
     ) {
     }
 }

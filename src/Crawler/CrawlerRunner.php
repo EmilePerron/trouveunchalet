@@ -214,6 +214,8 @@ class CrawlerRunner
         $listing->setDogsAllowed($detailedListingData->dogsAllowed);
         $listing->setImageUrl($detailedListingData->imageUrl);
         $listing->setInternalId($detailedListingData->listingData->internalId);
+		$listing->setMaximumNumberOfGuests($detailedListingData->numberOfGuests);
+		$listing->setNumberOfBedrooms($detailedListingData->numberOfBedrooms);
         $listing->setUnavailabilities(
             new ArrayCollection(
                 array_map(

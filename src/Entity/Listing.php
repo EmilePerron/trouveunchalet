@@ -66,6 +66,12 @@ class Listing
     #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Unavailability::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $unavailabilities;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $numberOfBedrooms = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $maximumNumberOfGuests = null;
+
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
@@ -216,6 +222,30 @@ class Listing
     public function setUnavailabilities(Collection $unavailabilities): static
     {
         $this->unavailabilities = $unavailabilities;
+
+        return $this;
+    }
+
+    public function getNumberOfBedrooms(): ?int
+    {
+        return $this->numberOfBedrooms;
+    }
+
+    public function setNumberOfBedrooms(?int $numberOfBedrooms): static
+    {
+        $this->numberOfBedrooms = $numberOfBedrooms;
+
+        return $this;
+    }
+
+    public function getMaximumNumberOfGuests(): ?int
+    {
+        return $this->maximumNumberOfGuests;
+    }
+
+    public function setMaximumNumberOfGuests(?int $maximumNumberOfGuests): static
+    {
+        $this->maximumNumberOfGuests = $maximumNumberOfGuests;
 
         return $this;
     }

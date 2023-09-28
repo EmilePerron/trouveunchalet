@@ -107,6 +107,9 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
         $crawler->filter("#tab-description p")->each(function (Crawler $paragraph) use (&$description) {
             $description .= $paragraph->text(normalizeWhitespace: true) . "\n\n";
         });
+		$specsText = $crawler->filter("#tab-resume")->text(normalizeWhitespace: true);
+		$numberOfGuests = preg_replace('/^.*?(\d+)\spersonne.*$/', '$1', $specsText) ?: null;
+		$numberOfBedrooms = preg_replace('/^.*?(\d+)\schambre.*$/', '$1', $specsText) ?: null;
 
         $detailedListing = new DetailedListingData(
             listingData: $listing,
@@ -115,6 +118,8 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
             imageUrl: $crawler->filter('link[rel="image_src"]')->attr('href'),
             // Listings have a link with a specific search filter and the label "Animaux interdits" in listings that don't allow animals
             dogsAllowed: $crawler->filter('a[href*="&animauxPermis=0"]')->count() === 0,
+			numberOfGuests: $numberOfGuests,
+			numberOfBedrooms: $numberOfBedrooms,
         );
 
         return $detailedListing;
