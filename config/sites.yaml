@@ -2,3 +2,6 @@
 chaletsalouer.com:
   url: https://www.chaletsalouer.com
   crawler: App\Crawler\Driver\ChaletsALouer
+levertendre.com:
+  url: https://levertendre.com
+  crawler: App\Crawler\Driver\LeVertendre
