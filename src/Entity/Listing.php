@@ -72,6 +72,9 @@ class Listing
     #[ORM\Column(nullable: true)]
     private ?int $maximumNumberOfGuests = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $hasWifi = null;
+
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
@@ -246,6 +249,18 @@ class Listing
     public function setMaximumNumberOfGuests(?int $maximumNumberOfGuests): static
     {
         $this->maximumNumberOfGuests = $maximumNumberOfGuests;
+
+        return $this;
+    }
+
+    public function isHasWifi(): ?bool
+    {
+        return $this->hasWifi;
+    }
+
+    public function setHasWifi(?bool $hasWifi): static
+    {
+        $this->hasWifi = $hasWifi;
 
         return $this;
     }

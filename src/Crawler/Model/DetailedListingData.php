@@ -15,6 +15,7 @@ class DetailedListingData
         public readonly ?bool $dogsAllowed = null,
 		public readonly ?int $numberOfBedrooms = null,
 		public readonly ?int $numberOfGuests = null,
+		public readonly ?bool $hasWifi = null,
     ) {
     }
 }

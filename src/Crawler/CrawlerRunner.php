@@ -216,6 +216,7 @@ class CrawlerRunner
         $listing->setInternalId($detailedListingData->listingData->internalId);
 		$listing->setMaximumNumberOfGuests($detailedListingData->numberOfGuests);
 		$listing->setNumberOfBedrooms($detailedListingData->numberOfBedrooms);
+		$listing->setHasWifi($detailedListingData->hasWifi);
         $listing->setUnavailabilities(
             new ArrayCollection(
                 array_map(
