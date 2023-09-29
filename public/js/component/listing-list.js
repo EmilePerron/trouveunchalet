@@ -143,7 +143,7 @@ export class ListingList extends HTMLElement {
 
 		for (const listing of this.currentPageListings) {
 			html += `<li>
-				<listing-list-item listing-data="${JSON.stringify(listing).replaceAll('"', "&#34;")}"></listing-list-item>
+				<listing-list-item listing-id="${listing.id}"></listing-list-item>
 			</li>`;
 		}
 

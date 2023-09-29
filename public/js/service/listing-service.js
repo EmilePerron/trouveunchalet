@@ -10,6 +10,8 @@ export class ListingServiceEvents {
 	}
 }
 
+const cache = {};
+
 /**
  * Singleton service that handles searching and storing listings.
  *
@@ -196,12 +198,32 @@ class ListingService {
 
 			this.#listings = results;
 			this.#isLoading = false;
+			this.#cacheListings(results);
 
 			ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADED, { detail: { scrollToTop }}));
 		} catch (err) {
 			if (err.name != "AbortError") {
 				throw err;
 			}
+		}
+	}
+
+	async getListing(listingId) {
+		if (cache[listingId] !== undefined) {
+			return cache[listingId];
+		}
+
+		const response = await fetch(`/api/listing/get/${listingId}`);
+		const listing = await response.json();
+
+		cache[listing.id] = listing
+
+		return listing;
+	}
+
+	#cacheListings(listings) {
+		for (const listing of listings) {
+			cache[listing.id] = listing;
 		}
 	}
 

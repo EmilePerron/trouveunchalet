@@ -318,7 +318,7 @@ export class ListingMap extends HTMLElement {
 		const popup = new mapboxgl.Popup({
 			closeOnClick: true,
 		})
-			.setHTML(`<listing-map-popup listing-data="${JSON.stringify(listing).replaceAll('"', "&#34;")}"></listing-map-popup>`)
+			.setHTML(`<listing-map-popup listing-id="${listing.id}"></listing-map-popup>`)
 			.setMaxWidth(null);
 
 		if (Array.isArray(coordinatesOrOffset)) {
