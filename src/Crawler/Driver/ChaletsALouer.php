@@ -110,6 +110,18 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 		$specsText = $crawler->filter("#tab-resume")->text(normalizeWhitespace: true);
 		$numberOfGuests = preg_replace('/^.*?(\d+)\spersonne.*$/', '$1', $specsText) ?: null;
 		$numberOfBedrooms = preg_replace('/^.*?(\d+)\schambre.*$/', '$1', $specsText) ?: null;
+		$originalUrlButton = $crawler->filter("#btnReserverMaintenant");
+
+		// If the listing comes from another site and is simply indexed by ChaletALouer,
+		// save the link to the original website's listing page.
+		if ($originalUrlButton->count()) {
+			$listing = new ListingData(
+				name: $listing->name,
+				address: $listing->address,
+				url: $originalUrlButton->attr('href'),
+				internalId: $listing->internalId,
+			);
+		}
 
         $detailedListing = new DetailedListingData(
             listingData: $listing,
