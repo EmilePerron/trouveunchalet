@@ -31,20 +31,9 @@
                 {{ ('brand.'~brand().slug~'.name_html')|trans|raw }}
             </a>
 
-            <!--nav>
-                <a href="{{ path('search') }}" {{ current_route == 'search' ? 'aria-current="page"' : '' }}>
-                    <i class="fas fa-magnifying-glass"></i>
-                    <span>{% trans %}nav.search{% endtrans %}</span>
-                </a>
-                <a href="/" {{ current_route == 'favorites' ? 'aria-current="page"' : '' }}>
-                    <i class="fas fa-star"></i>
-                    <span>{% trans %}nav.favorites{% endtrans %}</span>
-                </a>
-                <a href="{{ other_brand_url() }}" >
-                    <i class="fas fa-{{ other_brand().icon }}"></i>
-                    <span> {{ ('brand.'~other_brand().slug~'.short_name')|trans|raw }}</span>
-                </a>
-            </nav-->
+            <nav>
+                <a href="#">Explorer par région</a>
+            </nav>
         </header>
 
         {% include 'search_form/'~brand().slug~'.html.twig' %}
