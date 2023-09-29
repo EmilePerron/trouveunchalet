@@ -43,7 +43,7 @@ export class ListingSearchExperience extends HTMLElement {
 			const tabList = this.querySelector('[role="tablist"]');
 
 			const changeTabs = (e) => {
-				const target = e.target;
+				const target = e.target.closest('button');
 
 				// Remove all current selected tabs
 				this
@@ -64,9 +64,7 @@ export class ListingSearchExperience extends HTMLElement {
 					.removeAttribute("hidden");
 
 				// Trigger a window resize event, as some widgets don't initialize correctly when hidden (e.g. map)
-				setTimeout(() => {
-					window.dispatchEvent(new Event("resize"));
-				}, 1);
+				window.dispatchEvent(new Event("resize"));
 			}
 
 			// Add a click event handler to each tab

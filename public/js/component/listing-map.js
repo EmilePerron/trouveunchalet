@@ -2,6 +2,8 @@ import { convertListingToGeoJsonFeature } from "../geojson.js";
 import { ListingServiceEvents, listingService } from "../service/listing-service.js";
 import "./listing-map-popup.js";
 
+// @TODO: Replace spiderification by a single popup that allows you to paginate through all of the listings in a cluster
+
 document.head.insertAdjacentHTML("beforeend", `
 	<link rel="stylesheet" href="/ext/mapboxgl-spiderifier/index.css" />
 	<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">
