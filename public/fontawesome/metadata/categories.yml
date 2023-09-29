@@ -70,7 +70,8 @@ construction:
   icons: []
   label: Construction
 design:
-  icons: []
+  icons:
+    - grid-2
   label: Design
 devices-hardware:
   icons: []
@@ -84,6 +85,7 @@ editing:
     - bars
     - ellipsis
     - ellipsis-vertical
+    - grid-2
     - plus
   label: Editing
 education:

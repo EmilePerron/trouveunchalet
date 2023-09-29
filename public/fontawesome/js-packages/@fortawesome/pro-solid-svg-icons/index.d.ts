@@ -46,6 +46,7 @@ export const faCogs: IconDefinition;
 export const faSunBright: IconDefinition;
 export const faSunAlt: IconDefinition;
 export const faDog: IconDefinition;
+export const faGrid2: IconDefinition;
 export const faNotdef: IconDefinition;
 import { IconDefinition, IconLookup, IconName, IconPrefix, IconPack } from '@fortawesome/fontawesome-common-types';
 export { IconDefinition, IconLookup, IconName, IconPrefix, IconPack } from '@fortawesome/fontawesome-common-types';

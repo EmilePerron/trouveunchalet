@@ -1,8 +1,13 @@
-button, .button { display: inline-flex; align-items: center; gap: 1ch; padding: 0.5em 1em; font-size: 1rem; font-weight: 600; text-decoration: none; color: white; background-color: var(--color-primary-600); border: none; border-radius: 0.5em; cursor: pointer; transition: all .15s ease; }
-button:hover,
-.button:hover { background-color: var(--color-primary-500); }
+button, .button { --button-color: var(--color-gray-200); --button-text-color: var(--color-gray-900); display: inline-flex; align-items: center; gap: 1ch; padding: 0.75em 1.25em; font-family: var(--font-family-fancy); font-size: .9rem; font-weight: 600; text-decoration: none; color: var(--button-text-color); background-color: white; border: 1px solid var(--button-color); border-radius: 0.5em; cursor: pointer; transition: all .15s ease; }
+button:is(:hover),
+.button:is(:hover) { --button-color: var(--color-gray-100); background-color: var(--button-color); }
+
+button.dark, .button.dark { --button-color: var(--color-primary-800); }
+button.primary, .button.primary { --button-color: var(--color-primary-600); --button-text-color: #fff; background-color: var(--button-color); }
+button.primary:hover, .button.primary:hover { --button-color: var(--color-primary-700); }
 
 button.fullwidth,
 .button.fullwidth { width: 100%; justify-content: center; }
 
-button[aria-selected="true"] { color: var(--color-primary-800); background-color: var(--color-primary-100); pointer-events: none; }
+button[aria-selected="true"],
+button[aria-current="true"] { --button-color: var(--color-primary-100); background-color: var(--button-color); pointer-events: none; }

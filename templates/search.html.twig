@@ -2,13 +2,16 @@
 
 {% block title %}Search{% endblock %}
 
+{% block stylesheets %}
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+	<script src="/ext/mapboxgl-spiderifier/index.js"></script>
+{% endblock %}
+
 {% block body %}
-	<script type="module" src="{{ asset('js/component/listing-search-bar.js') }}"></script>
+	<script type="module" src="{{ asset('js/component/listing-search-experience.js') }}"></script>
 
 	<div class="container">
-		<listing-search-bar></listing-search-bar>
-
-		{% include 'parts/results_tabs.html.twig' %}
+		<listing-search-experience></listing-search-experience>
 	</div>
 
 	<div class="container">

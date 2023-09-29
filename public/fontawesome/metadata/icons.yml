@@ -242,6 +242,18 @@ gears:
     - regular
   unicode: f085
   voted: false
+grid-2:
+  changes:
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  label: Grid 2
+  search:
+    terms: []
+  styles:
+    - solid
+  unicode: e196
+  voted: false
 house:
   aliases:
     names:

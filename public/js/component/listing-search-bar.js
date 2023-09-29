@@ -44,19 +44,7 @@ export class ListingSearchBar extends HTMLElement {
 				<form method="dialog">
 					<input type="hidden" name="latitude">
 					<input type="hidden" name="longitude">
-
-					<fieldset>
-						<legend>Où voulez-vous aller?</legend>
-
-						<label for="search-radius">Rayon de recherche</label>
-						<select name="search_radius" id="search-radius" required>
-							<option value="50" selected>50km</option>
-							<option value="100">100km</option>
-							<option value="200">200km</option>
-							<option value="300">300km</option>
-							<option value="750">750km</option>
-						</select>
-					</fieldset>
+					<input type="hidden" name="search_radius">
 
 					<fieldset>
 						<legend>Critères</legend>

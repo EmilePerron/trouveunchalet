@@ -2,8 +2,9 @@ const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
 	:host { display: flex; align-items: flex-start; width: min(500px, 70vw); gap: 1rem; }
 	.body { flex: 1 1; }
+	.description { word-break: break-word; }
 	.gallery { flex: 0 1 200px; }
-	img { width: 100%; height: auto; border-radius: .25rem; }
+	img { width: 100%; aspect-ratio: 4/3; object-fit: cover; background-color: var(--color-gray-100); border-radius: .25rem; }
 
 	@media (max-width: 1280px) {
 		:host { flex-direction: column; width: min(300px, 70vw); }

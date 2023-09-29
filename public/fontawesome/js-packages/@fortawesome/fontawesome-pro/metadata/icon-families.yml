@@ -393,6 +393,29 @@ gears:
   label: Gears
   unicode: f085
   voted: false
+grid-2:
+  changes:
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+  familyStylesByLicense:
+    free: []
+    pro:
+      - family: classic
+        style: solid
+      - family: classic
+        style: regular
+      - family: classic
+        style: light
+      - family: classic
+        style: thin
+      - family: duotone
+        style: solid
+      - family: sharp
+        style: solid
+  label: Grid 2
+  unicode: e196
+  voted: false
 house:
   aliases:
     names:

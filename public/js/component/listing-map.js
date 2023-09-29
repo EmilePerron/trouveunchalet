@@ -2,7 +2,10 @@ import { convertListingToGeoJsonFeature } from "../geojson.js";
 import { ListingServiceEvents, listingService } from "../service/listing-service.js";
 import "./listing-map-popup.js";
 
-document.head.insertAdjacentHTML("beforeend", '<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">');
+document.head.insertAdjacentHTML("beforeend", `
+	<link rel="stylesheet" href="/ext/mapboxgl-spiderifier/index.css" />
+	<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">
+`);
 
 const sourceDataTemplate = {
 	type: "FeatureCollection",
@@ -15,13 +18,13 @@ stylesheet.innerHTML = `
 	listing-map .map { width: 100%; height: 100%; }
 	listing-map .empty-state-overlay { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; background-color: var(--color-primary-800); background-color: color-mix(in srgb, var(--color-primary-800) 75%, transparent); backdrop-filter: blur(2px); position: absolute; bottom: 0; left: 0; z-index: 1000; pointer-events: none; }
 	listing-map .search-here-overlay { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; position: absolute; top: 0; left: 0; z-index: 1001; pointer-events: none; }
-	listing-map .search-here-overlay button { pointer-events: auto; }
+	listing-map .search-here-overlay button { animation: pulse 1s ease-in-out infinite alternate; pointer-events: auto; }
 	listing-map [aria-hidden="true"] { display: none; }
 `;
 document.head.append(stylesheet);
 
 export class ListingMap extends HTMLElement {
-	/** Mapbox public key. Provided via the `mapbox-public-key` attribute. */
+	/** Mapbox public key. Provided via the `window.mapboxPublicKey` global. */
 	#mapboxPublicKey = "";
 
 	/** Mapbox map object */
@@ -58,7 +61,10 @@ export class ListingMap extends HTMLElement {
 				Essayez d'adapter vos filtres ou de visionner un autre emplacement.
 			</div>
 			<div class="search-here-overlay" aria-hidden="true">
-				<button type="button">Chercher ici</button
+				<button type="button" class="primary">
+					Chercher ici
+					<i class="fas fa-search"></i>
+				</button
 			</div>
 		`;
 
@@ -77,28 +83,31 @@ export class ListingMap extends HTMLElement {
 		ListingServiceEvents.eventTarget.addEventListener(ListingServiceEvents.EVENT_LOADED, () => {
 			this.setAttribute("aria-busy", "false");
 			this.#searchHereOverlay.setAttribute("aria-hidden", "true");
-			this.#renderListings();
 
-			if (listingService.latitude != this.#map.getCenter().lat) {
-				const url = new URL(location.href);
+			this.#mapInitialization.then(() => {
+				this.#renderListings();
 
-				if (url.searchParams.get("search_radius")) {
-					this.#map.setZoom(this.getZoomLevelFromSearchRadius(url.searchParams.get("search_radius")));
+				if (listingService.latitude != this.#map.getCenter().lat) {
+					const url = new URL(location.href);
+
+					if (url.searchParams.get("search_radius")) {
+						this.#map.setZoom(this.getZoomLevelFromSearchRadius(url.searchParams.get("search_radius")));
+					}
+
+					this.#map.panTo([listingService.longitude, listingService.latitude]);
 				}
-
-				this.#map.panTo([listingService.longitude, listingService.latitude]);
-			}
+			});
 		});
 	}
 
 	connectedCallback() {
-		this.#mapboxPublicKey = this.getAttribute("mapbox-public-key");
+		this.#mapboxPublicKey = window.mapboxPublicKey;
 
 		if (!this.#mapboxPublicKey) {
-			throw new Error("A valid Mapbox public key must be provided via the `mapbox-public-key` attribute.");
+			throw new Error("A valid Mapbox public key must be provided via the `window.mapboxPublicKey` global variable.");
 		}
 
-		this.mapInitialization = this.#initializeMapbox().then(() => {
+		this.#mapInitialization = this.#initializeMapbox().then(() => {
 			listingService.search();
 		});
 	}
@@ -109,9 +118,9 @@ export class ListingMap extends HTMLElement {
 		}
 
 		const searchRadius = listingService.searchRadius;
-		mapboxgl.accessToken = this.#mapboxPublicKey;
+		window.mapboxgl.accessToken = this.#mapboxPublicKey;
 
-		const map = new mapboxgl.Map({
+		const map = new window.mapboxgl.Map({
 			container: this.querySelector(".map"),
 			style: "mapbox://styles/mapbox/streets-v12",
 			center: [listingService.longitude, listingService.latitude],
@@ -330,7 +339,7 @@ export class ListingMap extends HTMLElement {
 	#renderListings() {
 		this.#emptyStateOverlay.setAttribute("aria-hidden", listingService.listings.length === 0 ? "false" : "true");
 
-		this.mapInitialization.then(() => {
+		this.#mapInitialization.then(() => {
 			const source = this.#map.getSource("listings");
 			const updatedData = sourceDataTemplate;
 			updatedData.features = listingService.listings.map(convertListingToGeoJsonFeature);

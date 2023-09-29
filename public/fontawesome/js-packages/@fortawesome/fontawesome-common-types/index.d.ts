@@ -72,6 +72,7 @@ export type IconName = 'trees' |
   'sun-bright' | 
   'sun-alt' | 
   'dog' | 
+  'grid-2' | 
   'notdef' | 
   'trees' | 
   'bars' | 
@@ -121,6 +122,7 @@ export type IconName = 'trees' |
   'sun-bright' | 
   'sun-alt' | 
   'dog' | 
+  'grid-2' | 
   'notdef' | 
   'trees' | 
   'bars' | 
@@ -170,4 +172,5 @@ export type IconName = 'trees' |
   'sun-bright' | 
   'sun-alt' | 
   'dog' | 
+  'grid-2' | 
   'notdef';

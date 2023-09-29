@@ -657,6 +657,9 @@ readers do not read off random characters that represent icons */
 .fa-dog::before {
   content: "\f6d3"; }
 
+.fa-grid-2::before {
+  content: "\e196"; }
+
 .fa-notdef::before {
   content: "\e1fe"; }
 
@@ -875,6 +878,9 @@ readers do not read off random characters that represent icons */
 
 .fad.fa-dog::after, .fa-duotone.fa-dog::after {
   content: "\f6d3\f6d3"; }
+
+.fad.fa-grid-2::after, .fa-duotone.fa-grid-2::after {
+  content: "\e196\e196"; }
 
 .fad.fa-notdef::after, .fa-duotone.fa-notdef::after {
   content: "\e1fe\e1fe"; }

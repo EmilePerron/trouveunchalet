@@ -657,6 +657,9 @@ readers do not read off random characters that represent icons */
 .fa-dog::before {
   content: "\f6d3"; }
 
+.fa-grid-2::before {
+  content: "\e196"; }
+
 .fa-notdef::before {
   content: "\e1fe"; }
 

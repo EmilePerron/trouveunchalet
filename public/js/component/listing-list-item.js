@@ -2,13 +2,13 @@ import { ButtonStylesheet, FontawesomeStylesheet } from "../global-stylesheets.j
 
 const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
-	:host { display: flex; align-items: flex-start; width: 100%; padding: 1rem; gap: 1rem; background-color: white; border-radius: .35rem; }
-	.body { flex: 1 1; }
-	.gallery { flex: 0 1 250px; }
-	strong { display: block; margin-bottom: .5rem; font-size: 1.15em; }
-	.description { display: -webkit-box; -webkit-line-clamp: 5; line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word; }
-	.button { margin-top: 1rem; }
+	:host { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; background-color: white; position: relative; }
+	.gallery { line-height: 0; border-radius: .75rem; overflow: hidden; }
+	strong { display: block; font-size: 1rem; }
 	img { width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center; border-radius: .25rem; background-color: var(--color-primary-050); }
+
+	.link-overlay { display: grid; place-items: center; width: 100%; aspect-ratio: 4/3; text-decoration: none; background-color: rgb(255 255 255 / 50%); opacity: 0; position: absolute; top: 0; left: 0; transition: opacity .15s ease; }
+	.link-overlay:hover { opacity: 1; }
 
 	@media (max-width: 960px) {
 		:host { flex-direction: column; }
@@ -46,10 +46,12 @@ export class ListingListItem extends HTMLElement {
 			</div>
 			<div class="body">
 				<strong>${this.#listingData.name}</strong>
-				<div class="description">${this.#listingData.excerpt.replaceAll("\n", "<br>")}</div>
-				<a href="${this.#listingData.url}" target="_blank" class="button">
-					Aller au site
-					<i class="fas fa-arrow-right" aria-label=""></i>
+				<div class="address">${this.#listingData.address}</div>
+				<a href="${this.#listingData.url}" target="_blank" class="link-overlay">
+					<div class="button">
+						Aller au site
+						<i class="fas fa-arrow-right" aria-label=""></i>
+					</div>
 				</a>
 			</div>
 		`;
