@@ -8,6 +8,19 @@ header nav a:last-child { margin-right: -1em; }
 header nav a i { font-size: 1.1rem; }
 header nav a:hover { color: var(--color-gray-800); }
 
+footer { margin-top: 3rem; font-size: .9rem; line-height: 1.5; background-color: var(--color-gray-100); }
+footer .container { padding: 1rem 0; }
+footer a { color: var(--color-gray-700); }
+footer nav { display: flex; flex-wrap: wrap; padding: 1rem 0; gap: 3rem; }
+footer nav > * { display: flex; flex-direction: column; }
+footer nav strong { font-weight: 600; }
+footer hr { height: 1px; background-color: var(--color-gray-200); border: none; }
+footer hr + div { display: flex; gap: 1rem; font-size: .8rem; }
+
+@media (max-width: 767px) {
+    footer hr + div { flex-direction: column; gap: .5rem; }
+}
+
 .slider { display: flex; flex-wrap: nowrap; gap: 1rem; scroll-behavior: smooth; scroll-snap-type: x mandatory; scroll-snap-stop: always; overflow: auto; scrollbar-width: none; }
 .slider::-webkit-scrollbar { width: 0; height: 0; }
 .slider > * { scroll-snap-align: start; }

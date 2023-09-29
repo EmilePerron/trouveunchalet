@@ -31,14 +31,43 @@
                 {{ ('brand.'~brand().slug~'.name_html')|trans|raw }}
             </a>
 
-            <nav>
+            <!--nav>
                 <a href="#">Explorer par région</a>
-            </nav>
+            </nav-->
         </header>
 
         {% include 'search_form/'~brand().slug~'.html.twig' %}
 
         {% block body %}{% endblock %}
+
+		<footer>
+			<div class="container">
+				<nav>
+					<div>
+						<strong>Explorer par région</strong>
+						{% for region in regions() %}
+							<a href="{{ path('search', { latitude: region.latitude, longitude: region.longitude, search_radius: region.radius, region: region.slug }) }}">
+								{{ region.name }}
+							</a>
+						{% endfor %}
+					</div>
+					<div>
+						<strong>Trouve ton Chalet</strong>
+						<a href="#">À propos</a>
+						<a href="#">Nous joindre</a>
+						<a href="#">Comment ajouter ma propriété?</a>
+					</div>
+				</nav>
+			</div>
+
+			<hr>
+
+			<div class="container">
+				© 2023 Trouve ton Chalet
+				<a href="#">Conditions d'utilisation</a>
+				<a href="#">Politique de confidentialité</a>
+			</div>
+		</footer>
 
         {% block javascripts %}
         {% endblock %}
