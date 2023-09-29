@@ -2,10 +2,7 @@ import { convertListingToGeoJsonFeature } from "../geojson.js";
 import { ListingServiceEvents, listingService } from "../service/listing-service.js";
 import "./listing-map-popup.js";
 
-// @TODO: Replace spiderification by a single popup that allows you to paginate through all of the listings in a cluster
-
 document.head.insertAdjacentHTML("beforeend", `
-	<link rel="stylesheet" href="/ext/mapboxgl-spiderifier/index.css" />
 	<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">
 `);
 
@@ -38,12 +35,6 @@ export class ListingMap extends HTMLElement {
 	 * @var {Promise}
 	 */
 	#mapInitialization = null;
-
-	/** Mapbox spiderifier instance */
-	#spiderifier = null;
-
-	/** Mapbox popup instance */
-	#previousPopup = null;
 
 	/** @var {HTMLElement} #emptyStateOverlay */
 	#emptyStateOverlay;
@@ -135,23 +126,6 @@ export class ListingMap extends HTMLElement {
 			this.#searchHereOverlay.setAttribute("aria-hidden", "false");
 		});
 
-		this.#spiderifier = new MapboxglSpiderifier(map, {
-			onClick: (e, spiderLeg) => {
-				e.preventDefault();
-				e.stopPropagation();
-
-				if (this.#previousPopup) {
-					this.#previousPopup.remove();
-				}
-
-				var popup = this.createListingPopup(spiderLeg.feature, MapboxglSpiderifier.popupOffsetForSpiderLeg(spiderLeg));
-				spiderLeg.mapboxMarker.setPopup(popup);
-				popup.addTo(map);
-
-				this.#previousPopup = popup;
-			},
-		});
-
 		await new Promise((resolve) => {
 			map.on("load", () => {
 				map.addSource("listings", {
@@ -206,11 +180,6 @@ export class ListingMap extends HTMLElement {
 					},
 				});
 
-				map.on("zoom", (e) => {
-					this.#spiderifier.unspiderfy();
-				});
-
-				// Zoom in on a cluster on click
 				map.on("click", "clusters", async (e) => {
 					const features = map.queryRenderedFeatures(e.point, {
 						layers: ["clusters"],
@@ -233,24 +202,32 @@ export class ListingMap extends HTMLElement {
 						});
 					});
 
-					let shouldSpiderResults = true;
+					console.log(clusterChildren);
+
+					let shouldOpenBrowsingPopup = true;
 					let previousCoordinate = clusterChildren[0].geometry.coordinates;
 
+					// If all elements within the cluster share the same coordinates, there's no point in zooming in.
+					// Instead, we'll open a popup to navigate between the various elements.
 					for (const children of clusterChildren) {
 						if (children.geometry.coordinates[0] !== previousCoordinate[0] || children.geometry.coordinates[1] !== previousCoordinate[1]) {
-							shouldSpiderResults = false;
+							shouldOpenBrowsingPopup = false;
 							break;
 						}
 					}
 
-					if (shouldSpiderResults) {
-						map.getSource("listings").getClusterLeaves(clusterId, 50, 0, (err, leafFeatures) => {
-							if (err) {
-								return console.error("error while getting leaves of a cluster", err);
-							}
-							var markers = leafFeatures.map((leafFeature) => leafFeature.properties);
-							this.#spiderifier.spiderfy(features[0].geometry.coordinates, markers);
-						});
+					if (shouldOpenBrowsingPopup) {
+						const listingIds = clusterChildren.map(child => child.properties.id);
+						const coordinates = features[0].geometry.coordinates.slice();
+
+						// Ensure that if the map is zoomed out such that
+						// multiple copies of the feature are visible, the
+						// popup appears over the copy being pointed to.
+						while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+							coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+						}
+
+						this.createListingPopup(listingIds, coordinates).addTo(map);
 					} else {
 						map.getSource("listings").getClusterExpansionZoom(clusterId, (err, zoom) => {
 							if (err) {
@@ -278,7 +255,7 @@ export class ListingMap extends HTMLElement {
 						coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 					}
 
-					this.createListingPopup(listing, coordinates).addTo(map);
+					this.createListingPopup([listing.id], coordinates).addTo(map);
 				});
 
 				map.on("mouseenter", "unclustered-point", () => {
@@ -314,11 +291,11 @@ export class ListingMap extends HTMLElement {
 		return Math.ceil(distanceInKm / 2);
 	}
 
-	createListingPopup(listing, coordinatesOrOffset) {
+	createListingPopup(listingIds, coordinatesOrOffset) {
 		const popup = new mapboxgl.Popup({
 			closeOnClick: true,
 		})
-			.setHTML(`<listing-map-popup listing-id="${listing.id}"></listing-map-popup>`)
+			.setHTML(`<listing-map-popup listing-ids="${listingIds.join(',')}"></listing-map-popup>`)
 			.setMaxWidth(null);
 
 		if (Array.isArray(coordinatesOrOffset)) {

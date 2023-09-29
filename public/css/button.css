@@ -11,3 +11,5 @@ button.fullwidth,
 
 button[aria-selected="true"],
 button[aria-current="true"] { --button-color: var(--color-primary-100); background-color: var(--button-color); pointer-events: none; }
+
+button[disabled] { --button-color: var(--color-gray-100); --button-text-color: var(--color-gray-200); pointer-events: none; }
