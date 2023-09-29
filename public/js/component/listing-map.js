@@ -4,19 +4,6 @@ import "./listing-map-popup.js";
 
 document.head.insertAdjacentHTML("beforeend", '<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">');
 
-const markerHeight = 50;
-const markerRadius = 10;
-const linearOffset = 25;
-const popupOffsets = {
-	top: [0, 0],
-	"top-left": [0, 0],
-	"top-right": [0, 0],
-	bottom: [0, -markerHeight],
-	"bottom-left": [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-	"bottom-right": [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
-	left: [markerRadius, (markerHeight - markerRadius) * -1],
-	right: [-markerRadius, (markerHeight - markerRadius) * -1],
-};
 const sourceDataTemplate = {
 	type: "FeatureCollection",
 	features: [],
@@ -95,8 +82,8 @@ export class ListingMap extends HTMLElement {
 			if (listingService.latitude != this.#map.getCenter().lat) {
 				const url = new URL(location.href);
 
-				if (url.searchParams.get("max_distance")) {
-					this.#map.setZoom(this.getZoomLevelFromSearchRadius(url.searchParams.get("max_distance")));
+				if (url.searchParams.get("search_radius")) {
+					this.#map.setZoom(this.getZoomLevelFromSearchRadius(url.searchParams.get("search_radius")));
 				}
 
 				this.#map.panTo([listingService.longitude, listingService.latitude]);
@@ -305,6 +292,16 @@ export class ListingMap extends HTMLElement {
 		return searchRadius < 100 ? 10 : searchRadius < 200 ? 8 : searchRadius < 300 ? 7 : 6;
 	}
 
+	getSearchRadiusFromZoomLevel() {
+		const mapBounds = this.#map.getBounds();
+		const longitudeDiff = Math.abs(mapBounds._ne.lng - mapBounds._sw.lng);
+		const latitudeDiff = Math.abs(mapBounds._ne.lng - mapBounds._sw.lng);
+		const averageDiff = (longitudeDiff + latitudeDiff) / 2;
+		const distanceInKm = averageDiff * 111.139;
+
+		return Math.ceil(distanceInKm / 2);
+	}
+
 	createListingPopup(listing, coordinatesOrOffset) {
 		const popup = new mapboxgl.Popup({
 			closeOnClick: true,
@@ -325,6 +322,7 @@ export class ListingMap extends HTMLElement {
 		// Update latitude and longitude based on map position
 		listingService.latitude = this.#map.getCenter().lat;
 		listingService.longitude = this.#map.getCenter().lng;
+		listingService.searchRadius = this.getSearchRadiusFromZoomLevel();
 
 		listingService.search();
 	}

@@ -3,7 +3,7 @@
 		<div class="region">
 			<h3>{{ region.name }}</h3>
 			<img src="{{ asset('image/region/'~region.slug~'.webp') }}" alt="" loading="lazy">
-			<a href="{{ path('search', { latitude: region.latitude, longitude: region.longitude, max_distance: region.radius, region: region.slug }) }}">
+			<a href="{{ path('search', { latitude: region.latitude, longitude: region.longitude, search_radius: region.radius, region: region.slug }) }}">
 				{{ ("region.generic_cta_"~brand().slug)|trans }}
 				<i class="fas fa-arrow-right"></i>
 			</a>

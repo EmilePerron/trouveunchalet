@@ -24,7 +24,7 @@ class SearchController extends AbstractController
             $listings = $this->listingRepository->searchByLocation(
                 $request->query->get('latitude'),
                 $request->query->get('longitude'),
-                $request->query->getInt('max_distance'),
+                $request->query->getInt('search_radius'),
             );
         }
 

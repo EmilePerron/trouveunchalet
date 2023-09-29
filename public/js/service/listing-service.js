@@ -38,7 +38,7 @@ class ListingService {
 	constructor() {
 		// Load search and filtering data from the URL when possible.
 		const url = new URL(location.href);
-		this.searchRadius = url.searchParams.get("max_distance") ?? 150;
+		this.searchRadius = url.searchParams.get("search_radius") ?? 150;
 		this.latitude = url.searchParams.get("latitude") ?? "";
 		this.longitude = url.searchParams.get("longitude") ?? "";
 
@@ -59,14 +59,10 @@ class ListingService {
 			if (linkUrl.searchParams.get("latitude")) {
 				e.preventDefault();
 
-				const newUrl = new URL(window.location.href);
-
 				for (const key of linkUrl.searchParams.keys()) {
-					newUrl.searchParams.set(key, linkUrl.searchParams.get(key));
 					this.#searchFilters.set(key, linkUrl.searchParams.get(key));
 				}
 
-				history.pushState({}, "", newUrl.toString());
 				this.search();
 			}
 		});
@@ -148,6 +144,8 @@ class ListingService {
 			await this.updateCoordsWithUserGeolocation();
 		}
 
+		this.#updateUrlToMatchSearchFilters();
+
 		this.#isLoading = true;
 		this.#previousSearchQuery = this.#searchFilters.toString();
 
@@ -168,6 +166,14 @@ class ListingService {
 			if (err.name != "AbortError") {
 				throw err;
 			}
+		}
+	}
+
+	#updateUrlToMatchSearchFilters() {
+		const url = new URL(`${location.origin}${location.pathname}?${this.#searchFilters.toString()}`).toString();
+
+		if (url !== window.location.href) {
+			history.pushState({}, "", url);
 		}
 	}
 }
