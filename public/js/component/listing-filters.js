@@ -78,6 +78,7 @@ export class ListingFilters extends HTMLElement {
 
 		this.shadowRoot.addEventListener("change", () => this.#applyFilters());
 		this.shadowRoot.querySelector("[name='date_arrival']").addEventListener("hide", () => this.#applyFilters());
+		this.shadowRoot.querySelector("[name='date_departure']").addEventListener("hide", () => this.#applyFilters());
 
 		this.addEventListener("submit", (e) => {
 			e.preventDefault();
