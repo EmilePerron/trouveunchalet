@@ -22,6 +22,7 @@ stylesheet.innerHTML = `
 	listing-map .search-here-overlay { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; position: absolute; top: 0; left: 0; z-index: 1001; pointer-events: none; }
 	listing-map .search-here-overlay button { animation: pulse 1s ease-in-out infinite alternate; pointer-events: auto; }
 	listing-map [aria-hidden="true"] { display: none; }
+	listing-map[aria-busy="true"]::after { content: 'Chargement...'; display: block; width: 100%; height: 100%; padding: 3rem 1.5rem; font-size: 1.1rem; font-weight: 600; color: var(--color-gray-900); text-align: center; background-color: rgb(255 255 255 / 50%); position: absolute; top: 0; left: 0; z-index: 1000; }
 `;
 document.head.append(stylesheet);
 

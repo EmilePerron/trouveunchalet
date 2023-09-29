@@ -34,10 +34,9 @@ class ListingRepository extends ServiceEntityRepository
      * into account and only available listings will be returned.
      *
      * @param integer $maximumRange (in KM)
-     * @param ?callable $queryCustomizer A callable that receives the `QueryBuilder` instance to add custom criteria.
      * @return array<int,Listing>
      */
-    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, ?callable $queryCustomizer = null, ?DateTimeInterface $fromDate = null, ?DateTimeInterface $toDate = null): array
+    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, string|DateTimeInterface|null $fromDate = null, string|DateTimeInterface|null $toDate = null, ?bool $hasWifi = null, ?bool $dogsAllowed = null): array
     {
         // The logic of this geographical serach has been heavily sourced from this article:
         // https://aaronfrancis.com/2021/efficient-distance-querying-in-my-sql
@@ -68,11 +67,31 @@ class ListingRepository extends ServiceEntityRepository
             ->setParameter('userLng', $longitude)
             ->setParameter('maxRangeInMeters', $maxRangeInMeters);
 
-        if ($queryCustomizer) {
-            $queryCustomizer($queryBuilder);
-        }
+		if ($hasWifi) {
+			$queryBuilder->andWhere("l.hasWifi = 1");
+		}
 
-        // @TODO: add availability check
+		if ($dogsAllowed) {
+			$queryBuilder->andWhere("l.dogsAllowed = 1");
+		}
+
+        if ($fromDate && $toDate) {
+			$queryBuilder
+				->leftJoin(
+					'l.unavailabilities',
+					'u',
+					'WITH',
+					'u.listing = l AND (
+						(u.date = :dateArrival AND u.availableInPm = 0)
+						OR (u.date = :dateDeparture AND u.availableInAm = 0)
+						OR (u.date > :dateArrival AND u.date < :dateDeparture)
+					)'
+				)
+				->andWhere("u.id IS NULL")
+				->setParameter('dateArrival', $fromDate)
+				->setParameter('dateDeparture', $toDate)
+			;
+		}
 
         return $queryBuilder
             ->orderBy('l.name', 'ASC')

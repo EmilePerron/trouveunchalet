@@ -43,21 +43,20 @@ export class ListingFilters extends HTMLElement {
 			${stylesheet.outerHTML}
 
 			<form>
-
 				<div class="filters-datepicker">
 					<span class="input-wrapper">
 						<label>Arrivée</label>
-						<input type="text" name="start_date" placeholder=" ">
+						<input type="text" name="date_arrival" placeholder=" " value="${listingService.dateArrival ?? ''}">
 					</span>
 
 					<span class="input-wrapper">
 						<label>Départ</label>
-						<input type="text" name="end_date" placeholder=" ">
+						<input type="text" name="date_departure" placeholder=" " value="${listingService.dateDeparture ?? ''}">
 					</span>
 				</div>
 
 				<div class="button filter-button">
-					<input type="checkbox" name="dogs_allowed" value="1" id="dogs-allowed-input">
+					<input type="checkbox" name="dogs_allowed" value="1" id="dogs-allowed-input" ${listingService.dogsAllowed ? 'checked' : ''}>
 					<label for="dogs-allowed-input">
 						<span>Animaux autorisés</span>
 						<i class="fas fa-dog"></i>
@@ -65,7 +64,7 @@ export class ListingFilters extends HTMLElement {
 				</div>
 
 				<div class="button filter-button">
-					<input type="checkbox" name="has_wifi" value="1" id="has-wifi-input">
+					<input type="checkbox" name="has_wifi" value="1" id="has-wifi-input" ${listingService.hasWifi ? 'checked' : ''}>
 					<label for="has-wifi-input">
 						<span>Internet disponible</span>
 						<i class="fas fa-wifi"></i>
@@ -77,9 +76,8 @@ export class ListingFilters extends HTMLElement {
 		this.#form = this.shadowRoot.querySelector("form");
 		this.#datepickerElement = this.shadowRoot.querySelector(".filters-datepicker");
 
-		this.addEventListener("change", (e) => {
-
-		});
+		this.shadowRoot.addEventListener("change", () => this.#applyFilters());
+		this.shadowRoot.querySelector("[name='date_arrival']").addEventListener("hide", () => this.#applyFilters());
 
 		this.addEventListener("submit", (e) => {
 			e.preventDefault();
@@ -97,10 +95,9 @@ export class ListingFilters extends HTMLElement {
 			disabledDates.push(new Date(lastDateDisabled.toISOString()));
 		}
 
-		// Initialize datepicker
-		const rangepicker = new DateRangePicker(this.#datepickerElement, {
+		new DateRangePicker(this.#datepickerElement, {
 			language: "fr",
-			dateFormat: "yyyy-mm-dd",
+			format: "yyyy-mm-dd",
 			datesDisabled: disabledDates,
 		});
 	}
@@ -108,7 +105,10 @@ export class ListingFilters extends HTMLElement {
 	#applyFilters() {
 		const data = new FormData(this.#form);
 
-		//listingService.searchRadius = data.get("search_radius");
+		listingService.hasWifi = data.has("has_wifi") ? 1 : 0;
+		listingService.dogsAllowed = data.has("dogs_allowed") ? 1 : 0;
+		listingService.dateArrival = data.get("date_arrival");
+		listingService.dateDeparture = data.get("date_departure");
 		listingService.search();
 	}
 }

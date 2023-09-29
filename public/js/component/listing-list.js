@@ -1,15 +1,17 @@
 import { ListingServiceEvents, listingService } from "../service/listing-service.js";
+import { isElementInViewport} from "../util/viewport.js";
 import "./listing-list-item.js";
 
 const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
-	listing-list { display: block; position: relative; scroll-margin-block-start: 5rem; }
+	listing-list { display: block; position: relative; scroll-margin-block-start: 7rem; }
 	listing-list ol { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5rem 1.5rem; padding: 0; list-style: none; }
 	listing-list .pagination { display: flex; gap: 1rem; justify-content: center; align-item: center; margin: 2rem 0; }
 	listing-list .pagination button { justify-content: center; aspect-ratio: 1 / 1; width: 5ch; border-radius: 50%; }
 	listing-list .pagination > span { line-height: 1.5; }
 	listing-list .empty-state-element { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; background-color: var(--color-primary-800); background-color: color-mix(in srgb, var(--color-primary-800) 75%, transparent); }
 	listing-list [aria-hidden="true"] { display: none; }
+	listing-list[aria-busy="true"]::after { content: 'Chargement...'; display: block; width: 100%; height: 100%; padding: 3rem 1.5rem; font-size: 1.1rem; font-weight: 600; color: var(--color-gray-900); text-align: center; background-color: rgb(255 255 255 / 50%); position: absolute; top: 0; left: 0; z-index: 1000; }
 
 	@media (max-width: 1280px) {
 		listing-list ol { grid-template-columns: repeat(3, 1fr); }
@@ -117,7 +119,9 @@ export class ListingList extends HTMLElement {
 		history.pushState({}, "", url);
 
 		if (this.#initialized && this.closest("[hidden]") === null) {
-			this.scrollIntoView({ block: "start", behavior: "smooth" });
+			if (!isElementInViewport(this.querySelector("ol > li:first-child"))) {
+				this.scrollIntoView({ block: "start", behavior: "smooth" });
+			}
 		}
 	}
 

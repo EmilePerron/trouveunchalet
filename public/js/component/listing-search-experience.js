@@ -5,7 +5,7 @@ import "./listing-map.js"
 const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
 	listing-search-experience { }
-	listing-search-experience .header { display: flex; justify-content: space-between; align-items: flex-start; padding: 1rem 0; margin-bottom: 1.5rem; background-color: #fff; border-bottom: 1px solid var(--color-gray-100); position: sticky; top: 0; z-index: 5; }
+	listing-search-experience .header { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 1.5rem; padding-bottom: 1rem; margin-bottom: 1.5rem; background-color: #fff; border-bottom: 1px solid var(--color-gray-100); position: sticky; top: 0; z-index: 5; }
 	listing-search-experience [role="tablist"] { display: flex; justify-content: flex-start; gap: 1ch; }
 `;
 document.head.append(stylesheet);

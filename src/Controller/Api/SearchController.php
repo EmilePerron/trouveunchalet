@@ -24,6 +24,10 @@ class SearchController extends AbstractController
     {
         $latitude = $request->query->get('latitude');
         $longitude = $request->query->get('longitude');
+        $hasWifi = $request->query->get('has_wifi');
+        $dogsAllowed = $request->query->get('dogs_allowed');
+        $dateArrival = $request->query->get('date_arrival');
+        $dateDeparture = $request->query->get('date_departure');
         $searchRadius = min(abs($request->query->getInt('search_radius') ?: 250), 1000);
         $listings = [];
 
@@ -32,6 +36,10 @@ class SearchController extends AbstractController
                 latitude: $latitude,
                 longitude: $longitude,
                 maximumRange: $searchRadius,
+				dogsAllowed: $dogsAllowed,
+				hasWifi: $hasWifi,
+				fromDate: $dateArrival,
+				toDate: $dateDeparture,
             );
         }
 

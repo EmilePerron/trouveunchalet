@@ -18,18 +18,6 @@ class SearchController extends AbstractController
     #[Route('/', name: 'search')]
     public function search(Request $request): Response
     {
-        $listings = [];
-
-        if ($request->query->get('latitude')) {
-            $listings = $this->listingRepository->searchByLocation(
-                $request->query->get('latitude'),
-                $request->query->get('longitude'),
-                $request->query->getInt('search_radius'),
-            );
-        }
-
-        return $this->render('search.html.twig', [
-            'listings' => $listings,
-        ]);
+        return $this->render('search.html.twig');
     }
 }

@@ -41,6 +41,10 @@ class ListingService {
 		this.searchRadius = url.searchParams.get("search_radius") ?? 150;
 		this.latitude = url.searchParams.get("latitude") ?? "";
 		this.longitude = url.searchParams.get("longitude") ?? "";
+		this.dogsAllowed = url.searchParams.get("dogs_allowed") ?? "";
+		this.hasWifi = url.searchParams.get("has_wifi") ?? "";
+		this.dateArrival = url.searchParams.get("date_arrival") ?? "";
+		this.dateDeparture = url.searchParams.get("date_departure") ?? "";
 
 		ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADING));
 
@@ -100,6 +104,38 @@ class ListingService {
 		return this.#searchFilters.set("longitude", longitude);
 	}
 
+	get dogsAllowed() {
+		return this.#searchFilters.get("dogs_allowed");
+	}
+
+	set dogsAllowed(dogsAllowed) {
+		return this.#searchFilters.set("dogs_allowed", dogsAllowed);
+	}
+
+	get hasWifi() {
+		return this.#searchFilters.get("has_wifi");
+	}
+
+	set hasWifi(hasWifi) {
+		return this.#searchFilters.set("has_wifi", hasWifi);
+	}
+
+	get dateArrival() {
+		return this.#searchFilters.get("date_arrival");
+	}
+
+	set dateArrival(dateArrival) {
+		return this.#searchFilters.set("date_arrival", dateArrival);
+	}
+
+	get dateDeparture() {
+		return this.#searchFilters.get("date_departure");
+	}
+
+	set dateDeparture(dateDeparture) {
+		return this.#searchFilters.set("date_departure", dateDeparture);
+	}
+
 	async updateCoordsWithUserGeolocation() {
 		// Provide a default to load the map somewhere...
 		if (!this.latitude) {
@@ -126,7 +162,7 @@ class ListingService {
 		}
 	}
 
-	async search() {
+	async search(scrollToTop = true) {
 		this.#hasBeenUsed = true;
 
 		// If the search query hasn't changed, do not query for it again.
@@ -161,7 +197,7 @@ class ListingService {
 			this.#listings = results;
 			this.#isLoading = false;
 
-			ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADED));
+			ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADED, { detail: { scrollToTop }}));
 		} catch (err) {
 			if (err.name != "AbortError") {
 				throw err;
