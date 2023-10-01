@@ -219,14 +219,15 @@ class CrawlerRunner
 		$listing->setMaximumNumberOfGuests($detailedListingData->numberOfGuests);
 		$listing->setNumberOfBedrooms($detailedListingData->numberOfBedrooms);
 		$listing->setHasWifi($detailedListingData->hasWifi);
+		$listing->setMinimumStayInDays($detailedListingData->minimumStayInDays ?: 1);
         $listing->setUnavailabilities(
-            new ArrayCollection(
-                array_map(
-                    fn (UnavailabilityModel $unavailabilityModel) => Unavailability::fromModel($unavailabilityModel, $listing),
+			new ArrayCollection(
+				array_map(
+					fn (UnavailabilityModel $unavailabilityModel) => Unavailability::fromModel($unavailabilityModel, $listing),
                     $detailedListingData->unavailabilities
-                )
-            )
-        );
+				)
+			)
+		);
 
         return $listing;
     }

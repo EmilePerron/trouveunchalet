@@ -119,7 +119,8 @@ class LeVertendre extends AbstractHttpBrowserCrawlerDriver
 			numberOfGuests: preg_replace('/^.*?(\d+)\sPersonne.*$/', '$1', $specsText) ?: null,
 			numberOfBedrooms: preg_replace('/^.*?(\d+)\sLits.*$/', '$1', $specsText) ?: null,
             dogsAllowed: !str_contains(strtolower($specsText), "chiens non"),
-			hasWifi: str_contains(strtolower($specsText), "wifi")
+			hasWifi: str_contains(strtolower($specsText), "wifi"),
+			minimumStayInDays: 2, // All LeVertendre cottages have a minimum stay duration of 2 days
         );
 
         return $detailedListing;

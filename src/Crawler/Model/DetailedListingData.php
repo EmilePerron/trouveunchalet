@@ -16,6 +16,7 @@ class DetailedListingData
 		public readonly ?int $numberOfBedrooms = null,
 		public readonly ?int $numberOfGuests = null,
 		public readonly ?bool $hasWifi = null,
+		public readonly ?int $minimumStayInDays = null,
     ) {
     }
 }

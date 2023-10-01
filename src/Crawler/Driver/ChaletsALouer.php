@@ -79,19 +79,42 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
          *
          * @var array<int,array{'dateEtablissementReservation':string,'garderDateEtablissementReservation':int,'noEtablissement':string,'typeEtablissementReservation':int}> $bookingInfo
          */
-
         $bookingInfo = [];
-        $crawler->filter("script:not([src])")->each(function (Crawler $script) use (&$bookingInfo) {
+
+        /**
+         * They have a global variable on the details page that holds rules and infos of the listing.
+         * We can just extract that and use it to determine the minimum stay duration.
+         *
+         * Their data location types, each with a `nbJours` property that defines the minimum stay duration for that type.
+		 * The smallest `nbJours` value out of these is the minimum stay duration.
+         *
+         * @var array{'typesLocations':array{'nbJours':int}} $stayInfo
+         */
+		$stayInfo = [];
+		$minimumStayDuration = null;
+
+        $crawler->filter("script:not([src])")->each(function (Crawler $script) use (&$bookingInfo, &$stayInfo, &$minimumStayDuration, &$writeLog) {
             $scriptContent = $script->html();
 
-            if (!str_contains($scriptContent, "var tableauDates = ")) {
-                return;
-            }
+			if (str_contains($scriptContent, "var tableauDates = ")) {
+				$jsonStartPos = strpos($scriptContent, "var tableauDates = ") + 19;
+				$jsonEndPos = strpos($scriptContent, ']', $jsonStartPos + 1) + 1;
+				$bookingInfoJson = substr($scriptContent, $jsonStartPos, $jsonEndPos - $jsonStartPos);
+				$bookingInfo = json_decode($bookingInfoJson, true);
+			}
 
-            $jsonStartPos = strpos($scriptContent, "var tableauDates = ") + 19;
-            $jsonEndPos = strpos($scriptContent, ']', $jsonStartPos + 1) + 1;
-            $bookingInfoJson = substr($scriptContent, $jsonStartPos, $jsonEndPos - $jsonStartPos);
-            $bookingInfo = json_decode($bookingInfoJson, true);
+			if (str_contains($scriptContent, "var donneesSejour = ")) {
+				$jsonStartPos = strpos($scriptContent, "var donneesSejour = ") + 20;
+				$jsonEndPos = strpos($scriptContent, ';', $jsonStartPos);
+				$stayInfoJson = substr($scriptContent, $jsonStartPos, $jsonEndPos - $jsonStartPos);
+				$stayInfo = json_decode($stayInfoJson, true);
+
+				foreach ($stayInfo['typesLocations'] ?? [] as $locationType) {
+					if ($minimumStayDuration === null || $locationType['nbJours'] < $minimumStayDuration) {
+						$minimumStayDuration = intval($locationType['nbJours']);
+					}
+				}
+			}
         });
         $unavailabilities = [];
 
@@ -133,6 +156,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
             hasWifi: $crawler->filter('#tab-caracteristiques a[href*="acces-internet"]')->count() > 0,
 			numberOfGuests: $numberOfGuests,
 			numberOfBedrooms: $numberOfBedrooms,
+			minimumStayInDays: $minimumStayDuration,
         );
 
         return $detailedListing;

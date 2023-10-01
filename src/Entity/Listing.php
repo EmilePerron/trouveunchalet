@@ -75,6 +75,9 @@ class Listing
     #[ORM\Column(nullable: true)]
     private ?bool $hasWifi = null;
 
+    #[ORM\Column(options: ["default" => 1])]
+    private int $minimumStayInDays = 1;
+
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
@@ -261,6 +264,18 @@ class Listing
     public function setHasWifi(?bool $hasWifi): static
     {
         $this->hasWifi = $hasWifi;
+
+        return $this;
+    }
+
+    public function getMinimumStayInDays(): int
+    {
+        return $this->minimumStayInDays;
+    }
+
+    public function setMinimumStayInDays(int $minimumStayInDays): static
+    {
+        $this->minimumStayInDays = $minimumStayInDays;
 
         return $this;
     }

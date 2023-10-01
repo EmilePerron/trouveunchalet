@@ -36,7 +36,7 @@ class ListingRepository extends ServiceEntityRepository
      * @param integer $maximumRange (in KM)
      * @return array<int,Listing>
      */
-    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, string|DateTimeInterface|null $fromDate = null, string|DateTimeInterface|null $toDate = null, ?bool $hasWifi = null, ?bool $dogsAllowed = null): array
+    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, ?string $fromDate = null, ?string $toDate = null, ?bool $hasWifi = null, ?bool $dogsAllowed = null): array
     {
         // The logic of this geographical serach has been heavily sourced from this article:
         // https://aaronfrancis.com/2021/efficient-distance-querying-in-my-sql
@@ -76,6 +76,9 @@ class ListingRepository extends ServiceEntityRepository
 		}
 
         if ($fromDate && $toDate) {
+			$interval = (new \DateTime($fromDate))->diff(new \DateTime($toDate));
+			$stayDuration = $interval->days;
+
 			$queryBuilder
 				->leftJoin(
 					'l.unavailabilities',
@@ -87,9 +90,11 @@ class ListingRepository extends ServiceEntityRepository
 						OR (u.date > :dateArrival AND u.date < :dateDeparture)
 					)'
 				)
+				->andWhere(":stayDuration >= l.minimumStayInDays")
 				->andWhere("u.id IS NULL")
 				->setParameter('dateArrival', $fromDate)
 				->setParameter('dateDeparture', $toDate)
+				->setParameter('stayDuration', $stayDuration)
 			;
 		}
 
