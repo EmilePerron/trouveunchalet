@@ -21,8 +21,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Geocoder\Provider\Provider;
-use Geocoder\Query\GeocodeQuery;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -110,7 +108,7 @@ class CrawlerRunner
                 $this->entityManager()->remove($listingToRemove);
             }
             $this->entityManager()->flush();
-            $writeLog(LogType::Info, "Successfully removed unavailable listings.");
+            $writeLog(LogType::Info, "Successfully removed " . count($originalListings) . " unavailable listings.");
 
             $log->setDateCompleted(new DateTimeImmutable());
             $writeLog(LogType::Info, "Crawling completed!");
@@ -138,8 +136,12 @@ class CrawlerRunner
             $this->log($log, LogType::Info, "Crawling for listing details: {$listingData->url}.");
 
             $listingDetails = $driver->getListingDetails($listingData, $writeLog);
-
             $existingListing = $this->listingRepository->findFromListingData($site, $listingData);
+
+			if ($existingListing) {
+				$this->log($log, LogType::Info, "Found existing listing in DB: listing #{$existingListing->getId()}.");
+			}
+
             $listing = $existingListing ?: new Listing();
 
             $listing->setParentSite($site);

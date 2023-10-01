@@ -10,7 +10,7 @@ class ListingData
         public readonly string $name,
         public readonly string $address,
         public readonly string $url,
-        public readonly ?string $internalId = null,
+        public readonly string $internalId,
     ) {
     }
 
@@ -26,6 +26,6 @@ class ListingData
 
     public function getIdentifier(): string
     {
-        return $this->internalId ?: $this->url;
+        return $this->internalId;
     }
 }

@@ -104,17 +104,14 @@ class ListingRepository extends ServiceEntityRepository
 
     public function findFromListingData(Site $site, ListingData $listingData): ?Listing
     {
-        $identifierKey = $listingData->internalId ? "internalId" : "url";
-        $identifier = $listingData->internalId ?: $listingData->url;
-
         return $this->createQueryBuilder('l')
             ->andWhere('l.parentSite = :site')
             ->setParameter('site', $site->value)
-            ->andWhere("l.{$identifierKey} = :identifier")
-            ->setParameter('identifier', $identifier)
+            ->andWhere("l.internalId = :internalId")
+            ->setParameter('internalId', $listingData->internalId)
             ->getQuery()
-            ->setCacheable(true)
-            ->setResultCacheLifetime(3600 * 24 * 30)
+            //->setCacheable(true)
+            //->setResultCacheLifetime(3600 * 24 * 30)
             ->getOneOrNullResult();
     }
 }

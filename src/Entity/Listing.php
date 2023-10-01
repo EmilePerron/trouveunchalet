@@ -208,7 +208,7 @@ class Listing
 
     public function getIdentifier(): string
     {
-        return $this->getInternalId() ?: $this->getUrl();
+        return $this->getInternalId();
     }
 
     /**
