@@ -228,6 +228,9 @@ export class ListingMap extends HTMLElement {
 						}
 
 						this.createListingPopup(listingIds, coordinates).addTo(map);
+						// Fix issue where popup can appear out of screen by forcing
+						// See https://github.com/mapbox/mapbox-gl-js/issues/6619 for more info
+						setTimeout(() => map.snapToNorth(), 2);
 					} else {
 						map.getSource("listings").getClusterExpansionZoom(clusterId, (err, zoom) => {
 							if (err) {
@@ -256,6 +259,9 @@ export class ListingMap extends HTMLElement {
 					}
 
 					this.createListingPopup([listing.id], coordinates).addTo(map);
+					// Fix issue where popup can appear out of screen by forcing
+					// See https://github.com/mapbox/mapbox-gl-js/issues/6619 for more info
+					setTimeout(() => map.snapToNorth(), 2);
 				});
 
 				map.on("mouseenter", "unclustered-point", () => {
