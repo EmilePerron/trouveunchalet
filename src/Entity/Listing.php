@@ -20,6 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Each listing belongs to a `Site`.
  */
 #[ORM\Entity(repositoryClass: ListingRepository::class)]
+#[ORM\Index(columns: ["parent_site", "internal_id"])]
 #[ORM\HasLifecycleCallbacks]
 class Listing
 {
