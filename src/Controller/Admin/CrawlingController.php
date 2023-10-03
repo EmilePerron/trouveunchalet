@@ -7,6 +7,7 @@ use App\Message\RequestCrawlingMessage;
 use App\Repository\CrawlLogRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,8 +20,9 @@ class CrawlingController extends AbstractController
     }
 
     #[Route('/admin/crawling', name: 'admin_crawling_dashboard')]
-    public function crawlingDashboard(int $page = 1): Response
+    public function crawlingDashboard(Request $request): Response
     {
+		$page = $request->query->getInt("page", 1);
         $itemsPerPage = 25;
 
         $logs = $this->crawlLogRepository->findBy(
