@@ -5,8 +5,8 @@ const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
 	:host { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; background-color: white; position: relative; }
 
-	.gallery { line-height: 0; border-radius: .75rem; overflow: hidden; }
-	img { width: 100%; height: auto; aspect-ratio: 4/3; object-fit: cover; object-position: center; border-radius: .25rem; background-color: var(--color-primary-050); }
+	.gallery { width: 100%; height: auto; aspect-ratio: 4/3; line-height: 0; background-color: var(--color-primary-050); border-radius: .75rem; overflow: hidden; }
+	img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 
 	strong { display: block; font-size: 1rem; font-weight: 600; }
 	.address { font-size: .85em; color: var(--color-gray-500); }
