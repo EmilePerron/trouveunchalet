@@ -102,12 +102,13 @@ class CrawlerRunner
             }
 
             $writeLog(LogType::Info, "Removing unavailable listings...");
+			$entityManager = $this->entityManager();
             // Any original listing remaining at this point was not part of the crawled listings.
             // We can assume it's been deleted or is unavailable.
             foreach ($originalListings as $listingToRemove) {
-                $this->entityManager()->remove($listingToRemove);
+                $entityManager->remove($listingToRemove);
             }
-            $this->entityManager()->flush();
+            $entityManager->flush();
             $writeLog(LogType::Info, "Successfully removed " . count($originalListings) . " unavailable listings.");
 
             $log->setDateCompleted(new DateTimeImmutable());
@@ -137,17 +138,19 @@ class CrawlerRunner
 
             $listingDetails = $driver->getListingDetails($listingData, $writeLog);
             $existingListing = $this->listingRepository->findFromListingData($site, $listingData);
+			$entityManager = $this->entityManager();
 
 			if ($existingListing) {
 				$this->log($log, LogType::Info, "Found existing listing in DB: listing #{$existingListing->getId()}.");
+				$entityManager->refresh($existingListing);
 			}
 
             $listing = $existingListing ?: new Listing();
 
             $listing->setParentSite($site);
             $this->fillListingFromCrawledDetails($listing, $listingDetails);
-            $this->entityManager()->persist($listing);
-            $this->entityManager()->flush();
+            $entityManager->persist($listing);
+            $entityManager->flush();
 
             if (!$listing->getLatitude()) {
                 $writeLog(LogType::Info, "Requesting geocoding information...");
@@ -159,8 +162,8 @@ class CrawlerRunner
                 } else {
                     $listing->setLatitude($geolocation->getCoordinates()->getLatitude());
                     $listing->setLongitude($geolocation->getCoordinates()->getLongitude());
-                    $this->entityManager()->persist($listing);
-                    $this->entityManager()->flush();
+                    $entityManager->persist($listing);
+                    $entityManager->flush();
                     $writeLog(LogType::Info, "Coordinates updated.");
                 }
             }
