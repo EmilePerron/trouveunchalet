@@ -17,9 +17,9 @@ class Unavailability
         #[ORM\Column(type: Types::DATE_MUTABLE)]
         public readonly \DateTimeInterface $date,
         #[ORM\Column]
-        public readonly bool $availableInAm,
+        public bool $availableInAm,
         #[ORM\Column]
-        public readonly bool $availableInPm,
+        public bool $availableInPm,
         #[ORM\ManyToOne(inversedBy: 'unavailabilities')]
         #[ORM\JoinColumn(nullable: false)]
         public readonly Listing $listing,

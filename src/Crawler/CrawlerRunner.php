@@ -223,14 +223,23 @@ class CrawlerRunner
 		$listing->setNumberOfBedrooms($detailedListingData->numberOfBedrooms);
 		$listing->setHasWifi($detailedListingData->hasWifi);
 		$listing->setMinimumStayInDays($detailedListingData->minimumStayInDays ?: 1);
-        $listing->setUnavailabilities(
-			new ArrayCollection(
-				array_map(
-					fn (UnavailabilityModel $unavailabilityModel) => Unavailability::fromModel($unavailabilityModel, $listing),
-                    $detailedListingData->unavailabilities
-				)
-			)
-		);
+
+		/** @var array<string,Unavailability> */
+		$existingUnavailabilitiesByDate = [];
+		$upToDateUnavailabilities = [];
+
+		foreach ($listing->getUnavailabilities() as $unavailability) {
+			$existingUnavailabilitiesByDate[$unavailability->date->format('Y-m-d')] = $unavailability;
+		}
+
+		foreach ($detailedListingData->unavailabilities as $unavailabilityModel) {
+			$unavailability = $existingUnavailabilitiesByDate[$unavailabilityModel->date->format('Y-m-d')] ?? Unavailability::fromModel($unavailabilityModel, $listing);
+			$unavailability->availableInAm = $unavailabilityModel->availableInAm;
+			$unavailability->availableInPm = $unavailabilityModel->availableInPm;
+			$upToDateUnavailabilities[] = $unavailability;
+		}
+
+        $listing->setUnavailabilities(new ArrayCollection($upToDateUnavailabilities));
 
         return $listing;
     }
