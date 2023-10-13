@@ -68,21 +68,26 @@ class Listing
     #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Unavailability::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $unavailabilities;
 
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?int $numberOfBedrooms = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?int $maximumNumberOfGuests = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?bool $hasWifi = null;
 
     #[ORM\Column(options: ["default" => 1])]
     private int $minimumStayInDays = 1;
 
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?int $minimumPricePerNight = null;
 
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?int $maximumPricePerNight = null;
 

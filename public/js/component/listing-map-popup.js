@@ -8,6 +8,8 @@ stylesheet.innerHTML = `
 	.gallery { width: 100%; aspect-ratio: 4/3; background-color: var(--color-gray-100); border-radius: .25rem; }
 	img { width: 100%; height: 100%; object-fit: cover; }
 
+	.price span { font-weight: 600; }
+
 	.nav { display: flex; justify-content: stretch; align-items: stretch; gap: 1ch; margin-top: 1rem; }
 	.listing-link { flex: 1; }
 `;
@@ -21,11 +23,6 @@ export class ListingMapPopup extends HTMLElement {
 	 * @type {HTMLElement}
 	 */
 	#listingElement;
-
-	/**
-	 * @type {HTMLElement}
-	 */
-	#navElement;
 
 	/**
 	 * @type {HTMLButtonElement}
@@ -64,7 +61,6 @@ export class ListingMapPopup extends HTMLElement {
 			</div>
 		`;
 		this.#listingElement = this.shadowRoot.querySelector(".listing")
-		this.#navElement = this.shadowRoot.querySelector(".nav")
 		this.#prevButton = this.shadowRoot.querySelector("button.prev")
 		this.#nextButton = this.shadowRoot.querySelector("button.next")
 		this.#listingLink = this.shadowRoot.querySelector("a.listing-link")
@@ -124,6 +120,14 @@ export class ListingMapPopup extends HTMLElement {
 			<div class="body">
 				<strong>${listing.name}</strong>
 				<div class="address">${listing.address}</div>
+				<div class="price">
+					${listing.minimumPricePerNight ? `
+						<span>${listing.minimumPricePerNight}$</span>
+						-
+						<span>${listing.maximumPricePerNight}$</span>
+						/ nuit
+					` : 'Prix inconnu'}
+				</div>
 			</div>
 		`;
 

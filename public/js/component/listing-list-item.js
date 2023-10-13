@@ -10,6 +10,8 @@ stylesheet.innerHTML = `
 
 	strong { display: block; font-size: 1rem; font-weight: 600; }
 	.address { font-size: .85em; color: var(--color-gray-500); }
+	.price { margin-top: .5em; font-size: .75em; }
+	.price span { font-weight: 600; }
 
 
 	.link-overlay { display: grid; place-items: center; width: 100%; aspect-ratio: 4/3; text-decoration: none; background-color: rgb(255 255 255 / 50%); opacity: 0; position: absolute; top: 0; left: 0; transition: opacity .15s ease; }
@@ -57,6 +59,14 @@ export class ListingListItem extends HTMLElement {
 			<div class="body">
 				<strong>${listing.name}</strong>
 				<div class="address">${listing.address}</div>
+				<div class="price">
+					${listing.minimumPricePerNight ? `
+						<span>${listing.minimumPricePerNight}$</span>
+						-
+						<span>${listing.maximumPricePerNight}$</span>
+						/ nuit
+					` : 'Prix inconnu'}
+				</div>
 				<a href="${listing.url}" target="_blank" class="link-overlay">
 					<div class="button">
 						Aller au site
