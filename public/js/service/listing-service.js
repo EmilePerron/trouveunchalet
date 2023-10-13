@@ -43,8 +43,8 @@ class ListingService {
 		this.searchRadius = url.searchParams.get("search_radius") ?? 150;
 		this.latitude = url.searchParams.get("latitude") ?? "";
 		this.longitude = url.searchParams.get("longitude") ?? "";
-		this.dogsAllowed = url.searchParams.get("dogs_allowed") ?? "";
-		this.hasWifi = url.searchParams.get("has_wifi") ?? "";
+		this.dogsAllowed = (url.searchParams.get("dogs_allowed") ?? "") == 1;
+		this.hasWifi = (url.searchParams.get("has_wifi") ?? "") == 1;
 		this.dateArrival = url.searchParams.get("date_arrival") ?? "";
 		this.dateDeparture = url.searchParams.get("date_departure") ?? "";
 
@@ -107,7 +107,7 @@ class ListingService {
 	}
 
 	get dogsAllowed() {
-		return this.#searchFilters.get("dogs_allowed");
+		return this.#searchFilters.get("dogs_allowed") == 1;
 	}
 
 	set dogsAllowed(dogsAllowed) {
@@ -115,7 +115,7 @@ class ListingService {
 	}
 
 	get hasWifi() {
-		return this.#searchFilters.get("has_wifi");
+		return this.#searchFilters.get("has_wifi") == 1;
 	}
 
 	set hasWifi(hasWifi) {
