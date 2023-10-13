@@ -10,6 +10,7 @@ use App\Entity\Listing;
 use App\Enum\LogType;
 use App\Enum\Site;
 use Closure;
+use DateTime;
 use DateTimeImmutable;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -94,14 +95,47 @@ class LeVertendre extends AbstractHttpBrowserCrawlerDriver
 		$writeLog(LogType::Debug, "Requesting availabilities for {$unavailabilityProductId}...");
 		$bookingInfo = $unavailabilitiesResponse->toArray()["content"]["year_reservations"];
         $unavailabilities = [];
+		/** @var array<string,Unavailability> */
+        $unavailabilitiesByDate = [];
 
         foreach ($bookingInfo as $booking) {
-            $unavailabilities[] = new Unavailability(
-                date: new DateTimeImmutable($booking['start'] . ' 00:00:00'),
+			$unavailability = new Unavailability(
+				date: new DateTimeImmutable($booking['start'] . ' 00:00:00'),
                 availableInAm: $booking['extendedProps']['final_status'] == "arrival",
                 availableInPm: $booking['extendedProps']['final_status'] == "departure",
             );
+			$unavailabilities[] = $unavailability;
+			$unavailabilitiesByDate[$unavailability->date->format(('Y-m-d'))] = $unavailability;
         }
+
+		// Price fetching
+		// Price info isn't available statically on the page, so we need to make API calls to simulate checking for availabilities.
+		// So we find the next available weekday & weekend nights...
+		// and then make the API calls that their frontend would do to get the price.
+		$priceCheckDate = new DateTimeImmutable("+1 day");
+		$weekdayPricePerNight = null;
+		$weekendPricePerNight = null;
+		do {
+			$date = $priceCheckDate->format("Y-m-d");
+			$nextDayDate = $priceCheckDate->modify("+1 day")->format("Y-m-d");
+			$isWeekend = $priceCheckDate->format("w") >= 5;
+			$isAvailable = (!isset($unavailabilitiesByDate[$date]) || $unavailabilitiesByDate[$date]->availableInPm) &&
+				(!isset($unavailabilitiesByDate[$nextDayDate]) || $unavailabilitiesByDate[$nextDayDate]->availableInAm);
+
+			if ($isAvailable) {
+				if ($isWeekend && !$weekendPricePerNight) {
+					$writeLog(LogType::Debug, "Making price-check API calls for {$unavailabilityProductId} for {$date} to {$nextDayDate}...");
+					$weekendPricePerNight = $this->getPriceForNight($unavailabilityProductId, $date, $nextDayDate);
+					$writeLog(LogType::Debug, "Found weekend price: {$weekendPricePerNight} / night");
+				} else if (!$isWeekend && !$weekdayPricePerNight) {
+					$writeLog(LogType::Debug, "Making price-check API calls for {$unavailabilityProductId} for {$date} to {$nextDayDate}...");
+					$weekdayPricePerNight = $this->getPriceForNight($unavailabilityProductId, $date, $nextDayDate);
+					$writeLog(LogType::Debug, "Found weekday price: {$weekdayPricePerNight} / night");
+				}
+			}
+
+			$priceCheckDate = $priceCheckDate->modify("+1 day");
+		} while ($weekdayPricePerNight === null || $weekendPricePerNight === null);
 
         $description = "";
         $crawler->filter('[data-widget_type="woocommerce-product-content.default"] .elementor-text-editor > *')
@@ -121,8 +155,25 @@ class LeVertendre extends AbstractHttpBrowserCrawlerDriver
             dogsAllowed: !str_contains(strtolower($specsText), "chiens non"),
 			hasWifi: str_contains(strtolower($specsText), "wifi"),
 			minimumStayInDays: 2, // All LeVertendre cottages have a minimum stay duration of 2 days
+			minimumPricePerNight: min($weekdayPricePerNight, $weekendPricePerNight),
+			maximumPricePerNight: max($weekdayPricePerNight, $weekendPricePerNight),
         );
 
         return $detailedListing;
     }
+
+	private function getPriceForNight(string $productId, string $startDate, string $endDate): float
+	{
+		$priceCheckResponse = $this->httpClient->request("GET", "https://vertendre.checkfront.com/api/3.0/item/", [
+			'query' => [
+				'item_id' => $productId,
+				'start_date' => $startDate,
+				'end_date' => $endDate,
+				'packages' => false,
+			]
+		])->toArray();
+		$items = $priceCheckResponse['items'];
+
+		return floatval(current($items)['rate']['sub_total']);
+	}
 }
