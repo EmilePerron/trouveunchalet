@@ -5,7 +5,7 @@ import "./listing-list-item.js";
 const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
 	listing-list { display: block; position: relative; scroll-margin-block-start: 7rem; }
-	listing-list ol { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.5rem 1.5rem; padding: 0; list-style: none; }
+	listing-list ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem 1.5rem; padding: 0; list-style: none; }
 	listing-list .pagination { display: flex; gap: 1rem; justify-content: center; align-item: center; margin: 2rem 0; }
 	listing-list .pagination button { justify-content: center; aspect-ratio: 1 / 1; width: 5ch; border-radius: 50%; }
 	listing-list .pagination > span { line-height: 1.5; }
@@ -14,15 +14,15 @@ stylesheet.innerHTML = `
 	listing-list[aria-busy="true"]::after { content: 'Chargement...'; display: block; width: 100%; height: 100%; padding: 3rem 1.5rem; font-size: 1.1rem; font-weight: 600; color: var(--color-gray-900); text-align: center; background-color: rgb(255 255 255 / 50%); position: absolute; top: 0; left: 0; z-index: 1000; }
 
 	@media (max-width: 1280px) {
-		listing-list ol { grid-template-columns: repeat(3, 1fr); }
+		listing-list ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 	}
 
 	@media (max-width: 991px) {
-		listing-list ol { grid-template-columns: repeat(2, 1fr); }
+		listing-list ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	}
 
 	@media (max-width: 991px) {
-		listing-list ol { grid-template-columns: repeat(2, 1fr); }
+		listing-list ol { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	}
 
 	@media (max-width: 500px) {

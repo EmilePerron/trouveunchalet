@@ -8,7 +8,8 @@ stylesheet.innerHTML = `
 	.gallery { width: 100%; height: auto; aspect-ratio: 4/3; line-height: 0; background-color: var(--color-primary-050); border-radius: .75rem; overflow: hidden; }
 	img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 
-	strong { display: block; font-size: 1rem; font-weight: 600; }
+	.body { width: 100%; }
+	strong { display: block; font-size: 1rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 	.address { font-size: .85em; color: var(--color-gray-500); }
 	.price { margin-top: .5em; font-size: .75em; }
 	.price span { font-weight: 600; }
