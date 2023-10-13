@@ -23,6 +23,15 @@ find available rentals that match their criteria and availabilities.
 	vendor/bin/bdi detect drivers
 	```
 
+## Data sources
+
+This project indexes listings from the following sites:
+
+- [x] [Chalets à Louer](https://www.chaletsalouer.com/)
+- [x] [Le Vertendre](https://levertendre.com)
+- [ ] [WeChalet](https://wechalet.com/)
+- [ ] [NatureNature](https://www.naturenature.ca/)
+- [ ] [Airbnb](https://airbnb.com/)
 
 ## Contributing
 
