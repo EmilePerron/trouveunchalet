@@ -91,6 +91,9 @@ class Listing
     #[ORM\Column(nullable: true)]
     private ?int $maximumPricePerNight = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $averagePricePerNight = null;
+
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
@@ -313,6 +316,24 @@ class Listing
     public function setMaximumPricePerNight(?int $maximumPricePerNight): static
     {
         $this->maximumPricePerNight = $maximumPricePerNight;
+
+        return $this;
+    }
+
+    public function getAveragePricePerNight(): ?int
+    {
+        return $this->averagePricePerNight;
+    }
+
+	#[ORM\PrePersist]
+	#[ORM\PreUpdate]
+    public function updateAveragePricePerNight(): static
+    {
+		if (!$this->minimumPricePerNight || !$this->maximumPricePerNight) {
+			$this->averagePricePerNight = null;
+		} else {
+			$this->averagePricePerNight = round(($this->minimumPricePerNight + $this->maximumPricePerNight) / 2);
+		}
 
         return $this;
     }
