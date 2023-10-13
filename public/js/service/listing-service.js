@@ -174,6 +174,7 @@ class ListingService {
 
 		if (this.#isLoading) {
 			this.#abortController.abort("A newer search query has been submitted.");
+			this.#abortController = new AbortController();
 		}
 
 		ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADING));
