@@ -49,6 +49,7 @@ class ListingRepository extends ServiceEntityRepository
         $roughBoundingBox = Geography::createBoundingBox($latitude, $longitude, $maximumRange);
 
         $queryBuilder = $this->createQueryBuilder('l')
+			->addSelect('COALESCE(l.averagePricePerNight, 9999999) AS HIDDEN sortingPrice')
             // Ignore listings without latitude or longitude
             ->andWhere('l.latitude IS NOT NULL')
             ->andWhere('l.longitude IS NOT NULL')
@@ -99,7 +100,8 @@ class ListingRepository extends ServiceEntityRepository
 		}
 
         return $queryBuilder
-            ->orderBy('l.name', 'ASC')
+            ->addOrderBy('sortingPrice', 'ASC')
+            ->addOrderBy('l.name', 'ASC')
             ->getQuery()
             ->setCacheable(true)
             ->setResultCacheLifetime(3600)
