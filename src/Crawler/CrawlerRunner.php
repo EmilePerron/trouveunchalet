@@ -223,6 +223,8 @@ class CrawlerRunner
 		$listing->setNumberOfBedrooms($detailedListingData->numberOfBedrooms);
 		$listing->setHasWifi($detailedListingData->hasWifi);
 		$listing->setMinimumStayInDays($detailedListingData->minimumStayInDays ?: 1);
+		$listing->setMinimumPricePerNight($detailedListingData->minimumPricePerNight);
+		$listing->setMaximumPricePerNight($detailedListingData->maximumPricePerNight);
 
 		/** @var array<string,Unavailability> */
 		$existingUnavailabilitiesByDate = [];

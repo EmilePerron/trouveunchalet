@@ -17,6 +17,8 @@ class DetailedListingData
 		public readonly ?int $numberOfGuests = null,
 		public readonly ?bool $hasWifi = null,
 		public readonly ?int $minimumStayInDays = null,
+		public readonly ?int $minimumPricePerNight = null,
+		public readonly ?int $maximumPricePerNight = null,
     ) {
     }
 }

@@ -80,6 +80,12 @@ class Listing
     #[ORM\Column(options: ["default" => 1])]
     private int $minimumStayInDays = 1;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $minimumPricePerNight = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $maximumPricePerNight = null;
+
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
@@ -278,6 +284,30 @@ class Listing
     public function setMinimumStayInDays(int $minimumStayInDays): static
     {
         $this->minimumStayInDays = $minimumStayInDays;
+
+        return $this;
+    }
+
+    public function getMinimumPricePerNight(): ?int
+    {
+        return $this->minimumPricePerNight;
+    }
+
+    public function setMinimumPricePerNight(?int $minimumPricePerNight): static
+    {
+        $this->minimumPricePerNight = $minimumPricePerNight;
+
+        return $this;
+    }
+
+    public function getMaximumPricePerNight(): ?int
+    {
+        return $this->maximumPricePerNight;
+    }
+
+    public function setMaximumPricePerNight(?int $maximumPricePerNight): static
+    {
+        $this->maximumPricePerNight = $maximumPricePerNight;
 
         return $this;
     }
