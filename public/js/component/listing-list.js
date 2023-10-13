@@ -9,7 +9,7 @@ stylesheet.innerHTML = `
 	listing-list .pagination { display: flex; gap: 1rem; justify-content: center; align-item: center; margin: 2rem 0; }
 	listing-list .pagination button { justify-content: center; aspect-ratio: 1 / 1; width: 5ch; border-radius: 50%; }
 	listing-list .pagination > span { line-height: 1.5; }
-	listing-list .empty-state-element { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; background-color: var(--color-primary-800); background-color: color-mix(in srgb, var(--color-primary-800) 75%, transparent); }
+	listing-list .empty-state-element { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; }
 	listing-list [aria-hidden="true"] { display: none; }
 	listing-list[aria-busy="true"]::after { content: 'Chargement...'; display: block; width: 100%; height: 100%; padding: 3rem 1.5rem; font-size: 1.1rem; font-weight: 600; color: var(--color-gray-900); text-align: center; background-color: rgb(255 255 255 / 50%); position: absolute; top: 0; left: 0; z-index: 1000; }
 
@@ -55,11 +55,11 @@ export class ListingList extends HTMLElement {
 
 		this.innerHTML = `
 			<ol></ol>
-			<div class="pagination"></div>
 			<div class="empty-state-element" aria-hidden="true">
 				Aucun résultats ne correspond à votre recherche.<br>
 				Essayez d'adapter vos filtres ou de visionner un autre emplacement.
 			</div>
+			<div class="pagination"></div>
 		`;
 
 		this.#emptyStateElement = this.querySelector(".empty-state-element");
