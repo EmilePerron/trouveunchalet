@@ -6,11 +6,24 @@ use App\Entity\Listing;
 
 class ListingData
 {
+    /**
+     * @param null|array<int,Unavailability> $unavailabilities
+     */
     public function __construct(
         public readonly string $name,
         public readonly string $address,
         public readonly string $url,
         public readonly string $internalId,
+        public readonly ?array $unavailabilities = null,
+        public readonly ?string $description = null,
+        public readonly ?string $imageUrl = null,
+        public readonly ?bool $dogsAllowed = null,
+		public readonly ?int $numberOfBedrooms = null,
+		public readonly ?int $numberOfGuests = null,
+		public readonly ?bool $hasWifi = null,
+		public readonly ?int $minimumStayInDays = null,
+		public readonly ?int $minimumPricePerNight = null,
+		public readonly ?int $maximumPricePerNight = null,
     ) {
     }
 

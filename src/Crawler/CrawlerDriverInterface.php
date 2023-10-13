@@ -2,7 +2,6 @@
 
 namespace App\Crawler;
 
-use App\Crawler\Model\DetailedListingData;
 use App\Crawler\Model\ListingData;
 use App\Entity\Listing;
 use App\Enum\Site;
@@ -28,5 +27,5 @@ interface CrawlerDriverInterface
      *
      * @param Closure(\App\Enum\LogType $type, string $message): void $writeLog
      */
-    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): DetailedListingData;
+    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): ListingData;
 }

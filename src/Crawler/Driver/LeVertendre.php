@@ -3,7 +3,6 @@
 namespace App\Crawler\Driver;
 
 use App\Crawler\AbstractHttpBrowserCrawlerDriver;
-use App\Crawler\Model\DetailedListingData;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
@@ -57,7 +56,7 @@ class LeVertendre extends AbstractHttpBrowserCrawlerDriver
         return $listings;
     }
 
-    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): DetailedListingData
+    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): ListingData
     {
         if ($listing instanceof Listing) {
             $listing = ListingData::createFromListing($listing);
@@ -145,8 +144,11 @@ class LeVertendre extends AbstractHttpBrowserCrawlerDriver
         	});
 		$specsText = $crawler->filter("#standish_single_product_specs_tags")->text(normalizeWhitespace: true);
 
-        $detailedListing = new DetailedListingData(
-            listingData: $listing,
+        $detailedListing = new ListingData(
+            name: $listing->name,
+			address: $listing->address,
+			url: $listing->url,
+			internalId: $listing->internalId,
             unavailabilities: $unavailabilities,
             description: $description,
             imageUrl: $crawler->filter('.jet-woo-product-gallery__image-link > img')->attr('src'),

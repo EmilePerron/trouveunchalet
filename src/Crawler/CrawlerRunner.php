@@ -4,9 +4,7 @@ namespace App\Crawler;
 
 use App\Config\SiteConfigLoader;
 use App\Crawler\Exception\MissingCrawlerException;
-use App\Crawler\Model\DetailedListingData;
 use App\Crawler\Model\ListingData;
-use App\Crawler\Model\Unavailability as UnavailabilityModel;
 use App\Entity\CrawlLog;
 use App\Entity\Listing;
 use App\Entity\Unavailability;
@@ -210,21 +208,21 @@ class CrawlerRunner
         $this->entityManager()->flush();
     }
 
-    private function fillListingFromCrawledDetails(Listing $listing, DetailedListingData $detailedListingData): Listing
+    private function fillListingFromCrawledDetails(Listing $listing, ListingData $listingData): Listing
     {
-        $listing->setName($detailedListingData->listingData->name);
-        $listing->setUrl($detailedListingData->listingData->url);
-        $listing->setAddress($detailedListingData->listingData->address);
-        $listing->setDescription(str_replace("\n\n\n", "\n\n", $detailedListingData->description));
-        $listing->setDogsAllowed($detailedListingData->dogsAllowed);
-        $listing->setImageUrl($detailedListingData->imageUrl);
-        $listing->setInternalId($detailedListingData->listingData->internalId);
-		$listing->setMaximumNumberOfGuests($detailedListingData->numberOfGuests);
-		$listing->setNumberOfBedrooms($detailedListingData->numberOfBedrooms);
-		$listing->setHasWifi($detailedListingData->hasWifi);
-		$listing->setMinimumStayInDays($detailedListingData->minimumStayInDays ?: 1);
-		$listing->setMinimumPricePerNight($detailedListingData->minimumPricePerNight);
-		$listing->setMaximumPricePerNight($detailedListingData->maximumPricePerNight);
+        $listing->setName($listingData->name);
+        $listing->setUrl($listingData->url);
+        $listing->setAddress($listingData->address);
+        $listing->setDescription(str_replace("\n\n\n", "\n\n", $listingData->description));
+        $listing->setDogsAllowed($listingData->dogsAllowed);
+        $listing->setImageUrl($listingData->imageUrl);
+        $listing->setInternalId($listingData->internalId);
+		$listing->setMaximumNumberOfGuests($listingData->numberOfGuests);
+		$listing->setNumberOfBedrooms($listingData->numberOfBedrooms);
+		$listing->setHasWifi($listingData->hasWifi);
+		$listing->setMinimumStayInDays($listingData->minimumStayInDays ?: 1);
+		$listing->setMinimumPricePerNight($listingData->minimumPricePerNight);
+		$listing->setMaximumPricePerNight($listingData->maximumPricePerNight);
 
 		/** @var array<string,Unavailability> */
 		$existingUnavailabilitiesByDate = [];
@@ -234,7 +232,7 @@ class CrawlerRunner
 			$existingUnavailabilitiesByDate[$unavailability->date->format('Y-m-d')] = $unavailability;
 		}
 
-		foreach ($detailedListingData->unavailabilities as $unavailabilityModel) {
+		foreach ($listingData->unavailabilities as $unavailabilityModel) {
 			$unavailability = $existingUnavailabilitiesByDate[$unavailabilityModel->date->format('Y-m-d')] ?? Unavailability::fromModel($unavailabilityModel, $listing);
 			$unavailability->availableInAm = $unavailabilityModel->availableInAm;
 			$unavailability->availableInPm = $unavailabilityModel->availableInPm;

@@ -3,7 +3,6 @@
 namespace App\Crawler\Driver;
 
 use App\Crawler\AbstractHttpBrowserCrawlerDriver;
-use App\Crawler\Model\DetailedListingData;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
@@ -59,7 +58,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
         return $listings;
     }
 
-    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): DetailedListingData
+    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): ListingData
     {
         if ($listing instanceof Listing) {
             $listing = ListingData::createFromListing($listing);
@@ -173,8 +172,11 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 			);
 		}
 
-        $detailedListing = new DetailedListingData(
-            listingData: $listing,
+        $detailedListing = new ListingData(
+            name: $listing->name,
+			address: $listing->address,
+			url: $listing->url,
+			internalId: $listing->internalId,
             unavailabilities: $unavailabilities,
             description: $description,
             imageUrl: $crawler->filter('link[rel="image_src"]')->attr('href'),
