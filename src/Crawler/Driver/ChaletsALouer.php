@@ -11,6 +11,7 @@ use App\Enum\LogType;
 use App\Enum\Site;
 use Closure;
 use DateTimeImmutable;
+use Exception;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
@@ -126,6 +127,32 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
             );
         }
 
+		$minimumPricePerNight = null;
+		$maximumPricePerNight = null;
+		$crawler->filter("table.tarifsMoyens tr.tableauMoyen")->each(function (Crawler $row) use (&$minimumPricePerNight, &$maximumPricePerNight, $writeLog) {
+			try {
+				$label = $row->children()->eq(0)->text();
+				$numberOfNights = intval(preg_replace('/^.*?(\d+)\s(nuit|jour).*$/i', '$1', $label));
+
+				if (!$numberOfNights) {
+					return;
+				}
+
+				$minimum = round(intval(str_replace(' ', '', $row->children()->eq(1)->text())) / $numberOfNights);
+				$maximum = round(intval(str_replace(' ', '', $row->children()->eq(2)->text())) / $numberOfNights);
+
+				if ($minimumPricePerNight === null || $minimum < $minimumPricePerNight) {
+					$minimumPricePerNight = $minimum;
+				}
+
+				if ($maximumPricePerNight === null || $maximum < $maximumPricePerNight) {
+					$maximumPricePerNight = $maximum;
+				}
+			} catch (Exception $exception) {
+				$writeLog(LogType::Error, "Error occured while fetching prices: {$exception->getMessage()}");
+			}
+		});
+
         $description = "";
         $crawler->filter("#tab-description p")->each(function (Crawler $paragraph) use (&$description) {
             $description .= $paragraph->text(normalizeWhitespace: true) . "\n\n";
@@ -157,6 +184,8 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 			numberOfGuests: $numberOfGuests,
 			numberOfBedrooms: $numberOfBedrooms,
 			minimumStayInDays: $minimumStayDuration,
+			minimumPricePerNight: $minimumPricePerNight,
+			maximumPricePerNight: $maximumPricePerNight,
         );
 
         return $detailedListing;
