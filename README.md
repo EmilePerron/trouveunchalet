@@ -27,3 +27,13 @@ find available rentals that match their criteria and availabilities.
 ## Contributing
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)
+
+## Troubleshooting
+
+### Trusting TLS certificate
+
+On MacOS:
+
+```sh
+docker cp $(docker compose ps -q app):/root/.local/share/caddy/pki/authorities/local/root.crt /tmp/root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root.crt
+```
