@@ -27,6 +27,12 @@ framework:
     set_content_language_from_locale: true
     enabled_locales: "%app.locales%"
 
+    # HTTP client defaults
+    http_client:
+        default_options:
+            headers:
+                'User-Agent': 'TrouveTonChalet.ca - info@trouvetonchalet.ca'
+
 when@test:
     framework:
         test: true
