@@ -61,7 +61,7 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 				$id = $rawListingData["id"];
 				$descriptionData = $rawListingData["description"]["fr"]["description"] ? $rawListingData["description"]["fr"] : $rawListingData["description"]["en"];
 				$listingData = new ListingData(
-					name: $descriptionData["title"] ?? $descriptionData["name"],
+					name: $descriptionData["title"] ?? $descriptionData["name"] ?? $rawListingData["name"],
 					address: $rawListingData["location"]["address"],
 					url: "https://wechalet.com/fr/proprietes/{$id}",
 					internalId: $id,
