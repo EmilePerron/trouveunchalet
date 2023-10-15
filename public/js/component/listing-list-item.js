@@ -1,5 +1,6 @@
 import { listingService } from "../service/listing-service.js";
 import { ButtonStylesheet, FontawesomeStylesheet } from "../global-stylesheets.js";
+import { renderPricePerNight } from "../util/listing.js";
 
 const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
@@ -60,13 +61,7 @@ export class ListingListItem extends HTMLElement {
 			<div class="body">
 				<strong>${listing.name}</strong>
 				<div class="address">${listing.address}</div>
-				<div class="price">
-					${listing.minimumPricePerNight ? `
-						<span>${listing.minimumPricePerNight}$</span>
-						-
-						<span>${listing.maximumPricePerNight}$</span>
-						/ nuit
-					` : 'Prix inconnu'}
+				<div class="price">${renderPricePerNight(listing)}
 				</div>
 				<a href="${listing.url}" target="_blank" class="link-overlay">
 					<div class="button">
