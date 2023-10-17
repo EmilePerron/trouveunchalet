@@ -6,10 +6,7 @@ use App\Crawler\Model\ListingData;
 use App\Entity\Listing;
 use App\Enum\Site;
 use App\Util\Geography;
-use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -100,7 +97,17 @@ class ListingRepository extends ServiceEntityRepository
 			;
 		}
 
-        return $queryBuilder
+		// Filter out unwanted duplicate listings from sources that index external sites
+		$unwantedDuplicateListings = $this->getUnwantedDuplicateListings();
+		if ($unwantedDuplicateListings) {
+			$queryBuilder->andWhere('l.id NOT IN (:unwantedDuplicateListingIds)')
+				->setParameter('unwantedDuplicateListingIds', array_map(
+					fn (Listing $listing) => $listing->getId()->toBinary(),
+					$unwantedDuplicateListings
+				));
+		}
+
+        $results = $queryBuilder
             ->addOrderBy('sortingPrice', 'ASC')
             ->addOrderBy('l.name', 'ASC')
             ->getQuery()
@@ -108,6 +115,8 @@ class ListingRepository extends ServiceEntityRepository
             ->setResultCacheLifetime(3600)
             ->getResult()
         ;
+
+		return $results;
     }
 
     public function findFromListingData(Site $site, ListingData $listingData): ?Listing
@@ -118,28 +127,16 @@ class ListingRepository extends ServiceEntityRepository
             ->andWhere("l.internalId = :internalId")
             ->setParameter('internalId', $listingData->internalId)
             ->getQuery()
-            //->setCacheable(true)
-            //->setResultCacheLifetime(3600 * 24 * 30)
+            ->setCacheable(true)
+            ->setResultCacheLifetime(3600 * 24 * 30)
             ->getOneOrNullResult();
     }
 
 	public function getUnwantedDuplicateListings(): array
 	{
-		/*
-			SELECT l1.*
-			FROM listing AS l1,
-				listing AS l2
-			WHERE l1.latitude = l2.latitude
-			AND l1.longitude = l2.longitude
-			AND (
-				l1.name LIKE CONCAT('%', l2.name, '%')
-				OR l2.name LIKE CONCAT('%', l1.name, '%')
-			)
-			AND l1.parent_site != l2.parent_site
-			AND l1.parent_site IN ("wechalet.com", "chaletsalouer.com");
-		*/
 		return $this->createQueryBuilder('l1')
-			->join(Listing::class, 'l2', Join::WITH, "
+			->from(Listing::class, 'l2')
+			->where("
 				l1.latitude = l2.latitude
 				AND l1.longitude = l2.longitude
 				AND (
@@ -147,9 +144,13 @@ class ListingRepository extends ServiceEntityRepository
 					OR l2.name LIKE CONCAT('%', l1.name, '%')
 				)
 				AND l1.parentSite != l2.parentSite
-				AND l1.parentSite IN ('wechalet.com', 'chaletsalouer.com')
+				AND l1.parentSite IN (:sitesThatIndexOtherSites)
 			")
+			->setParameter("sitesThatIndexOtherSites", [Site::WeChalet, Site::ChaletsALouer])
+			->setCacheable(true)
 			->getQuery()
+			->setQueryCacheLifetime(3600 * 6)
+			->setResultCacheLifetime(3600 * 6)
 			->getResult();
 	}
 }

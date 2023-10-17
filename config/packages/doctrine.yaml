@@ -27,6 +27,13 @@ doctrine:
                 prefix: 'App\Entity'
                 alias: App
 
+        query_cache_driver:
+            type: pool
+            pool: doctrine.system_cache_pool
+        result_cache_driver:
+            type: pool
+            pool: doctrine.result_cache_pool
+
         dql:
             numeric_functions:
                 MT_Distance_sphere: App\Doctrine\Functions\STDistanceSphere
@@ -85,6 +92,14 @@ doctrine:
                 x: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\X
                 y: CrEOF\Spatial\ORM\Query\AST\Functions\MySql\Y
 
+framework:
+    cache:
+        pools:
+            doctrine.result_cache_pool:
+                adapter: cache.app
+            doctrine.system_cache_pool:
+                adapter: cache.system
+
 when@test:
     doctrine:
         dbal:
@@ -96,21 +111,7 @@ when@prod:
         orm:
             auto_generate_proxy_classes: false
             proxy_dir: "%kernel.build_dir%/doctrine/orm/Proxies"
-            query_cache_driver:
-                type: pool
-                pool: doctrine.system_cache_pool
-            result_cache_driver:
-                type: pool
-                pool: doctrine.result_cache_pool
         dbal:
             options:
                 1009: "/etc/ssl/cert.pem"
                 1014: true
-
-    framework:
-        cache:
-            pools:
-                doctrine.result_cache_pool:
-                    adapter: cache.app
-                doctrine.system_cache_pool:
-                    adapter: cache.system
