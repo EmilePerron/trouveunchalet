@@ -8,6 +8,9 @@ stylesheet.innerHTML = `
 	:host { display: inline-block; }
 	form { display: flex; gap: 1ch; }
 
+	/* Default hidden state with no specificity to hide the datepicker before the datepicker lib's CSS has been loaded */
+	:where(.datepicker:not(.active)) { display: none; }
+
 	.filters-datepicker { display: flex; gap: 1ch; }
 	.datepicker .button { font-family: inherit; }
 
