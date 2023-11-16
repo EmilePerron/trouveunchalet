@@ -138,6 +138,21 @@ class ListingService {
 		return this.#searchFilters.set("date_departure", dateDeparture);
 	}
 
+	get numberOfActiveFilters() {
+		let activeFilterCount = 0;
+		const excludedKeys = ['search_radius', 'latitude', 'longitude', 'date_departure'];
+
+		for (const [key, value] of this.#searchFilters.entries()) {
+			if (excludedKeys.includes(key) || value === '' || value == 0) {
+				continue;
+			}
+
+			activeFilterCount++;
+		}
+
+		return activeFilterCount;
+	}
+
 	async updateCoordsWithUserGeolocation() {
 		// Provide a default to load the map somewhere...
 		if (!this.latitude) {

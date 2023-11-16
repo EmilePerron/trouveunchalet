@@ -7,6 +7,8 @@ const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
 	:host { display: inline-block; }
 
+	#filters-dialog-toggle .active-count:not([hidden]) { display: flex; width: 2.5ch; aspect-ratio: 1/1; justify-content: center; align-items: center; font-size: .9em; line-height: 1.25; font-weight: 600; color: white; background-color: var(--color-primary-500); border-radius: 50%; position: absolute; top: -0.5ch; right: -0.5ch; }
+
 	dialog { padding: 2rem; border: none; border-radius: 0.5rem; box-shadow: 0 0 1rem rgb(0 0 0 / 25%); overflow: visible; }
 	dialog::backdrop { background-color: rgb(0 0 0 / 20%); backdrop-filter: blur(3px);  opacity: 0; animation: fadeIn .25s ease-out .1s forwards; }
 	dialog[open] { opacity: 0; animation: fadeIn .25s ease-out .1s forwards, dropIn .25s ease-out .1s forwards; }
@@ -14,6 +16,8 @@ stylesheet.innerHTML = `
 	header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
 	header button.close-dialog i { rotate: 45deg; }
 	h2 { margin-top: 0; }
+
+	.actions { display: flex; flex-direction: column; gap: 1rem; }
 
 	form { display: flex; flex-direction: column; gap: 2rem; }
 	fieldset { padding: 0; margin: 0; border: none; }
@@ -49,6 +53,11 @@ export class ListingFilters extends HTMLElement {
 	/**
 	 * @type {HTMLElement}
 	 */
+	#activeFilterCountElement;
+
+	/**
+	 * @type {HTMLElement}
+	 */
 	#datepickerElement;
 
 	constructor() {
@@ -67,6 +76,7 @@ export class ListingFilters extends HTMLElement {
 			<button type="button" aria-controls="filters-dialog" id="filters-dialog-toggle">
 				<i class="fas fa-sliders" aria-label=""></i>
 				Filtres
+				<span class="active-count" ${listingService.numberOfActiveFilters === 0 ? 'hidden' : ''}>${listingService.numberOfActiveFilters}</span>
 			</button>
 
 			<dialog id="filters-dialog">
@@ -116,9 +126,15 @@ export class ListingFilters extends HTMLElement {
 						</div>
 					</fieldset>
 
-					<button type="button" class="close-dialog primary fullwidth">
-						Voir les résultats
-					</button>
+					<div class="actions">
+						<button type="button" class="close-dialog primary fullwidth">
+							Voir les résultats
+						</button>
+
+						<button type="button" class="clear-filters fullwidth">
+							Effacer les filtres
+						</button>
+					</div>
 				</form>
 			</dialog>
 		`;
@@ -126,6 +142,7 @@ export class ListingFilters extends HTMLElement {
 		this.#dialog = this.shadowRoot.querySelector("dialog");
 		this.#form = this.shadowRoot.querySelector("form");
 		this.#datepickerElement = this.shadowRoot.querySelector(".filters-datepicker");
+		this.#activeFilterCountElement = this.shadowRoot.querySelector("#filters-dialog-toggle .active-count");
 
 		this.shadowRoot.querySelector("#filters-dialog-toggle").addEventListener("click", () => this.#dialog.showModal());
 		this.shadowRoot.querySelectorAll("button.close-dialog").forEach(
@@ -135,6 +152,7 @@ export class ListingFilters extends HTMLElement {
 		this.shadowRoot.addEventListener("change", () => this.#applyFilters());
 		this.shadowRoot.querySelector("[name='date_arrival']").addEventListener("hide", () => this.#applyFilters());
 		this.shadowRoot.querySelector("[name='date_departure']").addEventListener("hide", () => this.#applyFilters());
+		this.shadowRoot.querySelector("button.clear-filters").addEventListener("click", () => this.#clearFilters());
 
 		this.addEventListener("submit", (e) => {
 			e.preventDefault();
@@ -167,6 +185,20 @@ export class ListingFilters extends HTMLElement {
 		listingService.dateArrival = data.get("date_arrival");
 		listingService.dateDeparture = data.get("date_departure");
 		listingService.search();
+
+		this.#activeFilterCountElement.textContent = listingService.numberOfActiveFilters;
+		this.#activeFilterCountElement.toggleAttribute('hidden', listingService.numberOfActiveFilters === 0);
+	}
+
+	#clearFilters() {
+		for (const input of this.#form.querySelectorAll("input")) {
+			if (input.matches("[type='checkbox']")) {
+				input.checked = false;
+			} else {
+				input.value = '';
+			}
+		}
+		this.#applyFilters();
 	}
 }
 
