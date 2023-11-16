@@ -1,5 +1,5 @@
 import { listingService } from "../service/listing-service.js";
-import { ButtonStylesheet, FontawesomeStylesheet, InputStylesheet, AnimationStylesheet } from "../global-stylesheets.js";
+import { ResetStylesheet, ButtonStylesheet, FontawesomeStylesheet, InputStylesheet, AnimationStylesheet } from "../global-stylesheets.js";
 import { getCurrentDateInQuebec } from "../util/dates.js";
 import { DateRangePicker }  from "https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/+esm";
 
@@ -9,7 +9,7 @@ stylesheet.innerHTML = `
 
 	#filters-dialog-toggle .active-count:not([hidden]) { display: flex; width: 2.5ch; aspect-ratio: 1/1; justify-content: center; align-items: center; font-size: .9em; line-height: 1.25; font-weight: 600; color: white; background-color: var(--color-primary-500); border-radius: 50%; position: absolute; top: -0.5ch; right: -0.5ch; }
 
-	dialog { padding: 2rem; border: none; border-radius: 0.5rem; box-shadow: 0 0 1rem rgb(0 0 0 / 25%); overflow: visible; }
+	dialog { padding: 2rem; margin: auto; border: none; border-radius: 0.5rem; box-shadow: 0 0 1rem rgb(0 0 0 / 25%); box-sizing: border-box; overflow: visible; }
 	dialog::backdrop { background-color: rgb(0 0 0 / 20%); backdrop-filter: blur(3px);  opacity: 0; animation: fadeIn .25s ease-out .1s forwards; }
 	dialog[open] { opacity: 0; animation: fadeIn .25s ease-out .1s forwards, dropIn .25s ease-out .1s forwards; }
 
@@ -37,6 +37,11 @@ stylesheet.innerHTML = `
 	.filter-button input { scale: 1.15; accent-color: var(--color-primary); }
 	.filter-button:has(input:checked) { --button-color: var(--color-primary-100); background-color: var(--button-color); }
 	.filter-button:hover label span, .filter-button:focus-visible label span { opacity: 1; }
+
+	@media (max-width: 480px) {
+		.filters-datepicker { flex-direction: column; }
+		.filters-datepicker .datepicker-input { width: 100%; }
+	}
 `;
 
 export class ListingFilters extends HTMLElement {
@@ -67,6 +72,7 @@ export class ListingFilters extends HTMLElement {
 
 		this.shadowRoot.innerHTML = `
 			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.3.4/dist/css/datepicker.min.css">
+			${ResetStylesheet.outerHTML}
 			${FontawesomeStylesheet.outerHTML}
 			${InputStylesheet.outerHTML}
 			${ButtonStylesheet.outerHTML}
