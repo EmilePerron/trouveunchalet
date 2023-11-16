@@ -1,12 +1,4 @@
-accessibility:
-  icons: []
-  label: Accessibility
-alert:
-  icons: []
-  label: Alert
-alphabet:
-  icons: []
-  label: Alphabet
+---
 animals:
   icons:
     - dog
@@ -19,12 +11,6 @@ arrows:
     - arrow-right
     - arrow-right-long
   label: Arrows
-astronomy:
-  icons: []
-  label: Astronomy
-automotive:
-  icons: []
-  label: Automotive
 buildings:
   icons:
     - campground
@@ -32,50 +18,25 @@ buildings:
     - house-tree
     - house-water
   label: Buildings
-business:
-  icons: []
-  label: Business
 camping:
   icons:
+    - campfire
     - campground
     - map-location-dot
+    - mountain
     - tree
     - trees
   label: Camping
-charity:
-  icons: []
-  label: Charity
-charts-diagrams:
-  icons: []
-  label: Charts + Diagrams
-childhood:
-  icons: []
-  label: Childhood
-clothing-fashion:
-  icons: []
-  label: Clothing + Fashion
 coding:
   icons:
     - bars
+    - gear
     - gears
   label: Coding
-communication:
-  icons: []
-  label: Communication
 connectivity:
   icons:
     - wifi
   label: Connectivity
-construction:
-  icons: []
-  label: Construction
-design:
-  icons:
-    - grid-2
-  label: Design
-devices-hardware:
-  icons: []
-  label: Devices + Hardware
 disaster:
   icons:
     - house-water
@@ -85,48 +46,28 @@ editing:
     - bars
     - ellipsis
     - ellipsis-vertical
-    - grid-2
+    - gear
     - plus
+    - sliders
+    - xmark
+    - xmark-large
   label: Editing
-education:
-  icons: []
-  label: Education
-emoji:
-  icons: []
-  label: Emoji
 energy:
   icons:
     - sun
+    - water
   label: Energy
-files:
-  icons: []
-  label: Files
-film-video:
-  icons: []
-  label: Film + Video
-food-beverage:
-  icons: []
-  label: Food + Beverage
-fruits-vegetables:
-  icons: []
-  label: Fruits + Vegetables
 gaming:
-  icons: []
+  icons:
+    - campfire
   label: Gaming
-gender:
-  icons: []
-  label: Genders
-halloween:
-  icons: []
-  label: Halloween
-hands:
-  icons: []
-  label: Hands
 holidays:
-  icons: []
+  icons:
+    - fireplace
   label: Holidays
 household:
-  icons: []
+  icons:
+    - fireplace
   label: Household
 humanitarian:
   icons:
@@ -146,62 +87,42 @@ maps:
     - wifi
   label: Maps
 maritime:
-  icons: []
+  icons:
+    - water
   label: Maritime
-marketing:
-  icons: []
-  label: Marketing
 mathematics:
   icons:
     - plus
+    - xmark
   label: Mathematics
 media-playback:
-  icons: []
+  icons:
+    - sliders
   label: Media Playback
 medical-health:
   icons:
     - plus
   label: Medical + Health
-money:
-  icons: []
-  label: Money
-moving:
-  icons: []
-  label: Moving
 music-audio:
-  icons: []
+  icons:
+    - sliders
   label: Music + Audio
 nature:
   icons:
     - house-tree
+    - mountain
     - tree
     - trees
+    - water
   label: Nature
-numbers:
-  icons: []
-  label: Numbers
 photos-images:
-  icons: []
+  icons:
+    - sliders
   label: Photos + Images
-political:
-  icons: []
-  label: Political
 punctuation-symbols:
   icons:
     - plus
   label: Punctuation + Symbols
-religion:
-  icons: []
-  label: Religion
-science:
-  icons: []
-  label: Science
-science-fiction:
-  icons: []
-  label: Science Fiction
-security:
-  icons: []
-  label: Security
 shapes:
   icons:
     - star
@@ -223,26 +144,18 @@ spinners:
     - spinner
     - sun
   label: Spinners
-sports-fitness:
-  icons: []
-  label: Sports + Fitness
 text-formatting:
   icons:
     - list
   label: Text Formatting
-time:
-  icons: []
-  label: Time
 toggle:
   icons:
     - star
     - wifi
   label: Toggle
-transportation:
-  icons: []
-  label: Transportation
 travel-hotel:
   icons:
+    - fireplace
     - map-location-dot
     - wifi
   label: Travel + Hotel
@@ -256,7 +169,5 @@ weather:
     - house-water
     - sun
     - sun-bright
+    - water
   label: Weather
-writing:
-  icons: []
-  label: Writing

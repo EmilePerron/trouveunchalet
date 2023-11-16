@@ -1,4 +1,4 @@
-button, .button { --button-color: var(--color-gray-200); --button-text-color: var(--color-gray-900); display: inline-flex; align-items: center; gap: 1ch; padding: 0.75em 1.25em; font-family: var(--font-family-fancy); font-size: .9rem; font-weight: 600; text-decoration: none; color: var(--button-text-color); background-color: white; border: 1px solid var(--button-color); border-radius: 0.5em; cursor: pointer; transition: all .15s ease; }
+button, .button { --button-color: var(--color-gray-200); --button-text-color: var(--color-gray-900); display: inline-flex; align-items: center; gap: 1ch; padding: 0.75em 1.25em; font-family: var(--font-family-fancy); font-size: .9rem; font-weight: 600; text-decoration: none; color: var(--button-text-color); background-color: white; border: 1px solid var(--button-color); border-radius: 0.5em; cursor: pointer; position: relative; transition: all .15s ease; }
 button:is(:hover),
 .button:is(:hover) { --button-color: var(--color-gray-100); background-color: var(--button-color); }
 
@@ -13,3 +13,6 @@ button[aria-selected="true"],
 button[aria-current="true"] { --button-color: var(--color-primary-100); background-color: var(--button-color); pointer-events: none; }
 
 button[disabled] { --button-color: var(--color-gray-100); --button-text-color: var(--color-gray-200); pointer-events: none; }
+
+:is(button, .button) .tooltip { display: inline-block; padding: .5ch 1ch; font-size: .8rem; color: #fff; white-space: nowrap; background-color: var(--color-gray-900); border-radius: .5rem; position: absolute; bottom: 2.75rem; left: 50%; translate: -50%; opacity: 0; pointer-events: none; transition: opacity .2s ease-in-out; }
+:is(button:hover, .button:hover, button:focus-visible, .button:focus-visible) .tooltip { opacity: 1; }

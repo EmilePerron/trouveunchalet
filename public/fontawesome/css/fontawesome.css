@@ -1,8 +1,3 @@
-/*!
- * Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com
- * License - https://fontawesome.com/license (Commercial License)
- * Copyright 2023 Fonticons, Inc.
- */
 .fa {
   font-family: var(--fa-style-family, "Font Awesome 6 Pro");
   font-weight: var(--fa-style, 900); }
@@ -14,8 +9,10 @@
 .fa-solid,
 .far,
 .fa-regular,
+.fasr,
 .fal,
 .fa-light,
+.fasl,
 .fat,
 .fa-thin,
 .fad,
@@ -53,8 +50,13 @@
   font-family: 'Font Awesome 6 Duotone'; }
 
 .fass,
+.fasr,
+.fasl,
 .fa-sharp {
-  font-family: 'Font Awesome 6 Sharp';
+  font-family: 'Font Awesome 6 Sharp'; }
+
+.fass,
+.fa-sharp {
   font-weight: 900; }
 
 .fa-1x {
@@ -280,8 +282,10 @@
             animation-duration: 1ms;
     -webkit-animation-iteration-count: 1;
             animation-iteration-count: 1;
-    transition-delay: 0s;
-    transition-duration: 0s; } }
+    -webkit-transition-delay: 0s;
+            transition-delay: 0s;
+    -webkit-transition-duration: 0s;
+            transition-duration: 0s; } }
 
 @-webkit-keyframes fa-beat {
   0%, 90% {
@@ -513,155 +517,66 @@
 
 /* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
 readers do not read off random characters that represent icons */
-.fa-trees::before {
-  content: "\f724"; }
-
-.fa-bars::before {
-  content: "\f0c9"; }
-
-.fa-navicon::before {
-  content: "\f0c9"; }
-
-.fa-list::before {
-  content: "\f03a"; }
-
-.fa-list-squares::before {
-  content: "\f03a"; }
-
-.fa-campground::before {
-  content: "\f6bb"; }
-
-.fa-tree::before {
-  content: "\f1bb"; }
-
-.fa-users::before {
-  content: "\f0c0"; }
-
-.fa-angle-right::before {
-  content: "\f105"; }
-
-.fa-user::before {
-  content: "\f007"; }
-
-.fa-star::before {
-  content: "\f005"; }
-
-.fa-wifi::before {
-  content: "\f1eb"; }
-
-.fa-wifi-3::before {
-  content: "\f1eb"; }
-
-.fa-wifi-strong::before {
-  content: "\f1eb"; }
-
-.fa-map-location-dot::before {
-  content: "\f5a0"; }
-
-.fa-map-marked-alt::before {
-  content: "\f5a0"; }
-
-.fa-arrow-right::before {
-  content: "\f061"; }
-
-.fa-house-water::before {
-  content: "\f74f"; }
-
-.fa-house-flood::before {
-  content: "\f74f"; }
-
-.fa-arrow-left::before {
-  content: "\f060"; }
-
-.fa-arrow-left-long::before {
-  content: "\f177"; }
-
-.fa-long-arrow-left::before {
-  content: "\f177"; }
-
-.fa-gear::before {
-  content: "\f013"; }
-
-.fa-cog::before {
-  content: "\f013"; }
-
-.fa-ellipsis-vertical::before {
-  content: "\f142"; }
-
-.fa-ellipsis-v::before {
-  content: "\f142"; }
-
-.fa-house::before {
-  content: "\f015"; }
-
-.fa-home::before {
-  content: "\f015"; }
-
-.fa-home-alt::before {
-  content: "\f015"; }
-
-.fa-home-lg-alt::before {
-  content: "\f015"; }
-
-.fa-sun::before {
-  content: "\f185"; }
-
-.fa-house-tree::before {
-  content: "\e1b3"; }
-
-.fa-arrow-right-long::before {
-  content: "\f178"; }
-
-.fa-long-arrow-right::before {
-  content: "\f178"; }
-
-.fa-ellipsis::before {
-  content: "\f141"; }
-
-.fa-ellipsis-h::before {
-  content: "\f141"; }
-
-.fa-location-dot::before {
-  content: "\f3c5"; }
-
-.fa-map-marker-alt::before {
-  content: "\f3c5"; }
-
-.fa-magnifying-glass::before {
-  content: "\f002"; }
-
-.fa-search::before {
-  content: "\f002"; }
-
-.fa-plus::before {
-  content: "\2b"; }
-
-.fa-add::before {
-  content: "\2b"; }
-
-.fa-spinner::before {
-  content: "\f110"; }
-
-.fa-gears::before {
-  content: "\f085"; }
-
-.fa-cogs::before {
-  content: "\f085"; }
-
-.fa-sun-bright::before {
-  content: "\e28f"; }
-
-.fa-sun-alt::before {
-  content: "\e28f"; }
-
-.fa-dog::before {
-  content: "\f6d3"; }
-
-.fa-grid-2::before {
-  content: "\e196"; }
-
-.fa-notdef::before {
-  content: "\e1fe"; }
+.fa-add::before { content: "\2b"; }
+.fa-angle-right::before { content: "\f105"; }
+.fa-arrow-left::before { content: "\f060"; }
+.fa-arrow-left-long::before { content: "\f177"; }
+.fa-arrow-right::before { content: "\f061"; }
+.fa-arrow-right-long::before { content: "\f178"; }
+.fa-bars::before { content: "\f0c9"; }
+.fa-campfire::before { content: "\f6ba"; }
+.fa-campground::before { content: "\f6bb"; }
+.fa-close::before { content: "\f00d"; }
+.fa-cog::before { content: "\f013"; }
+.fa-cogs::before { content: "\f085"; }
+.fa-dog::before { content: "\f6d3"; }
+.fa-ellipsis::before { content: "\f141"; }
+.fa-ellipsis-h::before { content: "\f141"; }
+.fa-ellipsis-v::before { content: "\f142"; }
+.fa-ellipsis-vertical::before { content: "\f142"; }
+.fa-fireplace::before { content: "\f79a"; }
+.fa-gear::before { content: "\f013"; }
+.fa-gears::before { content: "\f085"; }
+.fa-home::before { content: "\f015"; }
+.fa-home-alt::before { content: "\f015"; }
+.fa-home-lg-alt::before { content: "\f015"; }
+.fa-house::before { content: "\f015"; }
+.fa-house-flood::before { content: "\f74f"; }
+.fa-house-tree::before { content: "\e1b3"; }
+.fa-house-water::before { content: "\f74f"; }
+.fa-list::before { content: "\f03a"; }
+.fa-list-squares::before { content: "\f03a"; }
+.fa-location-dot::before { content: "\f3c5"; }
+.fa-long-arrow-left::before { content: "\f177"; }
+.fa-long-arrow-right::before { content: "\f178"; }
+.fa-magnifying-glass::before { content: "\f002"; }
+.fa-map-location-dot::before { content: "\f5a0"; }
+.fa-map-marked-alt::before { content: "\f5a0"; }
+.fa-map-marker-alt::before { content: "\f3c5"; }
+.fa-mountain::before { content: "\f6fc"; }
+.fa-multiply::before { content: "\f00d"; }
+.fa-navicon::before { content: "\f0c9"; }
+.fa-plus::before { content: "\2b"; }
+.fa-remove::before { content: "\f00d"; }
+.fa-search::before { content: "\f002"; }
+.fa-sliders::before { content: "\f1de"; }
+.fa-sliders-h::before { content: "\f1de"; }
+.fa-spinner::before { content: "\f110"; }
+.fa-star::before { content: "\f005"; }
+.fa-sun::before { content: "\f185"; }
+.fa-sun-alt::before { content: "\e28f"; }
+.fa-sun-bright::before { content: "\e28f"; }
+.fa-times::before { content: "\f00d"; }
+.fa-tree::before { content: "\f1bb"; }
+.fa-trees::before { content: "\f724"; }
+.fa-user::before { content: "\f007"; }
+.fa-users::before { content: "\f0c0"; }
+.fa-water::before { content: "\f773"; }
+.fa-wifi::before { content: "\f1eb"; }
+.fa-wifi-3::before { content: "\f1eb"; }
+.fa-wifi-strong::before { content: "\f1eb"; }
+.fa-xmark::before { content: "\f00d"; }
+.fa-xmark-large::before { content: "\e59b"; }
 
 .sr-only,
 .fa-sr-only {

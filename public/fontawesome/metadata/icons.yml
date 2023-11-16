@@ -1,142 +1,4 @@
-angle-right:
-  aliases:
-    unicodes:
-      composite:
-        - 203a
-      secondary:
-        - 10f105
-  changes:
-    - 3.0.0
-    - 5.0.0
-    - 5.11.0
-    - 6.0.0-beta1
-    - 6.2.0
-  label: angle-right
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f105
-  voted: false
-arrow-left:
-  aliases:
-    unicodes:
-      composite:
-        - '2190'
-      secondary:
-        - 10f060
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta2
-    - 6.2.0
-  label: arrow-left
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f060
-  voted: false
-arrow-left-long:
-  aliases:
-    names:
-      - long-arrow-left
-    unicodes:
-      secondary:
-        - 10f177
-  changes:
-    - 3.2.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.2.0
-  label: Arrow left long
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f177
-  voted: false
-arrow-right:
-  aliases:
-    unicodes:
-      composite:
-        - '2192'
-      secondary:
-        - 10f061
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta2
-    - 6.2.0
-  label: arrow right
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f061
-  voted: false
-arrow-right-long:
-  aliases:
-    names:
-      - long-arrow-right
-    unicodes:
-      secondary:
-        - 10f178
-  changes:
-    - 3.2.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.2.0
-  label: Arrow right long
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f178
-  voted: false
-bars:
-  aliases:
-    names:
-      - navicon
-    unicodes:
-      secondary:
-        - 10f0c9
-  changes:
-    - 2.0.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  label: Bars
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f0c9
-  voted: false
-campground:
-  aliases:
-    unicodes:
-      composite:
-        - 26fa
-      secondary:
-        - 10f6bb
-  changes:
-    - 5.4.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  label: Campground
-  search:
-    terms: []
-  styles:
-    - solid
-    - regular
-    - duotone
-  unicode: f6bb
-  voted: false
+---
 dog:
   aliases:
     unicodes:
@@ -150,76 +12,71 @@ dog:
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   label: Dog
   search:
-    terms: []
+    terms:
+      - animal
+      - canine
+      - dog
+      - fauna
+      - mammal
+      - pet
+      - pooch
+      - puppy
+      - woof
   styles:
-    - solid
     - regular
+    - solid
   unicode: f6d3
   voted: false
-ellipsis:
+fireplace:
   aliases:
-    names:
-      - ellipsis-h
     unicodes:
       secondary:
-        - 10f141
+        - 10f79a
   changes:
-    - 3.1.0
-    - 5.0.0
+    - 5.6.0
     - 6.0.0-beta1
-    - 6.0.0-beta3
     - 6.2.0
-  label: Ellipsis
+    - 6.3.0
+    - 6.4.0
+  label: Fireplace
   search:
-    terms: []
+    terms:
+      - caliente
+      - flame
+      - hearth
+      - heat
+      - holiday
+      - mantle
+      - toasty
+      - warmth
   styles:
-    - solid
-  unicode: f141
-  voted: false
-ellipsis-vertical:
-  aliases:
-    names:
-      - ellipsis-v
-    unicodes:
-      secondary:
-        - 10f142
-  changes:
-    - 3.1.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  label: Ellipsis vertical
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f142
-  voted: false
-gear:
-  aliases:
-    names:
-      - cog
-    unicodes:
-      composite:
-        - '2699'
-      secondary:
-        - 10f013
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0
-    - 6.2.0
-  label: Gear
-  search:
-    terms: []
-  styles:
-    - solid
     - regular
-  unicode: f013
+    - solid
+  unicode: f79a
+  voted: false
+sun-bright:
+  aliases:
+    names:
+      - sun-alt
+  changes:
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Sun Bright
+  search:
+    terms:
+      - brightness
+      - sky
+      - summer
+  styles:
+    - regular
+    - solid
+  unicode: e28f
   voted: false
 gears:
   aliases:
@@ -234,25 +91,360 @@ gears:
     - 6.0.0-beta1
     - 6.0.0
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   label: Gears
   search:
-    terms: []
+    terms:
+      - gears
+      - mechanical
+      - settings
+      - sprocket
+      - wheel
   styles:
-    - solid
     - regular
+    - solid
   unicode: f085
   voted: false
-grid-2:
+spinner:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f110
+  changes:
+    - 3.0.0
+    - 5.0.0
+    - 5.10.2
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Spinner
+  search:
+    terms:
+      - circle
+      - loading
+      - progress
+  styles:
+    - regular
+  unicode: f110
+  voted: false
+xmark:
+  aliases:
+    names:
+      - close
+      - multiply
+      - remove
+      - times
+    unicodes:
+      composite:
+        - 1f5d9
+        - '2715'
+        - '2716'
+        - 274c
+        - d7
+      secondary:
+        - 10f00d
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.0.13
+    - 5.11.0
+    - 5.11.1
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Xmark
+  search:
+    terms:
+      - Cancellation X
+      - Multiplication Sign
+      - Multiplication X
+      - cancel
+      - close
+      - cross
+      - cross mark
+      - error
+      - exit
+      - incorrect
+      - mark
+      - multiplication
+      - multiply
+      - notice
+      - notification
+      - notify
+      - problem
+      - sign
+      - wrong
+      - x
+      - ×
+  styles:
+    - regular
+    - solid
+  unicode: f00d
+  voted: false
+plus:
+  aliases:
+    names:
+      - add
+    unicodes:
+      composite:
+        - '2795'
+        - f067
+      primary:
+        - f067
+      secondary:
+        - 102b
+        - 10f067
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.0.13
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Plus
+  search:
+    terms:
+      - 0
+      - Plus Sign
+      - add
+      - create
+      - expand
+      - math
+      - new
+      - plus
+      - positive
+      - shape
+      - sign
+  styles:
+    - solid
+  unicode: 2b
+  voted: false
+magnifying-glass:
+  aliases:
+    names:
+      - search
+    unicodes:
+      composite:
+        - 1f50d
+      secondary:
+        - 10f002
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Magnifying Glass
+  search:
+    terms:
+      - bigger
+      - enlarge
+      - find
+      - glass
+      - magnify
+      - magnifying
+      - magnifying glass tilted left
+      - preview
+      - search
+      - tool
+      - zoom
+  styles:
+    - solid
+  unicode: f002
+  voted: false
+location-dot:
+  aliases:
+    names:
+      - map-marker-alt
+    unicodes:
+      secondary:
+        - 10f3c5
+  changes:
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Location Dot
+  search:
+    terms:
+      - address
+      - coordinates
+      - destination
+      - gps
+      - localize
+      - location
+      - map
+      - navigation
+      - paper
+      - pin
+      - place
+      - point of interest
+      - position
+      - route
+      - travel
+  styles:
+    - solid
+  unicode: f3c5
+  voted: false
+xmark-large:
+  changes:
+    - 6.1.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Xmark Large
+  search:
+    terms:
+      - cancel
+      - cancellation X
+      - close
+      - cross
+      - cross mark
+      - error
+      - exit
+      - incorrect
+      - mark
+      - multiplication
+      - multiplication Sign
+      - multiplication X
+      - multiply
+      - notice
+      - notification
+      - notify
+      - problem
+      - sign
+      - wrong
+      - x
+      - ×
+  styles:
+    - regular
+    - solid
+  unicode: e59b
+  voted: false
+ellipsis:
+  aliases:
+    names:
+      - ellipsis-h
+    unicodes:
+      secondary:
+        - 10f141
+  changes:
+    - 3.1.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Ellipsis
+  search:
+    terms:
+      - dots
+      - drag
+      - kebab
+      - list
+      - menu
+      - nav
+      - navigation
+      - ol
+      - pacman
+      - reorder
+      - settings
+      - ul
+  styles:
+    - solid
+  unicode: f141
+  voted: false
+arrow-right-long:
+  aliases:
+    names:
+      - long-arrow-right
+    unicodes:
+      secondary:
+        - 10f178
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Arrow Right Long
+  search:
+    terms:
+      - forward
+      - long-arrow-right
+      - next
+  styles:
+    - solid
+  unicode: f178
+  voted: false
+house-tree:
   changes:
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
-  label: Grid 2
+    - 6.3.0
+    - 6.4.0
+  label: House Tree
   search:
-    terms: []
+    terms:
+      - abode
+      - city
+      - garden
+      - home
+      - house
+      - house with garden
+      - residence
+      - suburbs
+      - urban
+  styles:
+    - duotone
+    - regular
+    - solid
+  unicode: e1b3
+  voted: false
+sun:
+  aliases:
+    unicodes:
+      composite:
+        - '2600'
+      secondary:
+        - 10f185
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 5.5.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Sun
+  search:
+    terms:
+      - bright
+      - brighten
+      - contrast
+      - day
+      - lighter
+      - rays
+      - sol
+      - solar
+      - star
+      - sun
+      - sunny
+      - weather
   styles:
     - solid
-  unicode: e196
+  unicode: f185
   voted: false
 house:
   aliases:
@@ -281,26 +473,255 @@ house:
     - 6.0.0-beta3
     - 6.1.0
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   label: House
   search:
-    terms: []
+    terms:
+      - abode
+      - building
+      - home
+      - house
+      - main
+      - residence
   styles:
     - solid
   unicode: f015
   voted: false
-house-tree:
+ellipsis-vertical:
+  aliases:
+    names:
+      - ellipsis-v
+    unicodes:
+      secondary:
+        - 10f142
   changes:
+    - 3.1.0
+    - 5.0.0
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
-  label: House Tree
+    - 6.3.0
+    - 6.4.0
+  label: Ellipsis Vertical
   search:
-    terms: []
+    terms:
+      - dots
+      - drag
+      - kebab
+      - list
+      - menu
+      - nav
+      - navigation
+      - ol
+      - reorder
+      - settings
+      - ul
   styles:
     - solid
+  unicode: f142
+  voted: false
+sliders:
+  aliases:
+    names:
+      - sliders-h
+    unicodes:
+      secondary:
+        - 10f1de
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 5.0.11
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Sliders
+  search:
+    terms:
+      - adjust
+      - settings
+      - sliders
+      - toggle
+  styles:
     - regular
-    - duotone
-  unicode: e1b3
+    - solid
+  unicode: f1de
+  voted: false
+gear:
+  aliases:
+    names:
+      - cog
+    unicodes:
+      composite:
+        - '2699'
+      secondary:
+        - 10f013
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Gear
+  search:
+    terms:
+      - cog
+      - cogwheel
+      - gear
+      - mechanical
+      - settings
+      - sprocket
+      - tool
+      - wheel
+  styles:
+    - regular
+    - solid
+  unicode: f013
+  voted: false
+arrow-left-long:
+  aliases:
+    names:
+      - long-arrow-left
+    unicodes:
+      secondary:
+        - 10f177
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Arrow Left Long
+  search:
+    terms:
+      - back
+      - long-arrow-left
+      - previous
+  styles:
+    - solid
+  unicode: f177
+  voted: false
+water:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f773
+  changes:
+    - 5.5.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Water
+  search:
+    terms:
+      - lake
+      - liquid
+      - ocean
+      - sea
+      - swim
+      - wet
+  styles:
+    - regular
+    - solid
+  unicode: f773
+  voted: false
+mountain:
+  aliases:
+    unicodes:
+      composite:
+        - 1f3d4
+      secondary:
+        - 10f6fc
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Mountain
+  search:
+    terms:
+      - cold
+      - glacier
+      - hiking
+      - hill
+      - landscape
+      - mountain
+      - snow
+      - snow-capped mountain
+      - travel
+      - view
+  styles:
+    - regular
+    - solid
+  unicode: f6fc
+  voted: false
+arrow-left:
+  aliases:
+    unicodes:
+      composite:
+        - '2190'
+      secondary:
+        - 10f060
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta2
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Arrow Left
+  search:
+    terms:
+      - Leftwards Arrow
+      - back
+      - previous
+  styles:
+    - solid
+  unicode: f060
+  voted: false
+campfire:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f6ba
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Campfire
+  search:
+    terms:
+      - Dungeons & Dragons
+      - caliente
+      - campaign
+      - camping
+      - d&d
+      - dnd
+      - fall
+      - fire
+      - flame
+      - gathering
+      - heat
+      - hot
+      - meeting
+      - outdoors
+      - seasonal
+      - tent
+      - wilderness
+  styles:
+    - regular
+    - solid
+  unicode: f6ba
   voted: false
 house-water:
   aliases:
@@ -314,74 +735,47 @@ house-water:
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
-  label: House with Water
+    - 6.3.0
+    - 6.4.0
+  label: House Water
   search:
-    terms: []
+    terms:
+      - building
+      - devastation
+      - disaster
+      - flood
+      - home
+      - insurance
+      - water
   styles:
-    - solid
     - regular
+    - solid
   unicode: f74f
   voted: false
-list:
+arrow-right:
   aliases:
-    names:
-      - list-squares
-    unicodes:
-      secondary:
-        - 10f03a
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.9.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  label: List
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f03a
-  voted: false
-location-dot:
-  aliases:
-    names:
-      - map-marker-alt
-    unicodes:
-      secondary:
-        - 10f3c5
-  changes:
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  label: Location dot
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f3c5
-  voted: false
-magnifying-glass:
-  aliases:
-    names:
-      - search
     unicodes:
       composite:
-        - 1f50d
+        - '2192'
       secondary:
-        - 10f002
+        - 10f061
   changes:
     - 1.0.0
     - 5.0.0
     - 6.0.0-beta1
+    - 6.0.0-beta2
     - 6.2.0
-  label: Magnifying glass
+    - 6.3.0
+    - 6.4.0
+  label: Arrow Right
   search:
-    terms: []
+    terms:
+      - Rightwards Arrow
+      - forward
+      - next
   styles:
     - solid
-  unicode: f002
+  unicode: f061
   voted: false
 map-location-dot:
   aliases:
@@ -395,205 +789,29 @@ map-location-dot:
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
-  label: Map location dot
+    - 6.3.0
+    - 6.4.0
+  label: Map Location Dot
   search:
-    terms: []
+    terms:
+      - address
+      - coordinates
+      - destination
+      - gps
+      - localize
+      - location
+      - map
+      - navigation
+      - paper
+      - pin
+      - place
+      - point of interest
+      - position
+      - route
+      - travel
   styles:
     - solid
   unicode: f5a0
-  voted: false
-notdef:
-  changes:
-    - 6.0.0-beta1
-    - 6.2.0
-  label: Notdef
-  search:
-    terms: []
-  styles:
-    - solid
-    - regular
-    - duotone
-  unicode: e1fe
-  voted: false
-plus:
-  aliases:
-    names:
-      - add
-    unicodes:
-      composite:
-        - '2795'
-        - f067
-      primary:
-        - f067
-      secondary:
-        - 102b
-        - 10f067
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.0.13
-    - 6.0.0-beta1
-    - 6.2.0
-  label: plus
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: 2b
-  voted: false
-spinner:
-  aliases:
-    unicodes:
-      secondary:
-        - 10f110
-  changes:
-    - 3.0.0
-    - 5.0.0
-    - 5.10.2
-    - 6.0.0-beta1
-    - 6.0.0
-    - 6.2.0
-  label: Spinner
-  search:
-    terms: []
-  styles:
-    - regular
-  unicode: f110
-  voted: false
-star:
-  aliases:
-    unicodes:
-      composite:
-        - 2b50
-        - f006
-      secondary:
-        - 10f005
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.10.2
-    - 6.0.0-beta1
-    - 6.0.0
-    - 6.2.0
-  label: Star
-  search:
-    terms: []
-  styles:
-    - solid
-    - regular
-  unicode: f005
-  voted: false
-sun:
-  aliases:
-    unicodes:
-      composite:
-        - '2600'
-      secondary:
-        - 10f185
-  changes:
-    - 3.2.0
-    - 5.0.0
-    - 5.5.0
-    - 6.0.0-beta1
-    - 6.2.0
-  label: Sun
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f185
-  voted: false
-sun-bright:
-  aliases:
-    names:
-      - sun-alt
-  changes:
-    - 6.0.0-beta1
-    - 6.2.0
-  label: Sun bright
-  search:
-    terms: []
-  styles:
-    - solid
-    - regular
-  unicode: e28f
-  voted: false
-tree:
-  aliases:
-    unicodes:
-      composite:
-        - 1f332
-      secondary:
-        - 10f1bb
-  changes:
-    - 4.1.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.2.0
-  label: Tree
-  search:
-    terms: []
-  styles:
-    - solid
-    - regular
-  unicode: f1bb
-  voted: false
-trees:
-  aliases:
-    unicodes:
-      secondary:
-        - 10f724
-  changes:
-    - 5.4.0
-    - 6.0.0-beta1
-    - 6.2.0
-  label: Trees
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f724
-  voted: false
-user:
-  aliases:
-    unicodes:
-      composite:
-        - 1f464
-        - f2c0
-      secondary:
-        - 10f007
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.0.3
-    - 5.0.11
-    - 6.0.0-beta1
-    - 6.2.0
-  label: User
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f007
-  voted: false
-users:
-  aliases:
-    unicodes:
-      secondary:
-        - 10f0c0
-  changes:
-    - 2.0.0
-    - 5.0.0
-    - 5.0.3
-    - 5.0.11
-    - 6.0.0-beta1
-    - 6.2.0
-  label: Users
-  search:
-    terms: []
-  styles:
-    - solid
-  unicode: f0c0
   voted: false
 wifi:
   aliases:
@@ -611,10 +829,282 @@ wifi:
     - 5.11.1
     - 6.0.0-beta1
     - 6.2.0
-  label: WiFi
+    - 6.3.0
+    - 6.4.0
+  label: Wifi
   search:
-    terms: []
+    terms:
+      - connection
+      - hotspot
+      - internet
+      - network
+      - wireless
   styles:
     - solid
   unicode: f1eb
+  voted: false
+star:
+  aliases:
+    unicodes:
+      composite:
+        - 2b50
+        - f006
+      secondary:
+        - 10f005
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.10.2
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Star
+  search:
+    terms:
+      - achievement
+      - award
+      - favorite
+      - important
+      - night
+      - rating
+      - score
+      - star
+  styles:
+    - regular
+    - solid
+  unicode: f005
+  voted: false
+user:
+  aliases:
+    unicodes:
+      composite:
+        - 1f464
+        - f2c0
+      secondary:
+        - 10f007
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.0.3
+    - 5.0.11
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: User
+  search:
+    terms:
+      - adult
+      - bust
+      - bust in silhouette
+      - gender-neutral
+      - person
+      - profile
+      - silhouette
+      - unspecified gender
+      - users-people
+  styles:
+    - solid
+  unicode: f007
+  voted: false
+angle-right:
+  aliases:
+    unicodes:
+      composite:
+        - 203a
+      secondary:
+        - 10f105
+  changes:
+    - 3.0.0
+    - 5.0.0
+    - 5.11.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Angle Right
+  search:
+    terms:
+      - Single Right-Pointing Angle Quotation Mark
+      - arrow
+      - care
+      - forward
+      - more
+      - next
+  styles:
+    - solid
+  unicode: f105
+  voted: false
+users:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f0c0
+  changes:
+    - 2.0.0
+    - 5.0.0
+    - 5.0.3
+    - 5.0.11
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Users
+  search:
+    terms:
+      - users-people
+  styles:
+    - solid
+  unicode: f0c0
+  voted: false
+tree:
+  aliases:
+    unicodes:
+      composite:
+        - 1f332
+      secondary:
+        - 10f1bb
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Tree
+  search:
+    terms:
+      - bark
+      - evergreen tree
+      - fall
+      - flora
+      - forest
+      - nature
+      - plant
+      - seasonal
+      - tree
+  styles:
+    - regular
+    - solid
+  unicode: f1bb
+  voted: false
+campground:
+  aliases:
+    unicodes:
+      composite:
+        - 26fa
+      secondary:
+        - 10f6bb
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Campground
+  search:
+    terms:
+      - camping
+      - fall
+      - outdoors
+      - teepee
+      - tent
+      - tipi
+  styles:
+    - duotone
+    - regular
+    - solid
+  unicode: f6bb
+  voted: false
+list:
+  aliases:
+    names:
+      - list-squares
+    unicodes:
+      secondary:
+        - 10f03a
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.9.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: List
+  search:
+    terms:
+      - checklist
+      - completed
+      - done
+      - finished
+      - ol
+      - todo
+      - ul
+  styles:
+    - solid
+  unicode: f03a
+  voted: false
+bars:
+  aliases:
+    names:
+      - navicon
+    unicodes:
+      secondary:
+        - 10f0c9
+  changes:
+    - 2.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Bars
+  search:
+    terms:
+      - checklist
+      - drag
+      - hamburger
+      - list
+      - menu
+      - nav
+      - navigation
+      - ol
+      - reorder
+      - settings
+      - todo
+      - ul
+  styles:
+    - solid
+  unicode: f0c9
+  voted: false
+trees:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f724
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Trees
+  search:
+    terms:
+      - bark
+      - fall
+      - flora
+      - forest
+      - nature
+      - plant
+      - seasonal
+  styles:
+    - solid
+  unicode: f724
   voted: false

@@ -1,0 +1,19 @@
+---
+close:
+  name: xmark
+gear:
+  name: gear
+gears:
+  name: gears
+group:
+  name: users
+home:
+  name: house
+map-marker:
+  name: location-dot
+navicon:
+  name: bars
+remove:
+  name: xmark
+reorder:
+  name: bars

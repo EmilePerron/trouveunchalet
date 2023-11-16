@@ -70,3 +70,24 @@ icons:
       - solid
   - list:
       - solid
+  - fireplace:
+      - solid
+      - regular
+  - campfire:
+      - solid
+      - regular
+  - water:
+      - solid
+      - regular
+  - mountain:
+      - regular
+      - solid
+  - sliders:
+      - solid
+      - regular
+  - xmark:
+      - solid
+      - regular
+  - xmark-large:
+      - solid
+      - regular

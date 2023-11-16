@@ -1,10 +1,11 @@
+---
 getaroom:
   icons:
     - map-location-dot
   label: getaroom
-  url: 'https://www.getaroom.com'
+  url: https://www.getaroom.com
 harvard-medical-school:
   icons:
     - plus
   label: Harvard Medical School
-  url: 'https://hms.harvard.edu'
+  url: https://hms.harvard.edu

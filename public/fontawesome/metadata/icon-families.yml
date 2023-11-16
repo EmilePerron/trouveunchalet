@@ -1,231 +1,4 @@
-angle-right:
-  aliases:
-    unicodes:
-      composite:
-        - 203a
-      secondary:
-        - 10f105
-  changes:
-    - 3.0.0
-    - 5.0.0
-    - 5.11.0
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: angle-right
-  unicode: f105
-  voted: false
-arrow-left:
-  aliases:
-    unicodes:
-      composite:
-        - '2190'
-      secondary:
-        - 10f060
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta2
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: arrow-left
-  unicode: f060
-  voted: false
-arrow-left-long:
-  aliases:
-    names:
-      - long-arrow-left
-    unicodes:
-      secondary:
-        - 10f177
-  changes:
-    - 3.2.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Arrow left long
-  unicode: f177
-  voted: false
-arrow-right:
-  aliases:
-    unicodes:
-      composite:
-        - '2192'
-      secondary:
-        - 10f061
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta2
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: arrow right
-  unicode: f061
-  voted: false
-arrow-right-long:
-  aliases:
-    names:
-      - long-arrow-right
-    unicodes:
-      secondary:
-        - 10f178
-  changes:
-    - 3.2.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Arrow right long
-  unicode: f178
-  voted: false
-bars:
-  aliases:
-    names:
-      - navicon
-    unicodes:
-      secondary:
-        - 10f0c9
-  changes:
-    - 2.0.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Bars
-  unicode: f0c9
-  voted: false
-campground:
-  aliases:
-    unicodes:
-      composite:
-        - 26fa
-      secondary:
-        - 10f6bb
-  changes:
-    - 5.4.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Campground
-  unicode: f6bb
-  voted: false
+---
 dog:
   aliases:
     unicodes:
@@ -239,6 +12,8 @@ dog:
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free:
       - family: classic
@@ -248,117 +23,74 @@ dog:
         style: solid
       - family: classic
         style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
   label: Dog
+  search:
+    terms:
+      - animal
+      - canine
+      - dog
+      - fauna
+      - mammal
+      - pet
+      - pooch
+      - puppy
+      - woof
   unicode: f6d3
   voted: false
-ellipsis:
+fireplace:
   aliases:
-    names:
-      - ellipsis-h
     unicodes:
       secondary:
-        - 10f141
+        - 10f79a
   changes:
-    - 3.1.0
-    - 5.0.0
+    - 5.6.0
     - 6.0.0-beta1
-    - 6.0.0-beta3
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
+    free: []
     pro:
       - family: classic
         style: solid
       - family: classic
         style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Ellipsis
-  unicode: f141
+  label: Fireplace
+  search:
+    terms:
+      - caliente
+      - flame
+      - hearth
+      - heat
+      - holiday
+      - mantle
+      - toasty
+      - warmth
+  unicode: f79a
   voted: false
-ellipsis-vertical:
+sun-bright:
   aliases:
     names:
-      - ellipsis-v
-    unicodes:
-      secondary:
-        - 10f142
+      - sun-alt
   changes:
-    - 3.1.0
-    - 5.0.0
     - 6.0.0-beta1
-    - 6.0.0-beta3
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
+    free: []
     pro:
       - family: classic
         style: solid
       - family: classic
         style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Ellipsis vertical
-  unicode: f142
-  voted: false
-gear:
-  aliases:
-    names:
-      - cog
-    unicodes:
-      composite:
-        - '2699'
-      secondary:
-        - 10f013
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Gear
-  unicode: f013
+  label: Sun Bright
+  search:
+    terms:
+      - brightness
+      - sky
+      - summer
+  unicode: e28f
   voted: false
 gears:
   aliases:
@@ -373,6 +105,8 @@ gears:
     - 6.0.0-beta1
     - 6.0.0
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free:
       - family: classic
@@ -382,22 +116,234 @@ gears:
         style: solid
       - family: classic
         style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
   label: Gears
+  search:
+    terms:
+      - gears
+      - mechanical
+      - settings
+      - sprocket
+      - wheel
   unicode: f085
   voted: false
-grid-2:
+spinner:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f110
   changes:
+    - 3.0.0
+    - 5.0.0
+    - 5.10.2
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free: []
+    pro:
+      - family: classic
+        style: regular
+  label: Spinner
+  search:
+    terms:
+      - circle
+      - loading
+      - progress
+  unicode: f110
+  voted: false
+xmark:
+  aliases:
+    names:
+      - close
+      - multiply
+      - remove
+      - times
+    unicodes:
+      composite:
+        - 1f5d9
+        - '2715'
+        - '2716'
+        - 274c
+        - d7
+      secondary:
+        - 10f00d
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.0.13
+    - 5.11.0
+    - 5.11.1
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+      - family: classic
+        style: regular
+  label: Xmark
+  search:
+    terms:
+      - Cancellation X
+      - Multiplication Sign
+      - Multiplication X
+      - cancel
+      - close
+      - cross
+      - cross mark
+      - error
+      - exit
+      - incorrect
+      - mark
+      - multiplication
+      - multiply
+      - notice
+      - notification
+      - notify
+      - problem
+      - sign
+      - wrong
+      - x
+      - ×
+  unicode: f00d
+  voted: false
+plus:
+  aliases:
+    names:
+      - add
+    unicodes:
+      composite:
+        - '2795'
+        - f067
+      primary:
+        - f067
+      secondary:
+        - 102b
+        - 10f067
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.0.13
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Plus
+  search:
+    terms:
+      - 0
+      - Plus Sign
+      - add
+      - create
+      - expand
+      - math
+      - new
+      - plus
+      - positive
+      - shape
+      - sign
+  unicode: 2b
+  voted: false
+magnifying-glass:
+  aliases:
+    names:
+      - search
+    unicodes:
+      composite:
+        - 1f50d
+      secondary:
+        - 10f002
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Magnifying Glass
+  search:
+    terms:
+      - bigger
+      - enlarge
+      - find
+      - glass
+      - magnify
+      - magnifying
+      - magnifying glass tilted left
+      - preview
+      - search
+      - tool
+      - zoom
+  unicode: f002
+  voted: false
+location-dot:
+  aliases:
+    names:
+      - map-marker-alt
+    unicodes:
+      secondary:
+        - 10f3c5
+  changes:
+    - 5.0.0
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Location Dot
+  search:
+    terms:
+      - address
+      - coordinates
+      - destination
+      - gps
+      - localize
+      - location
+      - map
+      - navigation
+      - paper
+      - pin
+      - place
+      - point of interest
+      - position
+      - route
+      - travel
+  unicode: f3c5
+  voted: false
+xmark-large:
+  changes:
+    - 6.1.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free: []
     pro:
@@ -405,16 +351,168 @@ grid-2:
         style: solid
       - family: classic
         style: regular
+  label: Xmark Large
+  search:
+    terms:
+      - cancel
+      - cancellation X
+      - close
+      - cross
+      - cross mark
+      - error
+      - exit
+      - incorrect
+      - mark
+      - multiplication
+      - multiplication Sign
+      - multiplication X
+      - multiply
+      - notice
+      - notification
+      - notify
+      - problem
+      - sign
+      - wrong
+      - x
+      - ×
+  unicode: e59b
+  voted: false
+ellipsis:
+  aliases:
+    names:
+      - ellipsis-h
+    unicodes:
+      secondary:
+        - 10f141
+  changes:
+    - 3.1.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
       - family: classic
-        style: light
+        style: solid
+    pro:
       - family: classic
-        style: thin
+        style: solid
+  label: Ellipsis
+  search:
+    terms:
+      - dots
+      - drag
+      - kebab
+      - list
+      - menu
+      - nav
+      - navigation
+      - ol
+      - pacman
+      - reorder
+      - settings
+      - ul
+  unicode: f141
+  voted: false
+arrow-right-long:
+  aliases:
+    names:
+      - long-arrow-right
+    unicodes:
+      secondary:
+        - 10f178
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Arrow Right Long
+  search:
+    terms:
+      - forward
+      - long-arrow-right
+      - next
+  unicode: f178
+  voted: false
+house-tree:
+  changes:
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free: []
+    pro:
+      - family: classic
+        style: solid
+      - family: classic
+        style: regular
       - family: duotone
         style: solid
-      - family: sharp
+  label: House Tree
+  search:
+    terms:
+      - abode
+      - city
+      - garden
+      - home
+      - house
+      - house with garden
+      - residence
+      - suburbs
+      - urban
+  unicode: e1b3
+  voted: false
+sun:
+  aliases:
+    unicodes:
+      composite:
+        - '2600'
+      secondary:
+        - 10f185
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 5.5.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
         style: solid
-  label: Grid 2
-  unicode: e196
+    pro:
+      - family: classic
+        style: solid
+  label: Sun
+  search:
+    terms:
+      - bright
+      - brighten
+      - contrast
+      - day
+      - lighter
+      - rays
+      - sol
+      - solar
+      - star
+      - sun
+      - sunny
+      - weather
+  unicode: f185
   voted: false
 house:
   aliases:
@@ -443,6 +541,80 @@ house:
     - 6.0.0-beta3
     - 6.1.0
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: House
+  search:
+    terms:
+      - abode
+      - building
+      - home
+      - house
+      - main
+      - residence
+  unicode: f015
+  voted: false
+ellipsis-vertical:
+  aliases:
+    names:
+      - ellipsis-v
+    unicodes:
+      secondary:
+        - 10f142
+  changes:
+    - 3.1.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Ellipsis Vertical
+  search:
+    terms:
+      - dots
+      - drag
+      - kebab
+      - list
+      - menu
+      - nav
+      - navigation
+      - ol
+      - reorder
+      - settings
+      - ul
+  unicode: f142
+  voted: false
+sliders:
+  aliases:
+    names:
+      - sliders-h
+    unicodes:
+      secondary:
+        - 10f1de
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 5.0.11
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free:
       - family: classic
@@ -452,22 +624,192 @@ house:
         style: solid
       - family: classic
         style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: House
-  unicode: f015
+  label: Sliders
+  search:
+    terms:
+      - adjust
+      - settings
+      - sliders
+      - toggle
+  unicode: f1de
   voted: false
-house-tree:
+gear:
+  aliases:
+    names:
+      - cog
+    unicodes:
+      composite:
+        - '2699'
+      secondary:
+        - 10f013
   changes:
+    - 1.0.0
+    - 5.0.0
     - 6.0.0-beta1
-    - 6.0.0-beta3
+    - 6.0.0
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+      - family: classic
+        style: regular
+  label: Gear
+  search:
+    terms:
+      - cog
+      - cogwheel
+      - gear
+      - mechanical
+      - settings
+      - sprocket
+      - tool
+      - wheel
+  unicode: f013
+  voted: false
+arrow-left-long:
+  aliases:
+    names:
+      - long-arrow-left
+    unicodes:
+      secondary:
+        - 10f177
+  changes:
+    - 3.2.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Arrow Left Long
+  search:
+    terms:
+      - back
+      - long-arrow-left
+      - previous
+  unicode: f177
+  voted: false
+water:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f773
+  changes:
+    - 5.5.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+      - family: classic
+        style: regular
+  label: Water
+  search:
+    terms:
+      - lake
+      - liquid
+      - ocean
+      - sea
+      - swim
+      - wet
+  unicode: f773
+  voted: false
+mountain:
+  aliases:
+    unicodes:
+      composite:
+        - 1f3d4
+      secondary:
+        - 10f6fc
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+      - family: classic
+        style: regular
+  label: Mountain
+  search:
+    terms:
+      - cold
+      - glacier
+      - hiking
+      - hill
+      - landscape
+      - mountain
+      - snow
+      - snow-capped mountain
+      - travel
+      - view
+  unicode: f6fc
+  voted: false
+arrow-left:
+  aliases:
+    unicodes:
+      composite:
+        - '2190'
+      secondary:
+        - 10f060
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta2
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Arrow Left
+  search:
+    terms:
+      - Leftwards Arrow
+      - back
+      - previous
+  unicode: f060
+  voted: false
+campfire:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f6ba
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free: []
     pro:
@@ -475,16 +817,27 @@ house-tree:
         style: solid
       - family: classic
         style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: House Tree
-  unicode: e1b3
+  label: Campfire
+  search:
+    terms:
+      - Dungeons & Dragons
+      - caliente
+      - campaign
+      - camping
+      - d&d
+      - dnd
+      - fall
+      - fire
+      - flame
+      - gathering
+      - heat
+      - hot
+      - meeting
+      - outdoors
+      - seasonal
+      - tent
+      - wilderness
+  unicode: f6ba
   voted: false
 house-water:
   aliases:
@@ -498,6 +851,8 @@ house-water:
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free: []
     pro:
@@ -505,97 +860,33 @@ house-water:
         style: solid
       - family: classic
         style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: House with Water
+  label: House Water
+  search:
+    terms:
+      - building
+      - devastation
+      - disaster
+      - flood
+      - home
+      - insurance
+      - water
   unicode: f74f
   voted: false
-list:
+arrow-right:
   aliases:
-    names:
-      - list-squares
-    unicodes:
-      secondary:
-        - 10f03a
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.9.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: List
-  unicode: f03a
-  voted: false
-location-dot:
-  aliases:
-    names:
-      - map-marker-alt
-    unicodes:
-      secondary:
-        - 10f3c5
-  changes:
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.0.0-beta3
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Location dot
-  unicode: f3c5
-  voted: false
-magnifying-glass:
-  aliases:
-    names:
-      - search
     unicodes:
       composite:
-        - 1f50d
+        - '2192'
       secondary:
-        - 10f002
+        - 10f061
   changes:
     - 1.0.0
     - 5.0.0
     - 6.0.0-beta1
+    - 6.0.0-beta2
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free:
       - family: classic
@@ -603,18 +894,13 @@ magnifying-glass:
     pro:
       - family: classic
         style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Magnifying glass
-  unicode: f002
+  label: Arrow Right
+  search:
+    terms:
+      - Rightwards Arrow
+      - forward
+      - next
+  unicode: f061
   voted: false
 map-location-dot:
   aliases:
@@ -628,6 +914,8 @@ map-location-dot:
     - 6.0.0-beta1
     - 6.0.0-beta3
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free:
       - family: classic
@@ -635,336 +923,25 @@ map-location-dot:
     pro:
       - family: classic
         style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Map location dot
+  label: Map Location Dot
+  search:
+    terms:
+      - address
+      - coordinates
+      - destination
+      - gps
+      - localize
+      - location
+      - map
+      - navigation
+      - paper
+      - pin
+      - place
+      - point of interest
+      - position
+      - route
+      - travel
   unicode: f5a0
-  voted: false
-notdef:
-  changes:
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free: []
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Notdef
-  unicode: e1fe
-  voted: false
-plus:
-  aliases:
-    names:
-      - add
-    unicodes:
-      composite:
-        - '2795'
-        - f067
-      primary:
-        - f067
-      secondary:
-        - 102b
-        - 10f067
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.0.13
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: plus
-  unicode: 2b
-  voted: false
-spinner:
-  aliases:
-    unicodes:
-      secondary:
-        - 10f110
-  changes:
-    - 3.0.0
-    - 5.0.0
-    - 5.10.2
-    - 6.0.0-beta1
-    - 6.0.0
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Spinner
-  unicode: f110
-  voted: false
-star:
-  aliases:
-    unicodes:
-      composite:
-        - 2b50
-        - f006
-      secondary:
-        - 10f005
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.10.2
-    - 6.0.0-beta1
-    - 6.0.0
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: regular
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Star
-  unicode: f005
-  voted: false
-sun:
-  aliases:
-    unicodes:
-      composite:
-        - '2600'
-      secondary:
-        - 10f185
-  changes:
-    - 3.2.0
-    - 5.0.0
-    - 5.5.0
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: regular
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Sun
-  unicode: f185
-  voted: false
-sun-bright:
-  aliases:
-    names:
-      - sun-alt
-  changes:
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free: []
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Sun bright
-  unicode: e28f
-  voted: false
-tree:
-  aliases:
-    unicodes:
-      composite:
-        - 1f332
-      secondary:
-        - 10f1bb
-  changes:
-    - 4.1.0
-    - 5.0.0
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Tree
-  unicode: f1bb
-  voted: false
-trees:
-  aliases:
-    unicodes:
-      secondary:
-        - 10f724
-  changes:
-    - 5.4.0
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free: []
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Trees
-  unicode: f724
-  voted: false
-user:
-  aliases:
-    unicodes:
-      composite:
-        - 1f464
-        - f2c0
-      secondary:
-        - 10f007
-  changes:
-    - 1.0.0
-    - 5.0.0
-    - 5.0.3
-    - 5.0.11
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: regular
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: User
-  unicode: f007
-  voted: false
-users:
-  aliases:
-    unicodes:
-      secondary:
-        - 10f0c0
-  changes:
-    - 2.0.0
-    - 5.0.0
-    - 5.0.3
-    - 5.0.11
-    - 6.0.0-beta1
-    - 6.2.0
-  familyStylesByLicense:
-    free:
-      - family: classic
-        style: solid
-    pro:
-      - family: classic
-        style: solid
-      - family: classic
-        style: regular
-      - family: classic
-        style: light
-      - family: classic
-        style: thin
-      - family: duotone
-        style: solid
-      - family: sharp
-        style: solid
-  label: Users
-  unicode: f0c0
   voted: false
 wifi:
   aliases:
@@ -982,6 +959,178 @@ wifi:
     - 5.11.1
     - 6.0.0-beta1
     - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Wifi
+  search:
+    terms:
+      - connection
+      - hotspot
+      - internet
+      - network
+      - wireless
+  unicode: f1eb
+  voted: false
+star:
+  aliases:
+    unicodes:
+      composite:
+        - 2b50
+        - f006
+      secondary:
+        - 10f005
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.10.2
+    - 6.0.0-beta1
+    - 6.0.0
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: regular
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+      - family: classic
+        style: regular
+  label: Star
+  search:
+    terms:
+      - achievement
+      - award
+      - favorite
+      - important
+      - night
+      - rating
+      - score
+      - star
+  unicode: f005
+  voted: false
+user:
+  aliases:
+    unicodes:
+      composite:
+        - 1f464
+        - f2c0
+      secondary:
+        - 10f007
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.0.3
+    - 5.0.11
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: User
+  search:
+    terms:
+      - adult
+      - bust
+      - bust in silhouette
+      - gender-neutral
+      - person
+      - profile
+      - silhouette
+      - unspecified gender
+      - users-people
+  unicode: f007
+  voted: false
+angle-right:
+  aliases:
+    unicodes:
+      composite:
+        - 203a
+      secondary:
+        - 10f105
+  changes:
+    - 3.0.0
+    - 5.0.0
+    - 5.11.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Angle Right
+  search:
+    terms:
+      - Single Right-Pointing Angle Quotation Mark
+      - arrow
+      - care
+      - forward
+      - more
+      - next
+  unicode: f105
+  voted: false
+users:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f0c0
+  changes:
+    - 2.0.0
+    - 5.0.0
+    - 5.0.3
+    - 5.0.11
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Users
+  search:
+    terms:
+      - users-people
+  unicode: f0c0
+  voted: false
+tree:
+  aliases:
+    unicodes:
+      composite:
+        - 1f332
+      secondary:
+        - 10f1bb
+  changes:
+    - 4.1.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
   familyStylesByLicense:
     free:
       - family: classic
@@ -991,14 +1140,155 @@ wifi:
         style: solid
       - family: classic
         style: regular
+  label: Tree
+  search:
+    terms:
+      - bark
+      - evergreen tree
+      - fall
+      - flora
+      - forest
+      - nature
+      - plant
+      - seasonal
+      - tree
+  unicode: f1bb
+  voted: false
+campground:
+  aliases:
+    unicodes:
+      composite:
+        - 26fa
+      secondary:
+        - 10f6bb
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
       - family: classic
-        style: light
+        style: solid
+    pro:
       - family: classic
-        style: thin
+        style: solid
+      - family: classic
+        style: regular
       - family: duotone
         style: solid
-      - family: sharp
+  label: Campground
+  search:
+    terms:
+      - camping
+      - fall
+      - outdoors
+      - teepee
+      - tent
+      - tipi
+  unicode: f6bb
+  voted: false
+list:
+  aliases:
+    names:
+      - list-squares
+    unicodes:
+      secondary:
+        - 10f03a
+  changes:
+    - 1.0.0
+    - 5.0.0
+    - 5.9.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
         style: solid
-  label: WiFi
-  unicode: f1eb
+    pro:
+      - family: classic
+        style: solid
+  label: List
+  search:
+    terms:
+      - checklist
+      - completed
+      - done
+      - finished
+      - ol
+      - todo
+      - ul
+  unicode: f03a
+  voted: false
+bars:
+  aliases:
+    names:
+      - navicon
+    unicodes:
+      secondary:
+        - 10f0c9
+  changes:
+    - 2.0.0
+    - 5.0.0
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free:
+      - family: classic
+        style: solid
+    pro:
+      - family: classic
+        style: solid
+  label: Bars
+  search:
+    terms:
+      - checklist
+      - drag
+      - hamburger
+      - list
+      - menu
+      - nav
+      - navigation
+      - ol
+      - reorder
+      - settings
+      - todo
+      - ul
+  unicode: f0c9
+  voted: false
+trees:
+  aliases:
+    unicodes:
+      secondary:
+        - 10f724
+  changes:
+    - 5.4.0
+    - 6.0.0-beta1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free: []
+    pro:
+      - family: classic
+        style: solid
+  label: Trees
+  search:
+    terms:
+      - bark
+      - fall
+      - flora
+      - forest
+      - nature
+      - plant
+      - seasonal
+  unicode: f724
   voted: false
