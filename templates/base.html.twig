@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{% block title %}Welcome!{% endblock %} - {{ ('brand.'~brand().slug~'.name')|trans }}</title>
+        <title>{% block title %}Welcome!{% endblock %} - {{ ('brand.chalet.name')|trans }}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 
         <link rel="preconnect" href="https://api.fonts.coollabs.io">
@@ -28,8 +28,8 @@
     <body>
         <header>
             <a href="/" class="brand">
-                <i class="fas fa-{{ brand().icon }}"></i>
-                {{ ('brand.'~brand().slug~'.name_html')|trans|raw }}
+                <i class="fas fa-house-tree"></i>
+                {{ ('brand.chalet.name_html')|trans|raw }}
             </a>
 
             <!--nav>
@@ -37,7 +37,7 @@
             </nav-->
         </header>
 
-        {% include 'search_form/'~brand().slug~'.html.twig' %}
+        {% include 'search_form/chalet.html.twig' %}
 
         {% block body %}{% endblock %}
 
