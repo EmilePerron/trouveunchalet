@@ -24,6 +24,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('regions', [AppExtensionRuntime::class, 'regions']),
+            new TwigFunction('sites', [AppExtensionRuntime::class, 'sites']),
         ];
     }
 }

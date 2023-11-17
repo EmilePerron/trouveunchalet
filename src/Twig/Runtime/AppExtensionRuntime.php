@@ -3,12 +3,14 @@
 namespace App\Twig\Runtime;
 
 use App\Config\RegionConfigLoader;
+use App\Config\SiteConfigLoader;
 use Twig\Extension\RuntimeExtensionInterface;
 
 class AppExtensionRuntime implements RuntimeExtensionInterface
 {
     public function __construct(
         private RegionConfigLoader $regionConfigLoader,
+        private SiteConfigLoader $siteConfigLoader,
     ) {
     }
 
@@ -27,5 +29,10 @@ class AppExtensionRuntime implements RuntimeExtensionInterface
         }
 
         return $regions;
+    }
+
+    public function sites(): array
+    {
+        return $this->siteConfigLoader->getSites();
     }
 }

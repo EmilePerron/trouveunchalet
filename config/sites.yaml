@@ -1,10 +1,13 @@
 # Before adding new entries to this config, make sure you define the keys in the `Site` enum.
 chaletsalouer.com:
+  name: Chalets à Louer
   url: https://www.chaletsalouer.com
   crawler: App\Crawler\Driver\ChaletsALouer
 levertendre.com:
+  name: Le Vertendre
   url: https://levertendre.com
   crawler: App\Crawler\Driver\LeVertendre
 wechalet.com:
+  name: WeChalet
   url: https://wechalet.com
   crawler: App\Crawler\Driver\WeChalet

@@ -28,4 +28,12 @@ class SiteConfigLoader
     {
         return $this->configs[$site->value] ?? throw new Exception("Config for site {$site} is missing in 'config/sites.yaml'.");
     }
+
+    /**
+     * @return array<string,SiteConfig>
+     */
+    public function getSites(): array
+    {
+        return $this->configs;
+    }
 }

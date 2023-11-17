@@ -21,4 +21,10 @@ class SiteController extends AbstractController
     {
         return $this->render('site/contact.html.twig');
     }
+
+    #[Route('/comment-ajouter-ma-propriete', name: 'how_to_add_listing')]
+    public function howToAddListing(): Response
+    {
+        return $this->render('site/how_to_add_listing.html.twig');
+    }
 }
