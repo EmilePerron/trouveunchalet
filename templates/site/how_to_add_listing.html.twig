@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comment ajouter ma propriété?{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/site.css') }}">
+{% endblock %}
+
+{% block body %}
+	<main class="text">
+		<div class="container">
+			<h1>Comment ajouter ma propriété à TrouveTonChalet.ca?</h1>
+
+			<h2>Si votre chalet est déjà affiché sur une autre plateforme</h2>
+			<p>Votre chalet est déjà affiché en ligne sur une plateforme? Beau travail!</p>
+			<p>Si le site sur lequel votre chalet est affiché fait partie de la liste suivante, vous n'aviez rien à faire de plus:</p>
+			<ul>
+				{% for site in sites() %}
+					<li>
+						<a href="{{ site.url }}" target="_blank">{{ site.name }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+			<p>Si le site sur lequel vous affichez n'est pas listé ci-haut, veuillez <a href="{{ path('contact') }}">nous contacter</a> afin que nous ajoutions votre site d'affichage à notre système.</p>
+
+			<h2>Si votre chalet n'est pas encore affiché en ligne</h2>
+			<p>Nous ne permettons pas d'ajouter des propriétés directement à notre système.</p>
+			<p>Nous vous suggérons donc de faire afficher votre chalet sur l'une des plateformes que nous supportons (voir la liste ci-haut).</p>
+
+			<h2>Des questions?</h2>
+			<p>Si vous avez des questions ou des commentaires, n'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a>!</p>
+		</div>
+	</main>
+{% endblock %}
