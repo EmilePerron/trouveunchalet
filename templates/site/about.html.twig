@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}À propos{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/site.css') }}">
+{% endblock %}
+
+{% block body %}
+	<main class="text">
+		<div class="container">
+			<h1>À Propos de TrouveTonChalet.ca</h1>
+
+			<p>Bienvenue sur TrouveTonChalet.ca, votre solution rapide et efficace pour trouver le chalet de vos rêves au Québec!</p>
+
+			<h2>Notre histoire</h2>
+			<p>Notre application est née de la frustration face à la multitude de sites existants pour trouver des chalets à louer au Québec. Nous comprenons à quel point il peut être laborieux de chercher le chalet parfait parmi toutes les options disponibles et de s'efforcer de trouver une correspondance idéale.</p>
+			<p>Trouver un chalet à louer, que ce soit pour vos vacances, votre fin de semaine ou pour une réunion de lac-à-l'épaule, devrait être une expérience simple, rapide et agréable - c'est là que TrouveTonChalet.ca entre en jeu.</p>
+
+			<h2>Notre mission</h2>
+			<p>Notre mission chez TrouveTonChalet.ca est de simplifier votre recherche de chalet à louer. Nous avons créé cette application pour rendre le processus aussi facile que possible, vous permettant de consacrer moins de temps à la recherche et plus de temps à planifier votre escapade parfaite.</p>
+
+			<h2>Ce que nous offrons</h2>
+			<p>Notre moteur de recherche spécialisé dans les chalets à louer au Québec vous permet de trouver rapidement et facilement des options adaptées à vos besoins. Nous agrégeons des informations provenant de divers sites pour vous offrir une vue d'ensemble complète et vous aider à prendre des décisions éclairées, sans avoir à passer des heures à chercher sur Google!</p>
+
+			<h2>Comment ça fonctionne</h2>
+			<p>Entrez simplement vos critères de recherche, explorez les résultats et trouvez le chalet idéal en quelques clics. Nous travaillons constamment pour améliorer notre service et simplifier davantage votre expérience de recherche et de réservation.</p>
+
+			<h2>Contactez nous!</h2>
+			<p>Nous sommes ravis de partager cette aventure avec vous et nous sommes là pour répondre à vos questions. N'hésitez pas à <a href="{{ path("contact_us") }}">nous contacter</a> pour nous faire part de vos questions ou de vos commentaires!</p>
+
+			<p>Merci de faire partie de la communauté TrouveTonChalet.ca!</p>
+		</div>
+		<div class="media">
+			<img src="{{ asset('image/site/cottage-woods.webp') }}" alt="">
+			<img src="{{ asset('image/site/lake-cottage-winter.webp') }}" alt="">
+		</div>
+	</main>
+{% endblock %}
