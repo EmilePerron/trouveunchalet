@@ -16,7 +16,7 @@ class SiteController extends AbstractController
         return $this->render('site/about.html.twig');
     }
 
-    #[Route('/contact', name: 'contact_us')]
+    #[Route('/contact', name: 'contact')]
     public function contact(): Response
     {
         return $this->render('site/contact.html.twig');

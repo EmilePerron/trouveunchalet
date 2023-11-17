@@ -4,6 +4,7 @@ main.text { padding: 2rem 0; position: relative; overflow: hidden; }
 main.text .container > * { width: 60ch; max-width: 100%; }
 main.text p { margin: 1rem; }
 main.text h2 { margin-top: 2rem; }
+main.text h3 { margin-top: 1rem; }
 
 main.text .media img { width: 30%; height: auto; border-radius: 1rem; }
 main.text .media img + img { margin-top: -50%; margin-left: -50%; }
