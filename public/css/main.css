@@ -41,7 +41,7 @@ footer hr + div { display: flex; gap: 1rem; font-size: .8rem; }
 #panel-map { border-radius: .5rem; overflow: hidden; }
 
 @media (max-width: 1080px) {
-	header { display: block; text-align: center; z-index: 100; }
+	header { display: block; text-align: center; }
 	header a.brand i { display: block; margin-bottom: .5rem; }
 	header nav { display: none; } /* @TODO: make the navigation responsive */
 }
