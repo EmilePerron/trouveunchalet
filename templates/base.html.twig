@@ -7,6 +7,16 @@
         <title>{% block title %}Welcome!{% endblock %} - {{ ('brand.chalet.name')|trans }}</title>
         <link rel="icon" href="{{ absolute_url(asset('fontawesome/svgs/solid/house-tree.svg')) }}">
 
+		<meta name="description" content="Trouvez votre escapade de rêves en quelques minutes parmis des milliers de chalets au Québec!">
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="{{ app.request.uri }}" />
+		<meta property="og:image" content="{{ absolute_url(asset('image/site/og-image.jpg')) }}">
+
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content="{{ app.request.uri }}" />
+		<meta property="twitter:image" content="{{ absolute_url(asset('image/site/og-image.jpg')) }}">
+
         <link rel="preconnect" href="https://api.fonts.coollabs.io">
         <link href="https://api.fonts.coollabs.io/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Urbanist:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
 
