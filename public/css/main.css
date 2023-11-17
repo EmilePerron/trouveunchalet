@@ -21,6 +21,12 @@ footer hr + div { display: flex; gap: 1rem; font-size: .8rem; }
     footer hr + div { flex-direction: column; gap: .5rem; }
 }
 
+/* Text-heavy pages */
+main.text { padding: 2rem 0; }
+main.text .container > * { width: 60ch; max-width: 100%; }
+main.text p { margin: 1rem; }
+main.text h2 { margin-top: 2rem; }
+
 .slider { display: flex; flex-wrap: nowrap; gap: 1rem; scroll-behavior: smooth; scroll-snap-type: x mandatory; scroll-snap-stop: always; overflow: auto; scrollbar-width: none; }
 .slider::-webkit-scrollbar { width: 0; height: 0; }
 .slider > * { scroll-snap-align: start; }

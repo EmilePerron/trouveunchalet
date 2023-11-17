@@ -37,8 +37,6 @@
             </nav-->
         </header>
 
-        {% include 'search_form/chalet.html.twig' %}
-
         {% block body %}{% endblock %}
 
 		<footer>
@@ -65,8 +63,8 @@
 
 			<div class="container">
 				© 2023 Trouve ton Chalet
-				<a href="#">Conditions d'utilisation</a>
-				<a href="#">Politique de confidentialité</a>
+				<a href="{{ path('terms_of_use') }}">Conditions d'utilisation</a>
+				<a href="{{ path('privacy_policy') }}">Politique de confidentialité</a>
 			</div>
 		</footer>
 
