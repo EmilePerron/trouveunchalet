@@ -204,9 +204,9 @@
       ]
     },
     "styles": [
-      "duotone",
+      "solid",
       "regular",
-      "solid"
+      "duotone"
     ],
     "svg": {
       "regular": {
@@ -277,8 +277,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -518,8 +518,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -761,8 +761,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -835,8 +835,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -960,8 +960,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -1025,8 +1025,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -1152,8 +1152,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -1221,8 +1221,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -1475,9 +1475,9 @@
       ]
     },
     "styles": [
-      "duotone",
+      "solid",
       "regular",
-      "solid"
+      "duotone"
     ],
     "svg": {
       "regular": {
@@ -1660,8 +1660,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -1953,8 +1953,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -2071,8 +2071,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -2128,8 +2128,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -2193,8 +2193,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -2266,8 +2266,8 @@
       ]
     },
     "styles": [
-      "regular",
-      "solid"
+      "solid",
+      "regular"
     ],
     "svg": {
       "regular": {
@@ -2298,6 +2298,47 @@
       }
     },
     "unicode": "f6d3",
+    "voted": false
+  },
+  "grid-2": {
+    "changes": [
+      "6.0.0-beta1",
+      "6.0.0-beta3",
+      "6.2.0",
+      "6.3.0",
+      "6.4.0"
+    ],
+    "free": [],
+    "label": "Grid 2",
+    "ligatures": [],
+    "search": {
+      "terms": [
+        " collection",
+        " grid",
+        "app",
+        "filter",
+        "sort"
+      ]
+    },
+    "styles": [
+      "solid"
+    ],
+    "svg": {
+      "solid": {
+        "height": 512,
+        "last_modified": 1684767205,
+        "path": "M224 80c0-26.5-21.5-48-48-48H80C53.5 32 32 53.5 32 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80zm0 256c0-26.5-21.5-48-48-48H80c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336zM288 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48zM480 336c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336z",
+        "raw": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\"><path d=\"M224 80c0-26.5-21.5-48-48-48H80C53.5 32 32 53.5 32 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80zm0 256c0-26.5-21.5-48-48-48H80c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336zM288 80v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V80c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48zM480 336c0-26.5-21.5-48-48-48H336c-26.5 0-48 21.5-48 48v96c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48V336z\"/></svg>",
+        "viewBox": [
+          0,
+          0,
+          512,
+          512
+        ],
+        "width": 512
+      }
+    },
+    "unicode": "e196",
     "voted": false
   }
 }

@@ -1,4 +1,23 @@
 ---
+grid-2:
+  changes:
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  label: Grid 2
+  search:
+    terms:
+      -  collection
+      -  grid
+      - app
+      - filter
+      - sort
+  styles:
+    - solid
+  unicode: e196
+  voted: false
 dog:
   aliases:
     unicodes:
@@ -27,8 +46,8 @@ dog:
       - puppy
       - woof
   styles:
-    - regular
     - solid
+    - regular
   unicode: f6d3
   voted: false
 fireplace:
@@ -54,8 +73,8 @@ fireplace:
       - toasty
       - warmth
   styles:
-    - regular
     - solid
+    - regular
   unicode: f79a
   voted: false
 sun-bright:
@@ -74,8 +93,8 @@ sun-bright:
       - sky
       - summer
   styles:
-    - regular
     - solid
+    - regular
   unicode: e28f
   voted: false
 gears:
@@ -102,8 +121,8 @@ gears:
       - sprocket
       - wheel
   styles:
-    - regular
     - solid
+    - regular
   unicode: f085
   voted: false
 spinner:
@@ -181,8 +200,8 @@ xmark:
       - x
       - ×
   styles:
-    - regular
     - solid
+    - regular
   unicode: f00d
   voted: false
 plus:
@@ -325,8 +344,8 @@ xmark-large:
       - x
       - ×
   styles:
-    - regular
     - solid
+    - regular
   unicode: e59b
   voted: false
 ellipsis:
@@ -407,9 +426,9 @@ house-tree:
       - suburbs
       - urban
   styles:
-    - duotone
-    - regular
     - solid
+    - regular
+    - duotone
   unicode: e1b3
   voted: false
 sun:
@@ -545,8 +564,8 @@ sliders:
       - sliders
       - toggle
   styles:
-    - regular
     - solid
+    - regular
   unicode: f1de
   voted: false
 gear:
@@ -578,8 +597,8 @@ gear:
       - tool
       - wheel
   styles:
-    - regular
     - solid
+    - regular
   unicode: f013
   voted: false
 arrow-left-long:
@@ -627,8 +646,8 @@ water:
       - swim
       - wet
   styles:
-    - regular
     - solid
+    - regular
   unicode: f773
   voted: false
 mountain:
@@ -658,8 +677,8 @@ mountain:
       - travel
       - view
   styles:
-    - regular
     - solid
+    - regular
   unicode: f6fc
   voted: false
 arrow-left:
@@ -719,8 +738,8 @@ campfire:
       - tent
       - wilderness
   styles:
-    - regular
     - solid
+    - regular
   unicode: f6ba
   voted: false
 house-water:
@@ -748,8 +767,8 @@ house-water:
       - insurance
       - water
   styles:
-    - regular
     - solid
+    - regular
   unicode: f74f
   voted: false
 arrow-right:
@@ -872,8 +891,8 @@ star:
       - score
       - star
   styles:
-    - regular
     - solid
+    - regular
   unicode: f005
   voted: false
 user:
@@ -986,8 +1005,8 @@ tree:
       - seasonal
       - tree
   styles:
-    - regular
     - solid
+    - regular
   unicode: f1bb
   voted: false
 campground:
@@ -1014,9 +1033,9 @@ campground:
       - tent
       - tipi
   styles:
-    - duotone
-    - regular
     - solid
+    - regular
+    - duotone
   unicode: f6bb
   voted: false
 list:

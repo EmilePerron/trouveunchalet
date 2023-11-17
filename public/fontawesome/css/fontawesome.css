@@ -537,6 +537,7 @@ readers do not read off random characters that represent icons */
 .fa-fireplace::before { content: "\f79a"; }
 .fa-gear::before { content: "\f013"; }
 .fa-gears::before { content: "\f085"; }
+.fa-grid-2::before { content: "\e196"; }
 .fa-home::before { content: "\f015"; }
 .fa-home-alt::before { content: "\f015"; }
 .fa-home-lg-alt::before { content: "\f015"; }

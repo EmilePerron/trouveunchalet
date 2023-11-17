@@ -1,4 +1,26 @@
 ---
+grid-2:
+  changes:
+    - 6.0.0-beta1
+    - 6.0.0-beta3
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+  familyStylesByLicense:
+    free: []
+    pro:
+      - family: classic
+        style: solid
+  label: Grid 2
+  search:
+    terms:
+      -  collection
+      -  grid
+      - app
+      - filter
+      - sort
+  unicode: e196
+  voted: false
 dog:
   aliases:
     unicodes:

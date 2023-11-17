@@ -1,8 +1,15 @@
 ---
-animals:
+buildings:
   icons:
-    - dog
-  label: Animals
+    - campground
+    - house
+    - house-tree
+    - house-water
+  label: Buildings
+punctuation-symbols:
+  icons:
+    - plus
+  label: Punctuation + Symbols
 arrows:
   icons:
     - angle-right
@@ -11,72 +18,115 @@ arrows:
     - arrow-right
     - arrow-right-long
   label: Arrows
-buildings:
+music-audio:
   icons:
-    - campground
-    - house
-    - house-tree
-    - house-water
-  label: Buildings
-camping:
+    - sliders
+  label: Music + Audio
+maritime:
   icons:
-    - campfire
-    - campground
-    - map-location-dot
-    - mountain
-    - tree
-    - trees
-  label: Camping
-coding:
-  icons:
-    - bars
-    - gear
-    - gears
-  label: Coding
-connectivity:
-  icons:
-    - wifi
-  label: Connectivity
-disaster:
-  icons:
-    - house-water
-  label: Disaster + Crisis
+    - water
+  label: Maritime
 editing:
   icons:
     - bars
     - ellipsis
     - ellipsis-vertical
     - gear
+    - grid-2
     - plus
     - sliders
     - xmark
     - xmark-large
   label: Editing
-energy:
-  icons:
-    - sun
-    - water
-  label: Energy
-gaming:
-  icons:
-    - campfire
-  label: Gaming
-holidays:
-  icons:
-    - fireplace
-  label: Holidays
-household:
-  icons:
-    - fireplace
-  label: Household
-humanitarian:
-  icons:
-    - wifi
-  label: Humanitarian
 logistics:
   icons:
     - gears
   label: Logistics
+medical-health:
+  icons:
+    - plus
+  label: Medical + Health
+spinners:
+  icons:
+    - gear
+    - spinner
+    - sun
+  label: Spinners
+mathematics:
+  icons:
+    - plus
+    - xmark
+  label: Mathematics
+text-formatting:
+  icons:
+    - list
+  label: Text Formatting
+shopping:
+  icons:
+    - star
+  label: Shopping
+toggle:
+  icons:
+    - star
+    - wifi
+  label: Toggle
+media-playback:
+  icons:
+    - sliders
+  label: Media Playback
+holidays:
+  icons:
+    - fireplace
+  label: Holidays
+photos-images:
+  icons:
+    - sliders
+  label: Photos + Images
+weather:
+  icons:
+    - house-water
+    - sun
+    - sun-bright
+    - water
+  label: Weather
+design:
+  icons:
+    - grid-2
+  label: Design
+connectivity:
+  icons:
+    - wifi
+  label: Connectivity
+gaming:
+  icons:
+    - campfire
+  label: Gaming
+social:
+  icons:
+    - location-dot
+    - star
+    - user
+    - users
+  label: Social
+users-people:
+  icons:
+    - user
+    - users
+  label: Users + People
+nature:
+  icons:
+    - house-tree
+    - mountain
+    - tree
+    - trees
+    - water
+  label: Nature
+coding:
+  icons:
+    - bars
+    - gear
+    - gears
+  label: Coding
 maps:
   icons:
     - house
@@ -86,88 +136,43 @@ maps:
     - tree
     - wifi
   label: Maps
-maritime:
-  icons:
-    - water
-  label: Maritime
-mathematics:
-  icons:
-    - plus
-    - xmark
-  label: Mathematics
-media-playback:
-  icons:
-    - sliders
-  label: Media Playback
-medical-health:
-  icons:
-    - plus
-  label: Medical + Health
-music-audio:
-  icons:
-    - sliders
-  label: Music + Audio
-nature:
-  icons:
-    - house-tree
-    - mountain
-    - tree
-    - trees
-    - water
-  label: Nature
-photos-images:
-  icons:
-    - sliders
-  label: Photos + Images
-punctuation-symbols:
-  icons:
-    - plus
-  label: Punctuation + Symbols
 shapes:
   icons:
     - star
   label: Shapes
-shopping:
-  icons:
-    - star
-  label: Shopping
-social:
-  icons:
-    - location-dot
-    - star
-    - user
-    - users
-  label: Social
-spinners:
-  icons:
-    - gear
-    - spinner
-    - sun
-  label: Spinners
-text-formatting:
-  icons:
-    - list
-  label: Text Formatting
-toggle:
-  icons:
-    - star
-    - wifi
-  label: Toggle
 travel-hotel:
   icons:
     - fireplace
     - map-location-dot
     - wifi
   label: Travel + Hotel
-users-people:
+energy:
   icons:
-    - user
-    - users
-  label: Users + People
-weather:
+    - sun
+    - water
+  label: Energy
+household:
+  icons:
+    - fireplace
+  label: Household
+camping:
+  icons:
+    - campfire
+    - campground
+    - map-location-dot
+    - mountain
+    - tree
+    - trees
+  label: Camping
+animals:
+  icons:
+    - dog
+  label: Animals
+disaster:
   icons:
     - house-water
-    - sun
-    - sun-bright
-    - water
-  label: Weather
+  label: Disaster + Crisis
+humanitarian:
+  icons:
+    - wifi
+  label: Humanitarian
