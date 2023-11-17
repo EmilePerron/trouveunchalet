@@ -39,7 +39,7 @@ stylesheet.innerHTML = `
 	.filter-button:hover label span, .filter-button:focus-visible label span { opacity: 1; }
 
 	@media (max-width: 480px) {
-		.filters-datepicker { flex-direction: column; }
+		.filters-datepicker { flex-direction: column; gap: 2ch; }
 		.filters-datepicker .datepicker-input { width: 100%; }
 	}
 `;

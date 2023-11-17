@@ -26,7 +26,7 @@ stylesheet.innerHTML = `
 	}
 
 	@media (max-width: 500px) {
-		listing-list ol { grid-template-columns: repeat(1, 1fr); }
+		listing-list ol { display: flex; flex-direction: column; }
 	}
 `;
 document.head.append(stylesheet);
