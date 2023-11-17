@@ -16,8 +16,9 @@ stylesheet.innerHTML = `
 	listing-map { display: block; position: relative; }
 	listing-map .map { width: 100%; height: 100%; }
 	listing-map .empty-state-overlay { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; background-color: var(--color-primary-800); background-color: color-mix(in srgb, var(--color-primary-800) 75%, transparent); backdrop-filter: blur(2px); position: absolute; bottom: 0; left: 0; z-index: 1000; pointer-events: none; }
-	listing-map .search-here-overlay { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; position: absolute; top: 0; left: 0; z-index: 1001; pointer-events: none; }
+	listing-map .search-here-overlay { display: flex; justify-content: flex-start; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; font-weight: 600; text-align: center; color: white; position: absolute; top: 0; left: 0; z-index: 1001; pointer-events: none; }
 	listing-map .search-here-overlay button { animation: pulse 1s ease-in-out infinite alternate; pointer-events: auto; }
+	listing-map .locate-me { position: absolute; top: 1ch; right: 1ch; }
 	listing-map [aria-hidden="true"] { display: none; }
 	listing-map[aria-busy="true"]::after { content: 'Chargement...'; display: block; width: 100%; height: 100%; padding: 3rem 1.5rem; font-size: 1.1rem; font-weight: 600; color: var(--color-gray-900); text-align: center; background-color: rgb(255 255 255 / 50%); position: absolute; top: 0; left: 0; z-index: 1000; }
 `;
@@ -58,13 +59,24 @@ export class ListingMap extends HTMLElement {
 				<button type="button" class="primary">
 					Chercher ici
 					<i class="fas fa-search"></i>
-				</button
+				</button>
+			</div>
+			<div class="locate-me">
+				<button type="button">
+					Aller à ma position
+					<i class="fas fa-location-dot"></i>
+				</button>
 			</div>
 		`;
 
 		this.#emptyStateOverlay = this.querySelector(".empty-state-overlay");
 		this.#searchHereOverlay = this.querySelector(".search-here-overlay");
 		this.#searchHereButton = this.#searchHereOverlay.querySelector("button");
+
+		this.querySelector(".locate-me button").addEventListener("click", async () => {
+			await listingService.updateCoordsWithUserGeolocation();
+			listingService.search();
+		});
 
 		this.#searchHereButton.addEventListener("click", () => {
 			this.#searchHereCallback();

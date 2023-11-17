@@ -168,6 +168,7 @@ class ListingService {
 			});
 			this.latitude = userLocation.latitude;
 			this.longitude = userLocation.longitude;
+			this.searchRadius = 150;
 		} catch (error) {
 			console.error(error);
 		}
@@ -192,8 +193,6 @@ class ListingService {
 			// Provide a default to load the map somewhere...
 			this.latitude = 48.512461;
 			this.longitude = -71.88658;
-
-			// await this.updateCoordsWithUserGeolocation();
 		}
 
 		this.#updateUrlToMatchSearchFilters();
