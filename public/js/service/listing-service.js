@@ -154,12 +154,6 @@ class ListingService {
 	}
 
 	async updateCoordsWithUserGeolocation() {
-		// Provide a default to load the map somewhere...
-		if (!this.latitude) {
-			this.latitude = 48.512461;
-			this.longitude = -71.88658;
-		}
-
 		const geolocationPermission = await navigator.permissions.query({ name: "geolocation" });
 
 		if (geolocationPermission.state == "denied") {
@@ -195,7 +189,11 @@ class ListingService {
 		ListingServiceEvents.eventTarget.dispatchEvent(new CustomEvent(ListingServiceEvents.EVENT_LOADING));
 
 		if (!this.latitude) {
-			await this.updateCoordsWithUserGeolocation();
+			// Provide a default to load the map somewhere...
+			this.latitude = 48.512461;
+			this.longitude = -71.88658;
+
+			// await this.updateCoordsWithUserGeolocation();
 		}
 
 		this.#updateUrlToMatchSearchFilters();
