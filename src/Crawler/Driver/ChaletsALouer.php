@@ -135,7 +135,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 
 				// Entries with no number of nights or for monthly rentals are ignored.
 				// This app's audience is not looking for long-term rentals.
-				if (!$numberOfNights || stripos($label, 'mois') !== false) {
+				if (!$numberOfNights || stripos($label, 'mois') !== false || strtolower($label) == 'saison') {
 					return;
 				}
 
