@@ -26,7 +26,7 @@ stylesheet.innerHTML = `
 	/* Default hidden state with no specificity to hide the datepicker before the datepicker lib's CSS has been loaded */
 	:where(.datepicker:not(.active)) { display: none; }
 
-	.filters-datepicker { display: flex; gap: 1ch; }
+	.filters-datepicker { display: flex; gap: 1ch; margin-top: .5rem; }
 	.datepicker .button { font-family: inherit; }
 
 	.characteristics-list { display: flex; justify-content: flex-start; align-items: flex-start; flex-wrap: wrap; gap: 1ch; }
@@ -100,15 +100,16 @@ export class ListingFilters extends HTMLElement {
 
 				<form>
 					<fieldset>
+						<legend>Disponibilités</legend>
 						<div class="filters-datepicker">
 							<span class="input-wrapper">
-								<label>Arrivée</label>
-								<input type="text" name="date_arrival" placeholder=" " value="${listingService.dateArrival ?? ''}">
+								<label for="input-date-arrival">Arrivée</label>
+								<input type="text" name="date_arrival" id="input-date-arrival" placeholder=" " value="${listingService.dateArrival ?? ''}">
 							</span>
 
 							<span class="input-wrapper">
-								<label>Départ</label>
-								<input type="text" name="date_departure" placeholder=" " value="${listingService.dateDeparture ?? ''}">
+								<label for="input-date-departure">Départ</label>
+								<input type="text" name="date_departure" id="input-date-departure" placeholder=" " value="${listingService.dateDeparture ?? ''}">
 							</span>
 						</div>
 					</fieldset>
