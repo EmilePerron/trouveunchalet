@@ -133,7 +133,9 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 				$label = $row->children()->eq(0)->text();
 				$numberOfNights = intval(preg_replace('/^.*?(\d+)\s(nuit|jour).*$/i', '$1', $label));
 
-				if (!$numberOfNights) {
+				// Entries with no number of nights or for monthly rentals are ignored.
+				// This app's audience is not looking for long-term rentals.
+				if (!$numberOfNights || stripos($label, 'mois') !== false) {
 					return;
 				}
 
