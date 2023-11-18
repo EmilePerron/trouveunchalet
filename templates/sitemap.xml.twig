@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+	  <loc>https://trouvetonchalet.ca</loc>
+	</url>
+
+	{% for content_page_url in content_page_urls %}
+		<url>
+			<loc>{{ absolute_url(content_page_url) }}</loc>
+		</url>
+	{% endfor %}
+
+	{% for region in regions() %}
+		<url>
+			<loc>{{ absolute_url(path('region', { region: region.slug })) }}</loc>
+		</url>
+		<url>
+			<loc>{{ absolute_url(path('region_with_dogs', { region: region.slug })) }}</loc>
+		</url>
+	{% endfor %}
+</urlset>
