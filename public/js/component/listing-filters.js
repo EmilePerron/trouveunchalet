@@ -34,9 +34,12 @@ stylesheet.innerHTML = `
 	.filter-button { font-family: inherit; position: relative; }
 	.filter-button label::before { content: ' '; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 	.filter-button label span { display: inline-block; padding: .5ch 1ch; font-size: .8rem; color: #fff; white-space: nowrap; background-color: var(--color-gray-900); border-radius: .5rem; position: absolute; bottom: 3rem; left: 50%; translate: -50%; opacity: 0; pointer-events: none; transition: opacity .2s ease-in-out; }
-	.filter-button input { scale: 1.15; accent-color: var(--color-primary); }
+	.filter-button input { scale: 1.15; accent-color: var(--color-primary); outline: none; }
 	.filter-button:has(input:checked) { --button-color: var(--color-primary-100); background-color: var(--button-color); }
 	.filter-button:hover label span, .filter-button:focus-visible label span { opacity: 1; }
+
+	.filter-button input:focus-visible { outline: none; }
+	.filter-button:has(input:focus-visible) { outline: var(--outline-focus-ring); outline-offset: var(--outline-focus-ring-offset); }
 
 	@media (max-width: 480px) {
 		.filters-datepicker { flex-direction: column; gap: 2ch; }

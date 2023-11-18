@@ -6,6 +6,6 @@ input, button, textarea, select { font: inherit; }
 p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
 
 /* Focus state: outline */
-*:focus-visible { outline: 4px solid var(--color-primary-500); outline-offset: 2px; }
+*:focus-visible { outline: var(--outline-focus-ring); outline-offset: var(--outline-focus-ring-offset); }
 /* Default border radius with 0, 0, 0 specificity so other styles can override it easily */
 :where(*:focus-visible) { border-radius: .25rem; }
