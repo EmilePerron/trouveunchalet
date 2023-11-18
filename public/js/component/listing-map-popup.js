@@ -1,5 +1,5 @@
 import { listingService } from "../service/listing-service.js";
-import { ButtonStylesheet, FontawesomeStylesheet } from "../global-stylesheets.js";
+import { ResetStylesheet, ButtonStylesheet, FontawesomeStylesheet } from "../global-stylesheets.js";
 import { renderPricePerNight } from "../util/listing.js";
 
 const stylesheet = document.createElement("style");
@@ -47,6 +47,7 @@ export class ListingMapPopup extends HTMLElement {
 
 		this.shadowRoot.innerHTML = `
 			${stylesheet.outerHTML}
+			${ResetStylesheet.outerHTML}
 			${FontawesomeStylesheet.outerHTML}
 			${ButtonStylesheet.outerHTML}
 

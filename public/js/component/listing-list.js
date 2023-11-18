@@ -6,7 +6,7 @@ const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
 	listing-list { display: block; position: relative; scroll-margin-block-start: 7rem; }
 	listing-list ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem 1.5rem; padding: 0; list-style: none; }
-	listing-list .pagination { display: flex; gap: 1rem; justify-content: center; align-item: center; margin: 2rem 0; }
+	listing-list .pagination nav { display: flex; gap: 1rem; justify-content: center; align-items: center; margin: 2rem 0; }
 	listing-list .pagination button { justify-content: center; aspect-ratio: 1 / 1; width: 5ch; border-radius: 50%; }
 	listing-list .pagination > span { line-height: 1.5; }
 	listing-list .empty-state-element { display: flex; justify-content: center; align-items: center; width: 100%; padding: .75rem 1rem; font-size: 1rem; }
@@ -151,7 +151,9 @@ export class ListingList extends HTMLElement {
 	}
 
 	#renderPagination() {
-		let html = `<button type="button" page-number="1" aria-current="${this.currentPage == 1 ? "true" : "false"}">1</button>`;
+		let html = `<nav role="navigation">
+			<button type="button" page-number="1" aria-label="Aller à la page 1" aria-current="${this.currentPage == 1 ? "true" : "false"}">1</button>
+		`;
 
 		if (this.currentPage > 3) {
 			html += `<span>...</span>`;
@@ -163,7 +165,7 @@ export class ListingList extends HTMLElement {
 			}
 
 			html += `
-				<button type="button" page-number="${i}" aria-current="${this.currentPage == i ? "true" : "false"}">${i}</button>
+				<button type="button" page-number="${i}" aria-label="Aller à la page ${i}" aria-current="${this.currentPage == i ? "true" : "false"}">${i}</button>
 			`;
 		}
 
@@ -172,8 +174,10 @@ export class ListingList extends HTMLElement {
 		}
 
 		if (this.pageCount > 1) {
-			html += `<button type="button" page-number="${this.pageCount}" aria-current="${this.currentPage == this.pageCount ? "true" : "false"}">${this.pageCount}</button>`;
+			html += `<button type="button" page-number="${this.pageCount}" aria-label="Aller à la page ${this.pageCount}" aria-current="${this.currentPage == this.pageCount ? "true" : "false"}">${this.pageCount}</button>`;
 		}
+
+		html += `</nav>`;
 
 		this.#paginationElement.innerHTML = html;
 
