@@ -59,43 +59,23 @@
 
 @media (max-width: 1080px) {
 	:root,
-	::backdrop {
-		--container-width: calc(100vw - 4rem);
-	}
+	::backdrop { --container-width: calc(100vw - 4rem); }
 }
 
 @media (max-width: 767px) {
 	:root,
-	::backdrop {
-		--container-width: calc(100vw - 2rem);
-	}
+	::backdrop { --container-width: calc(100vw - 2rem); }
 }
 
 html,
-body {
-	font-family: var(--font-family);
-	font-size: 16px;
-	color: var(--color-primary-900);
-	background-color: #fff;
-}
+body { font-family: var(--font-family); font-size: 16px; color: var(--color-primary-900); background-color: #fff; }
 
-.container {
-	width: var(--container-width);
-	max-width: 100%;
-	margin: auto;
-}
+.container { width: var(--container-width); max-width: 100%; margin: auto; }
 
-.text-danger {
-	color: var(--color-danger-700);
-}
-
-.text-warning {
-	color: var(--color-warning-700);
-}
-
-.text-success {
-	color: var(--color-success-700);
-}
+.text-primary { color: var(--color-primary-700); }
+.text-danger { color: var(--color-danger-700); }
+.text-warning { color: var(--color-warning-700); }
+.text-success { color: var(--color-success-700); }
 
 select { display: block; padding: .5rem; font-size: .9rem; font-weight: 600; background-color: white; border: 1px solid var(--color-gray-200); border-radius: .25rem; }
 select:hover { color: var(--color-primary-600); border-color: var(--color-primary-300); transition: all .15s ease; }

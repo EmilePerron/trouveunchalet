@@ -55,7 +55,7 @@
 					<div>
 						<strong>Explorer par région</strong>
 						{% for region in regions() %}
-							<a href="{{ path('search', { latitude: region.latitude, longitude: region.longitude, search_radius: region.radius, region: region.slug }) }}">
+							<a href="{{ path('region', { region: region.slug }) }}">
 								{{ region.name }}
 							</a>
 						{% endfor %}

@@ -1,3 +1,4 @@
+import { listingService } from "../service/listing-service.js";
 import "./listing-filters.js";
 import "./listing-list.js"
 import "./listing-map.js"
@@ -11,8 +12,23 @@ stylesheet.innerHTML = `
 document.head.append(stylesheet);
 
 export class ListingSearchExperience extends HTMLElement {
-	constructor() {
-		super();
+	connectedCallback() {
+		const initialLatitude = this.getAttribute("latitude");
+		const initialLongitude = this.getAttribute("longitude");
+		const initialSearchRadius = this.getAttribute("search-radius");
+		const initialDogsAllowed = this.hasAttribute("dogs-allowed");
+
+		if (!listingService.latitude) {
+			if (initialLatitude) {
+				listingService.latitude = initialLatitude;
+				listingService.longitude = initialLongitude;
+				listingService.searchRadius = initialSearchRadius;
+			}
+
+			if (initialDogsAllowed) {
+				listingService.dogsAllowed = 1;
+			}
+		}
 
 		this.innerHTML = `
 			<div class="header">

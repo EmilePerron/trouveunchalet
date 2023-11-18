@@ -153,4 +153,14 @@ class ListingRepository extends ServiceEntityRepository
 			->setResultCacheLifetime(3600 * 6)
 			->getResult();
 	}
+
+	public function getTotalNumberOfListings(): int
+	{
+		return $this->createQueryBuilder('l')
+			->select('COUNT(l) AS count')
+			->setCacheable(true)
+			->getQuery()
+			->setResultCacheLifetime(3600 * 6)
+			->getSingleScalarResult();
+	}
 }

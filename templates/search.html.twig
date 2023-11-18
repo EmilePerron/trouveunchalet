@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Recherche{% endblock %}
+{%- block title -%}
+	{%- if region is defined -%}
+		{{ region.heading }}
+		{% if dogs_allowed is defined and dogs_allowed %}où les chiens sont permis 🐶{% endif %}
+	{%- else -%}
+		Recherche de chalet à louer au Québec
+	{%- endif -%}
+{%- endblock -%}
 
 {% block stylesheets %}
 	<script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
@@ -10,6 +17,20 @@
 	<script type="module" src="{{ asset('js/component/listing-search-experience.js') }}"></script>
 
 	<div class="container">
-		<listing-search-experience></listing-search-experience>
+		{% if region is defined %}
+			<h1>
+				{{ region.heading }}
+				{% if dogs_allowed is defined and dogs_allowed %}où les chiens sont permis 🐶{% endif %}
+			</h1>
+			<listing-search-experience
+				latitude="{{ region.latitude }}"
+				longitude="{{ region.longitude }}"
+				search-radius="{{ region.radius }}"
+				{% if dogs_allowed is defined and dogs_allowed %}dogs-allowed{% endif %}>
+			</listing-search-experience>
+		{% else %}
+			<h1>Cherchez parmis <span class="text-primary">{{ total_number_of_listings()|number_format }}</span> chalets à louer au Québec</h1>
+			<listing-search-experience></listing-search-experience>
+		{% endif %}
 	</div>
 {% endblock %}

@@ -7,6 +7,7 @@ class RegionConfig
     public function __construct(
         public readonly string $slug,
         public readonly string $name,
+        public readonly string $heading,
         public readonly float $latitude,
         public readonly float $longitude,
         public readonly int $radius,
@@ -21,6 +22,7 @@ class RegionConfig
     {
         $this->slug = $config['slug'];
         $this->name = $config['name'];
+        $this->heading = $config['heading'];
         $this->latitude = $config['latitude'];
         $this->longitude = $config['longitude'];
         $this->radius = $config['radius'];
@@ -37,6 +39,7 @@ class RegionConfig
         return new static(
             slug: $config['slug'],
             name: $config['name'],
+            heading: $config['heading'],
             latitude: $config['latitude'],
             longitude: $config['longitude'],
             radius: $config['radius'],
