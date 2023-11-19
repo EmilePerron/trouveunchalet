@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Listing;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,14 +10,10 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ImageProxyController extends AbstractController
 {
-	#[Route(path: '/image/listing/{url}', name: 'image_proxy', requirements: ["url" => ".+"])]
-	public function imageProxy(string $url, HttpClientInterface $httpClient): Response
+	#[Route(path: '/image/listing/{id}', name: 'listing_image_proxy')]
+	public function imageProxy(Listing $listing, HttpClientInterface $httpClient): Response
 	{
-		if (!$url) {
-			return new Response("Missing image URL.", 400);
-		}
-
-		$url = urldecode($url);
+		$url = $listing->getImageUrl();
 
 		$sourceResponse = $httpClient->request("GET", $url, [
 			"timeout" => 2.5,
