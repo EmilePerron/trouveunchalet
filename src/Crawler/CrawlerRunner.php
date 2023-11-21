@@ -4,6 +4,7 @@ namespace App\Crawler;
 
 use App\Config\SiteConfigLoader;
 use App\Crawler\Exception\MissingCrawlerException;
+use App\Crawler\Exception\RobotsTxtDisallowsCrawlingException;
 use App\Crawler\Model\ListingData;
 use App\Entity\CrawlLog;
 use App\Entity\Listing;
@@ -21,9 +22,13 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
+use RobotsTxtParser;
+use Symfony\Component\Cache\Psr16Cache;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CrawlerRunner
 {
@@ -44,6 +49,9 @@ class CrawlerRunner
         private Geocoder $geocoder,
         private LoggerInterface $logger,
 		private Storage $storage,
+		private HttpClientInterface $httpClient,
+		#[Autowire(service: 'app_cache')]
+		private Psr16Cache $appCache,
         #[TaggedIterator('app.crawler_driver')]
         iterable $drivers,
     ) {
@@ -66,6 +74,8 @@ class CrawlerRunner
             $this->log($log, $type, $message);
         };
         $writeLog(LogType::Info, "Preparing to crawl.");
+
+		$this->checkIfCrawlingIsAllowedByRobotsTxt($site);
 
         try {
             $driver = $this->getDriver($site);
@@ -130,6 +140,8 @@ class CrawlerRunner
             $this->log($log, $type, $message);
         };
         $writeLog(LogType::Info, "Preparing to crawl.");
+
+		$this->checkIfCrawlingIsAllowedByRobotsTxt($site);
 
         try {
             $driver = $this->getDriver($site);
@@ -255,4 +267,33 @@ class CrawlerRunner
 
         return $driver;
     }
+
+	/**
+	 * @throws RobotsTxtDisallowsCrawlingException
+	 */
+	private function checkIfCrawlingIsAllowedByRobotsTxt(Site $site): void
+	{
+		$cacheKey = 'robots_txt_' . $site->name;
+		$siteConfig = $this->siteConfigLoader->getSiteConfig($site);
+		$isAllowed = $this->appCache->get($cacheKey);
+
+		if ($isAllowed === null) {
+			try {
+				$request = $this->httpClient->request('GET', $siteConfig->robotsTxtUrl);
+				$robotsTxtContent = $request->getContent();
+				$robotsParser = new RobotsTxtParser($robotsTxtContent);
+
+				$isAllowed = $robotsParser->isAllowed("/", "TrouveTonChaletBot") || !$robotsParser->isDisallowed("/", "TrouveTonChaletBot");
+			} catch (Exception $e) {
+				$this->logger->error($e, $e->getTrace());
+				$isAllowed = true;
+			}
+
+			$this->appCache->set($cacheKey, $isAllowed, 3600 * 24);
+		}
+
+		if (!$isAllowed) {
+			throw new RobotsTxtDisallowsCrawlingException("The robots.txt file for {$site->name} at {$siteConfig->robotsTxtUrl} disallows our crawler.");
+		}
+	}
 }

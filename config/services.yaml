@@ -32,6 +32,16 @@ services:
         arguments:
             - "@geocoding_cache_adapter"
 
+    app_cache_adapter:
+        class: Symfony\Component\Cache\Adapter\DoctrineDbalAdapter
+        arguments:
+            - "%env(DATABASE_URL)%"
+
+    app_cache:
+        class: Symfony\Component\Cache\Psr16Cache
+        arguments:
+            - "@app_cache_adapter"
+
     digitalocean_spaces_client:
         class: 'AsyncAws\S3\S3Client'
         arguments:

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crawler web de TrouveTonChalet.ca{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('css/site.css') }}">
+{% endblock %}
+
+{% block body %}
+	<main class="text">
+		<div class="container">
+			<h1>Crawler web de TrouveTonChalet.ca</h1>
+
+			<p>Bonjour à nos partenaires web! Nous souhaitons vous informer sur la manière dont notre service fonctionne et partager notre engagement à collaborer harmonieusement avec vous.</p>
+
+			<h2>Notre objectif</h2>
+			<p>Nous sommes un moteur de recherche dédié aux chalets à louer au Québec. Tout comme Google, Bing et d'autres moteurs de recherche, notre objectif est d'aider les utilisateurs à trouver rapidement et facilement des informations sur les chalets disponibles.</p>
+
+			<h2>Légalité de notre service</h2>
+			<p>Nous tenons à souligner que notre service de crawling est tout à fait légal. Nous respectons les directives du fichier robots.txt et respectons les droits de propriété intellectuelle.</p>
+
+			<h2>Charge sur vos serveurs et ressources</h2>
+			<p>Nous comprenons l'importance de maintenir la stabilité de vos serveurs et la disponibilité de vos ressources. Nous mettons en œuvre des mesures pour limiter notre charge sur vos serveurs et minimiser notre impact sur vos ressources.</p>
+
+			<h2>Collaboration et discussion</h2>
+			<p>Nous sommes très ouverts à la discussion et à la collaboration. Si vous avez des préoccupations, des suggestions d'amélioration, ou si vous souhaitez discuter de la manière dont nous pouvons mieux interagir avec votre site, n'hésitez pas à nous contacter.</p>
+
+			<h2>Pour bloquer notre crawler</h2>
+			<p>Nous vous recommendons de nous contacter avant de bloquer notre crawler.</p>
+			<p>Par contre, si vous désirez absolument bloquer notre crawler, vous pouvez le faire en ajoutant un règle comme la suivante dans votre fichier <code>robots.txt</code>.</p>
+			<code>
+				<pre>User-agent: TrouveTonChaletBot
+Disallow: /</pre>
+			</code>
+
+			<h2>Des questions?</h2>
+			<p>Si vous avez des questions ou des commentaires, n'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a>!</p>
+
+    		<p>Nous apprécions votre compréhension et votre collaboration. Merci de faire partie de l'écosystème TrouveTonChalet.ca!</p>
+		</div>
+	</main>
+{% endblock %}

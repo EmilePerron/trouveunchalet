@@ -11,6 +11,7 @@ class SiteConfig
         public readonly string $name,
         public readonly string $url,
         public readonly string $crawler,
+        public readonly string $robotsTxtUrl,
     ) {
     }
 
@@ -23,6 +24,7 @@ class SiteConfig
             name: $config['name'],
             url: $config['url'],
             crawler: $config['crawler'],
+            robotsTxtUrl: $config['robots_txt_url'],
         );
     }
 }

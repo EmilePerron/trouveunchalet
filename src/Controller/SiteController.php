@@ -27,4 +27,10 @@ class SiteController extends AbstractController
     {
         return $this->render('site/how_to_add_listing.html.twig');
     }
+
+    #[Route('/crawler', name: 'crawler_info')]
+    public function crawler(): Response
+    {
+        return $this->render('site/crawler.html.twig');
+    }
 }

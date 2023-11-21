@@ -2,12 +2,15 @@
 chaletsalouer.com:
   name: Chalets à Louer
   url: https://www.chaletsalouer.com
+  robots_txt_url: https://www.chaletsalouer.com/robots.txt
   crawler: App\Crawler\Driver\ChaletsALouer
 levertendre.com:
   name: Le Vertendre
   url: https://levertendre.com
+  robots_txt_url: https://levertendre.com/robots.txt
   crawler: App\Crawler\Driver\LeVertendre
 wechalet.com:
   name: WeChalet
   url: https://wechalet.com
+  robots_txt_url: https://api.wechalet.com/robots.txt
   crawler: App\Crawler\Driver\WeChalet

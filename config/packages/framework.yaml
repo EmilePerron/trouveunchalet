@@ -31,7 +31,7 @@ framework:
     http_client:
         default_options:
             headers:
-                'User-Agent': 'TrouveTonChalet.ca - info@trouvetonchalet.ca'
+                'User-Agent': '%env(CRAWLER_USER_AGENT)%'
 
 when@test:
     framework:
