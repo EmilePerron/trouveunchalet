@@ -1,6 +1,6 @@
 import { listingService } from "../service/listing-service.js";
 import { ResetStylesheet, ButtonStylesheet, FontawesomeStylesheet } from "../global-stylesheets.js";
-import { renderPricePerNight } from "../util/listing.js";
+import { getListingImageUrl, renderPricePerNight } from "../util/listing.js";
 
 const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
@@ -55,7 +55,7 @@ export class ListingListItem extends HTMLElement {
 						!listing?.imageUrl
 							? ""
 							: `
-						<img src="${listing.imageUrl}" alt="" width="4" height="3">
+						<img src="${getListingImageUrl(listing.id)}" alt="" width="4" height="3" loading="lazy">
 					`
 					}
 				</div>

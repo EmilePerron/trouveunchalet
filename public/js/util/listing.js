@@ -1,3 +1,7 @@
+/**
+ * @param {object} listing
+ * @returns {string}
+ */
 export function renderPricePerNight(listing) {
 	if (!listing.minimumPricePerNight) {
 		if (listing.averagePricePerNight) {
@@ -12,4 +16,13 @@ export function renderPricePerNight(listing) {
 	}
 
 	return `<span>${listing.minimumPricePerNight}$</span> - <span>${listing.maximumPricePerNight}$</span> / nuit`;
+}
+
+/**
+ * @param {string} listingId
+ */
+export function getListingImageUrl(listingId) {
+	let imgxUrl = `/image/listing/${listingId}`;
+
+	return imgxUrl;
 }

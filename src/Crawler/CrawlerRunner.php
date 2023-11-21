@@ -14,6 +14,7 @@ use App\Message\RequestCrawlingMessage;
 use App\Model\Log;
 use App\Repository\ListingRepository;
 use App\Util\Geocoder;
+use App\Util\Storage;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
@@ -42,6 +43,7 @@ class CrawlerRunner
         private MessageBusInterface $bus,
         private Geocoder $geocoder,
         private LoggerInterface $logger,
+		private Storage $storage,
         #[TaggedIterator('app.crawler_driver')]
         iterable $drivers,
     ) {
@@ -149,6 +151,8 @@ class CrawlerRunner
             $this->fillListingFromCrawledDetails($listing, $listingDetails);
             $entityManager->persist($listing);
             $entityManager->flush();
+
+			$this->storage->updatePrimaryImageUrl($listing);
 
             if (!$listing->getLatitude()) {
                 $writeLog(LogType::Info, "Requesting geocoding information...");

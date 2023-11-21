@@ -1,6 +1,6 @@
 import { listingService } from "../service/listing-service.js";
 import { ResetStylesheet, ButtonStylesheet, FontawesomeStylesheet } from "../global-stylesheets.js";
-import { renderPricePerNight } from "../util/listing.js";
+import { getListingImageUrl, renderPricePerNight } from "../util/listing.js";
 
 const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
@@ -115,7 +115,7 @@ export class ListingMapPopup extends HTMLElement {
 					!listing?.imageUrl
 						? ""
 						: `
-					<img src="${listing.imageUrl}" alt="">
+					<img src="${getListingImageUrl(listing.id)}" alt="">
 				`
 				}
 			</div>

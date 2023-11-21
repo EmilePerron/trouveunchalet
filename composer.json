@@ -14,6 +14,8 @@
         "doctrine/orm": "^2.15",
         "geocoder-php/mapbox-provider": "^1.4",
         "knplabs/knp-time-bundle": "^2.0",
+        "league/flysystem-async-aws-s3": "^3.21",
+        "league/flysystem-bundle": "^3.3",
         "nelmio/cors-bundle": "^2.3",
         "nyholm/psr7": "^1.8",
         "phpdocumentor/reflection-docblock": "^5.3",
