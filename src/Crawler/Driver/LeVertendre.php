@@ -32,7 +32,7 @@ class LeVertendre extends AbstractHttpBrowserCrawlerDriver
 				'wpml_lang' => 'fr',
 			]
 		]);
-		dump($listingsResponse);die();
+
 		$listingHtml = $listingsResponse->toArray()["content"];
 		$crawler = new Crawler($listingHtml);
 
