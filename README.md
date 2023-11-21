@@ -33,6 +33,10 @@ This project indexes listings from the following sites:
 - [ ] [NatureNature](https://www.naturenature.ca/)
 - [ ] [Airbnb](https://airbnb.com/)
 
+### Generic data source drivers
+
+- [x] [Guesty](http://guesty.com/)
+
 ## Contributing
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md)
