@@ -3,7 +3,9 @@
 namespace App\Util;
 
 use App\Entity\Listing;
+use League\Flysystem\Config as FlysystemConfig;
 use League\Flysystem\FilesystemOperator;
+use League\Flysystem\Visibility;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -47,7 +49,14 @@ class Storage
 		$imageUrl = $listing->getImageUrl();
 
 		if ($imageUrl) {
-			$this->cdnStorage->write($this->getPrimaryImagePath($listing), file_get_contents($imageUrl));
+			$this->cdnStorage->write(
+				$this->getPrimaryImagePath($listing),
+				file_get_contents($imageUrl),
+				[
+					FlysystemConfig::OPTION_VISIBILITY => Visibility::PUBLIC,
+					FlysystemConfig::OPTION_DIRECTORY_VISIBILITY => Visibility::PUBLIC,
+				]
+			);
 		}
 	}
 
