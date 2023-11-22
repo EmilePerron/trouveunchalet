@@ -80,6 +80,7 @@ RUN set -eux; \
 	mkdir -p var/cache var/log; \
 	composer dump-autoload --classmap-authoritative --no-dev; \
 	composer dump-env prod; \
+	php bin/console secrets:decrypt-to-local --force; \
 	composer run-script --no-dev post-install-cmd; \
 	chmod +x bin/console; \
 	sync
