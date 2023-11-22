@@ -33,6 +33,7 @@ RUN set -eux; \
 	opcache \
 	mysqli \
 	pdo_mysql \
+	excimer \
 	;
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
