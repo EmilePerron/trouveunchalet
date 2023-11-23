@@ -126,6 +126,7 @@ class CrawlerRunner
         } catch (Exception $exception) {
             $log->setFailed(true);
             $writeLog(LogType::Error, $exception);
+			$this->logger->error($exception, $exception->getTrace());
 
             if ($this->kernel->isDebug()) {
                 throw $exception;
@@ -187,6 +188,7 @@ class CrawlerRunner
         } catch (Exception $exception) {
             $log->setFailed(true);
             $writeLog(LogType::Error, $exception);
+			$this->logger->error($exception, $exception->getTrace());
 
             if ($this->kernel->isDebug()) {
                 throw $exception;
