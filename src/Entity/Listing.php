@@ -25,8 +25,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\HasLifecycleCallbacks]
 class Listing
 {
-	public const IMAGE_PRIMARY_SUFFIX = "-primary";
-
     use TimestampableTrait;
     use UlidTrait;
 
