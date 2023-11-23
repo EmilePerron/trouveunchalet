@@ -1,0 +1,34 @@
+#!/usr/bin/env zsh
+#
+# Overwrites the local database with the production database.
+# (without the logs)
+#
+
+root_dir="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/"
+tmp_dir="$(mktemp -d)"
+echo "Created temp dir $tmp_dir"
+cd $tmp_dir
+
+echo "Dumping prod database..."
+pscale database dump prod main --tables=listing,unavailability
+rm -f pscale_dump_*/*-schema.sql
+rm -f pscale_dump_*/metadata
+dump_dir="$(find $tmp_dir/pscale_dump_* -type d)"
+
+echo "Wiping current database..."
+cd "$root_dir"
+bin/console doctrine:query:sql "TRUNCATE listing;"
+bin/console doctrine:query:sql "TRUNCATE unavailability;"
+
+echo "Importing the dump from the prod database..."
+docker-compose exec database mkdir -p /tmp/db-sync
+docker-compose exec database rm -rf /tmp/db-sync
+docker-compose exec database mkdir -p /tmp/db-sync
+docker-compose cp $dump_dir database:/tmp/db-sync/
+listing_sql_file="$(docker-compose exec database sh -c 'find /tmp/db-sync/pscale_dump_*/*.listing.*.sql')"
+unavailability_sql_file="$(docker-compose exec database sh -c 'find /tmp/db-sync/pscale_dump_*/*.unavailability.*.sql')"
+docker-compose exec database sh -c "mysql -u \$MYSQL_USER --password=\"\$MYSQL_PASSWORD\" \$MYSQL_DATABASE < $listing_sql_file"
+docker-compose exec database sh -c "mysql -u \$MYSQL_USER --password=\"\$MYSQL_PASSWORD\" \$MYSQL_DATABASE < $unavailability_sql_file"
+
+echo "Database replication completed!"
+echo ""
