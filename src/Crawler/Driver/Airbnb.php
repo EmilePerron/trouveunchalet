@@ -146,7 +146,7 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 								[
 									"filterName" => "monthlyStartDate",
 									"filterValues" => [
-										(new DateTime("first of next month"))->format("Y-m-d")
+										(new DateTime("first day of next month"))->format("Y-m-d")
 									]
 								],
 								[
