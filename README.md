@@ -30,8 +30,8 @@ This project indexes listings from the following sites:
 - [x] [Chalets à Louer](https://www.chaletsalouer.com/)
 - [x] [Le Vertendre](https://levertendre.com)
 - [x] [WeChalet](https://wechalet.com/)
+- [x] [Airbnb](https://airbnb.com/)
 - [ ] [NatureNature](https://www.naturenature.ca/)
-- [ ] [Airbnb](https://airbnb.com/)
 
 ### Generic data source drivers
 
