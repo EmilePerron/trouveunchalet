@@ -1,8 +1,8 @@
 # Before adding new entries to this config, make sure you define the keys in the `Site` enum.
 airbnb.ca:
   name: Airbnb
-  url: https://www.airbnb.ca
-  robots_txt_url: https://www.airbnb.ca/robots.txt
+  url: https://fr.airbnb.ca
+  robots_txt_url: https://fr.airbnb.ca/robots.txt
   crawler: App\Crawler\Driver\Airbnb
 chaletsalouer.com:
   name: Chalets à Louer
