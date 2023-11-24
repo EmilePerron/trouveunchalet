@@ -212,7 +212,7 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 								[
 									"filterName" => "zoomLevel",
 									"filterValues" => [
-										"4"
+										"3"
 									]
 								]
 							]
@@ -236,12 +236,14 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 				break;
 			}
 
+			$processedCountFromBatch = 0;
+
 			foreach ($rawListings ?? [] as $rawListingData) {
 				$id = $rawListingData['listing']['id'];
 
 				// If we encounter a listing we've already seen, it usually means we're at the end of the list.
 				if (isset($scannedInternalIds[$id])) {
-					break 2;
+					continue;
 				}
 
 				$listingData = new ListingData(
@@ -259,6 +261,11 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 				$listings[] = $listingData;
 				$scannedInternalIds[$id] = true;
 				$enqueueListing($listingData);
+				$processedCountFromBatch++;
+			}
+
+			if ($processedCountFromBatch <= 1) {
+				break;
 			}
 
 			$page++;
