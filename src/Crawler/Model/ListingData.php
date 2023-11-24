@@ -24,6 +24,8 @@ class ListingData
 		public readonly ?int $minimumStayInDays = null,
 		public readonly ?int $minimumPricePerNight = null,
 		public readonly ?int $maximumPricePerNight = null,
+		public readonly ?string $latitude = null,
+		public readonly ?string $longitude = null,
     ) {
     }
 
@@ -34,6 +36,17 @@ class ListingData
             address: $listing->getAddress(),
             url: $listing->getUrl(),
             internalId: $listing->getInternalId(),
+			description: $listing->getDescription(),
+			imageUrl: $listing->getImageUrl(),
+			dogsAllowed: $listing->isDogsAllowed(),
+			numberOfBedrooms: $listing->getNumberOfBedrooms(),
+			numberOfGuests: $listing->getMaximumNumberOfGuests(),
+			hasWifi: $listing->isHasWifi(),
+			minimumStayInDays: $listing->getMinimumStayInDays(),
+			minimumPricePerNight: $listing->getMinimumPricePerNight(),
+			maximumPricePerNight: $listing->getMaximumPricePerNight(),
+			latitude: $listing->getLatitude(),
+			longitude: $listing->getLongitude(),
         );
     }
 

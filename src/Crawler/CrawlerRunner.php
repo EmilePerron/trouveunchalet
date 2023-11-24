@@ -239,6 +239,11 @@ class CrawlerRunner
 		$listing->setMinimumPricePerNight($listingData->minimumPricePerNight);
 		$listing->setMaximumPricePerNight($listingData->maximumPricePerNight);
 
+		if (!$listing->getLatitude()) {
+			$listing->setLatitude($listingData->latitude);
+			$listing->setLongitude($listingData->longitude);
+		}
+
 		/** @var array<string,Unavailability> */
 		$existingUnavailabilitiesByDate = [];
 		$upToDateUnavailabilities = [];
@@ -270,7 +275,7 @@ class CrawlerRunner
 	/**
 	 * @throws RobotsTxtDisallowsCrawlingException
 	 */
-	private function checkIfCrawlingIsAllowedByRobotsTxt(Site $site): void
+	private function checkIfCrawlingIsAllowedByRobotsTxt(Site $site, string $url = '/'): void
 	{
 		$cacheKey = 'robots_txt_' . $site->name;
 		$siteConfig = $this->siteConfigLoader->getSiteConfig($site);
@@ -282,7 +287,7 @@ class CrawlerRunner
 				$robotsTxtContent = $request->getContent();
 				$robotsParser = new RobotsTxtParser($robotsTxtContent);
 
-				$isAllowed = $robotsParser->isAllowed("/", "TrouveTonChaletBot") || !$robotsParser->isDisallowed("/", "TrouveTonChaletBot");
+				$isAllowed = $robotsParser->isAllowed($url, "TrouveTonChaletBot") || !$robotsParser->isDisallowed($url, "TrouveTonChaletBot");
 			} catch (Exception $e) {
 				$this->logger->error($e, $e->getTrace());
 				$isAllowed = true;
