@@ -18,6 +18,11 @@ class AnalyticsEventListener
     public function __invoke(TerminateEvent $terminateEvent): void
     {
 		$this->plausible->request = clone $terminateEvent->getRequest();
+
+		if (str_starts_with($this->plausible->request->getPathInfo(), "/image/")) {
+			return;
+		}
+
 		$this->plausible->trackEvent();
     }
 }
