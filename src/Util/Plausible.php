@@ -29,6 +29,12 @@ class Plausible
 			$this->request = $this->requestStack->getMainRequest();
 		}
 
+		$userAgent = $this->request->headers->get("user-agent");
+
+		if (str_contains(strtolower($userAgent), "bot")) {
+			return;
+		}
+
 		$this->httpClient->request(
 			"POST",
 			"https://plausible.io/api/event",
