@@ -21,7 +21,6 @@ class Plausible
 
 	public function trackEvent(string $name = 'pageview', array $props = []): void
 	{
-		dump($this->request->getUri());
 		if ($this->environment !== 'prod') {
 			return;
 		}
