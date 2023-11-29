@@ -16,16 +16,13 @@ interface CrawlerDriverInterface
      *
      * @param string $site Must correspond to a key in the `sites.yaml` configuration.
      * @param Closure(ListingData $listingData): void $enqueueListing
-     * @param Closure(\App\Enum\LogType $type, string $message): void $writeLog
      * @return array<int,ListingData>
      */
-    public function findAllListings(Site $site, Closure $enqueueListing, Closure $writeLog): array;
+    public function findAllListings(Site $site, Closure $enqueueListing): array;
 
     /**
      * Crawls the target listing page to get all of its details and
      * availabilities.
-     *
-     * @param Closure(\App\Enum\LogType $type, string $message): void $writeLog
      */
-    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): ListingData;
+    public function getListingDetails(ListingData|Listing $listing): ListingData;
 }

@@ -6,19 +6,14 @@ use App\Config\SiteConfigLoader;
 use App\Crawler\Exception\MissingCrawlerException;
 use App\Crawler\Exception\RobotsTxtDisallowsCrawlingException;
 use App\Crawler\Model\ListingData;
-use App\Entity\CrawlLog;
 use App\Entity\Listing;
 use App\Entity\Unavailability;
-use App\Enum\LogType;
 use App\Enum\Site;
 use App\Message\RequestCrawlingMessage;
-use App\Model\Log;
 use App\Repository\ListingRepository;
 use App\Util\Geocoder;
 use App\Util\Storage;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -69,158 +64,73 @@ class CrawlerRunner
 
     public function crawlSite(Site $site): void
     {
-        $log = new CrawlLog($site);
-        $writeLog = function (LogType $type, string $message) use ($log) {
-            $this->log($log, $type, $message);
-        };
-        $writeLog(LogType::Info, "Preparing to crawl.");
-
 		$this->checkIfCrawlingIsAllowedByRobotsTxt($site);
 
-        try {
-            $driver = $this->getDriver($site);
-            /** @var array<string,Listing> */
-            $originalListings = [];
+		$driver = $this->getDriver($site);
+		/** @var array<string,Listing> */
+		$originalListings = [];
 
-            foreach ($this->listingRepository->findBy(['parentSite' => $site]) as $originalListing) {
-                $originalListings[$originalListing->getIdentifier()] = $originalListing;
-            }
+		foreach ($this->listingRepository->findBy(['parentSite' => $site]) as $originalListing) {
+			$originalListings[$originalListing->getIdentifier()] = $originalListing;
+		}
 
-            $writeLog(LogType::Info, "Starting to look for listings.");
+		$enqueueListing = function (ListingData $listingData) use ($site) {
+			$this->bus->dispatch(new RequestCrawlingMessage(
+				site: $site->value,
+				listingData: $listingData,
+			));
+		};
 
-            $enqueueListing = function (ListingData $listingData) use ($site) {
-                $this->bus->dispatch(new RequestCrawlingMessage(
-                    site: $site->value,
-                    listingData: $listingData,
-                ));
-            };
+		$crawledListingsData = $driver->findAllListings($site, $enqueueListing);
 
-            $crawledListingsData = $driver->findAllListings($site, $enqueueListing, $writeLog);
+		foreach ($crawledListingsData as $roughListingData) {
+			$index = $roughListingData->getIdentifier();
 
-            $listingCount = count($crawledListingsData);
-            $log->setTotalListingCount($listingCount)->setCrawledCount(0);
-            $writeLog(LogType::Info, "Found {$listingCount} listings.");
+			if (isset($originalListings[$index])) {
+				unset($originalListings[$index]);
+			}
+		}
 
-            foreach ($crawledListingsData as $roughListingData) {
-                $this->log($log, LogType::Info, "Scheduling crawling for listing details: {$roughListingData->url}.");
-
-                $index = $roughListingData->getIdentifier();
-
-                if (isset($originalListings[$index])) {
-                    unset($originalListings[$index]);
-                }
-            }
-
-            $writeLog(LogType::Info, "Removing unavailable listings...");
-			$entityManager = $this->entityManager();
-            // Any original listing remaining at this point was not part of the crawled listings.
-            // We can assume it's been deleted or is unavailable.
-            foreach ($originalListings as $listingToRemove) {
-                $entityManager->remove($listingToRemove);
-            }
-            $entityManager->flush();
-            $writeLog(LogType::Info, "Successfully removed " . count($originalListings) . " unavailable listings.");
-
-            $log->setDateCompleted(new DateTimeImmutable());
-            $writeLog(LogType::Info, "Crawling completed!");
-        } catch (Exception $exception) {
-            $log->setFailed(true);
-            $writeLog(LogType::Error, $exception);
-			$this->logger->error($exception, $exception->getTrace());
-
-            if ($this->kernel->isDebug()) {
-                throw $exception;
-            }
-        }
+		// Any original listing remaining at this point was not part of the crawled listings.
+		// We can assume it's been deleted or is unavailable.
+		foreach ($originalListings as $listingToRemove) {
+			$this->entityManager->remove($listingToRemove);
+		}
+		$this->entityManager->flush();
     }
 
     public function crawlListing(Site $site, ListingData $listingData): void
     {
-        $log = new CrawlLog($site);
-        $writeLog = function (LogType $type, string $message) use ($log) {
-            $this->log($log, $type, $message);
-        };
-        $writeLog(LogType::Info, "Preparing to crawl.");
-
 		$this->checkIfCrawlingIsAllowedByRobotsTxt($site);
 
-        try {
-            $driver = $this->getDriver($site);
+		$driver = $this->getDriver($site);
 
-            $this->log($log, LogType::Info, "Crawling for listing details: {$listingData->url}.");
+		$this->logger->info("Crawling for listing details: {$listingData->url}.");
 
-            $listingDetails = $driver->getListingDetails($listingData, $writeLog);
-            $existingListing = $this->listingRepository->findFromListingData($site, $listingData);
-			$entityManager = $this->entityManager();
+		$listingDetails = $driver->getListingDetails($listingData);
+		$existingListing = $this->listingRepository->findFromListingData($site, $listingData);
 
-			if ($existingListing) {
-				$this->log($log, LogType::Info, "Found existing listing in DB: listing #{$existingListing->getId()}.");
-				$entityManager->refresh($existingListing);
+		$listing = $existingListing ?: new Listing();
+
+		$listing->setParentSite($site);
+		$this->fillListingFromCrawledDetails($listing, $listingDetails);
+		$this->entityManager->persist($listing);
+		$this->entityManager->flush();
+
+		$this->storage->updatePrimaryImageUrl($listing);
+
+		if (!$listing->getLatitude()) {
+			$geolocation = $this->geocoder->geocodeListing($listing);
+
+			if (!$geolocation) {
+				$this->logger->error("Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
+			} else {
+				$listing->setLatitude($geolocation->getCoordinates()->getLatitude());
+				$listing->setLongitude($geolocation->getCoordinates()->getLongitude());
+				$this->entityManager->persist($listing);
+				$this->entityManager->flush();
 			}
-
-            $listing = $existingListing ?: new Listing();
-
-            $listing->setParentSite($site);
-            $this->fillListingFromCrawledDetails($listing, $listingDetails);
-            $entityManager->persist($listing);
-            $entityManager->flush();
-
-			$this->storage->updatePrimaryImageUrl($listing);
-
-            if (!$listing->getLatitude()) {
-                $writeLog(LogType::Info, "Requesting geocoding information...");
-                $geolocation = $this->geocoder->geocodeListing($listing);
-
-                if (!$geolocation) {
-                    $writeLog(LogType::Error, "Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
-                    $this->logger->error("Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
-                } else {
-                    $listing->setLatitude($geolocation->getCoordinates()->getLatitude());
-                    $listing->setLongitude($geolocation->getCoordinates()->getLongitude());
-                    $entityManager->persist($listing);
-                    $entityManager->flush();
-                    $writeLog(LogType::Info, "Coordinates updated.");
-                }
-            }
-
-            $log->setDateCompleted(new DateTimeImmutable());
-            $writeLog(LogType::Info, "Successfully crawled and updated listing details.");
-        } catch (Exception $exception) {
-            $log->setFailed(true);
-            $writeLog(LogType::Error, $exception);
-
-            throw $exception;
-        }
-    }
-
-    /**
-     * Returns an open entity manager (if the current entity manager is closed,
-     * which may happen when crawling takes a long time, a new connection will
-     * be opened automatically).
-     */
-    private function entityManager(): EntityManagerInterface
-    {
-        if (!$this->entityManager->isOpen()) {
-            $this->entityManager = EntityManager::create(
-                $this->entityManager->getConnection(),
-                $this->entityManager->getConfiguration()
-            );
-        }
-
-        return $this->entityManager;
-    }
-
-    private function log(CrawlLog $log, LogType $type, string $message): void
-    {
-        $logMessage = new Log($type, $message);
-        $log->addLog($logMessage);
-
-        if ($this->kernel->isDebug()) {
-            echo $logMessage . PHP_EOL;
-        }
-
-        $this->entityManager()->persist($log);
-        $this->entityManager()->flush();
+		}
     }
 
     private function fillListingFromCrawledDetails(Listing $listing, ListingData $listingData): Listing

@@ -6,7 +6,6 @@ use App\Crawler\AbstractHttpBrowserCrawlerDriver;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
-use App\Enum\LogType;
 use App\Enum\Site;
 use Closure;
 use DateTimeImmutable;
@@ -15,14 +14,13 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 {
-    public function findAllListings(Site $site, Closure $enqueueListing, Closure $writeLog): array
+    public function findAllListings(Site $site, Closure $enqueueListing): array
     {
         $listings = [];
 
         $crawler = $this->client->request("GET", "https://www.chaletsalouer.com/fr/location-de-chalet/?rechercheActive=1");
 
         while (true) {
-            $writeLog(LogType::Debug, "Page loaded. Starting to scan listings...");
             $elements = $crawler->filter("#container-listing .container-listing-chalet:not(.incitatif)");
 
             $elements->each(function (Crawler $element) use (&$listings, &$enqueueListing) {
@@ -50,22 +48,19 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
                 break;
             }
 
-            $nextPageNumber = trim($nextPageLink->text());
-            $writeLog(LogType::Debug, "Moving to page {$nextPageNumber}");
             $crawler = $this->client->request('GET', $nextPageLink->link()->getUri());
         }
 
         return $listings;
     }
 
-    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): ListingData
+    public function getListingDetails(ListingData|Listing $listing): ListingData
     {
         if ($listing instanceof Listing) {
             $listing = ListingData::createFromListing($listing);
         }
 
         $crawler = $this->client->request('GET', $listing->url);
-        $writeLog(LogType::Debug, "Page loaded. Starting to scan for details...");
 
         /**
          * They have a global variable on the details page that holds the data of all bookings.
@@ -93,7 +88,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 		$stayInfo = [];
 		$minimumStayDuration = null;
 
-        $crawler->filter("script:not([src])")->each(function (Crawler $script) use (&$bookingInfo, &$stayInfo, &$minimumStayDuration, &$writeLog) {
+        $crawler->filter("script:not([src])")->each(function (Crawler $script) use (&$bookingInfo, &$stayInfo, &$minimumStayDuration) {
             $scriptContent = $script->html();
 
 			if (str_contains($scriptContent, "var tableauDates = ")) {
@@ -128,7 +123,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 
 		$minimumPricePerNight = null;
 		$maximumPricePerNight = null;
-		$crawler->filter("table.tarifsMoyens tr.tableauMoyen")->each(function (Crawler $row) use (&$minimumPricePerNight, &$maximumPricePerNight, $writeLog) {
+		$crawler->filter("table.tarifsMoyens tr.tableauMoyen")->each(function (Crawler $row) use (&$minimumPricePerNight, &$maximumPricePerNight) {
 			try {
 				$label = $row->children()->eq(0)->text();
 				$numberOfNights = intval(preg_replace('/^.*?(\d+)\s(nuit|jour).*$/i', '$1', $label));
@@ -150,7 +145,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 					$maximumPricePerNight = $maximum;
 				}
 			} catch (Exception $exception) {
-				$writeLog(LogType::Error, "Error occured while fetching prices: {$exception->getMessage()}");
+				$this->logger->error("Error occured while fetching prices: {$exception->getMessage()}", $exception->getTrace());
 			}
 		});
 

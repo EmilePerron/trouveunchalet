@@ -6,7 +6,6 @@ use App\Crawler\AbstractHttpBrowserCrawlerDriver;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
-use App\Enum\LogType;
 use App\Enum\Site;
 use Closure;
 use DateTime;
@@ -34,7 +33,7 @@ abstract class AbstractGuestyDriver extends AbstractHttpBrowserCrawlerDriver
 	 */
 	abstract protected function getListingPageBaseUrl(): string;
 
-    public function findAllListings(Site $site, Closure $enqueueListing, Closure $writeLog): array
+    public function findAllListings(Site $site, Closure $enqueueListing): array
     {
         $listings = [];
 		$rawResults = [];
@@ -82,7 +81,7 @@ abstract class AbstractGuestyDriver extends AbstractHttpBrowserCrawlerDriver
         return $listings;
     }
 
-    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): ListingData
+    public function getListingDetails(ListingData|Listing $listing): ListingData
     {
         if ($listing instanceof Listing) {
             $listing = ListingData::createFromListing($listing);
@@ -95,7 +94,6 @@ abstract class AbstractGuestyDriver extends AbstractHttpBrowserCrawlerDriver
 			],
 		]);
 		$listingResponse = $listingRequest->toArray();
-        $writeLog(LogType::Debug, "Page loaded. Starting to scan for details...");
 
 		$today = date('Y-m-d');
 		$toDate = (new DateTime("+ 2 years"))->format('Y-m-d');

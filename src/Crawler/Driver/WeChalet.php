@@ -7,7 +7,6 @@ use App\Crawler\Exception\WaitForRateLimitingException;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
-use App\Enum\LogType;
 use App\Enum\Site;
 use Closure;
 use DateTimeImmutable;
@@ -27,7 +26,7 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 	) {
 	}
 
-    public function findAllListings(Site $site, Closure $enqueueListing, Closure $writeLog): array
+    public function findAllListings(Site $site, Closure $enqueueListing): array
     {
         $listings = [];
 
@@ -37,7 +36,6 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 		$lastPage = null;
 
 		do {
-			$writeLog(LogType::Debug, "Fetching API for page {$page} out of {$lastPage}...");
 			$response = $this->httpClient->request("POST", "https://api.wechalet.com/v1/search", [
 				"body" => [
 					"price_min" => 1,
@@ -59,13 +57,11 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 
 			foreach ($responseData['data'] as $rawListingData) {
 				$id = $rawListingData["id"];
-				$descriptionData = $rawListingData["description"]["fr"]["description"] ? $rawListingData["description"]["fr"] : $rawListingData["description"]["en"];
 				$listingData = new ListingData(
-					name: $descriptionData["title"] ?? $descriptionData["name"] ?? $rawListingData["name"],
+					name: $rawListingData["name"] ?? null,
 					address: $rawListingData["location"]["address"] ?? (implode(', ', [$rawListingData["location"]["city"], $rawListingData["location"]["state"], $rawListingData["location"]["country"]])),
 					url: "https://wechalet.com/fr/proprietes/{$id}",
 					internalId: $id,
-					description: $descriptionData["description"] . ($descriptionData["about_this_property"] ?? ""),
 					imageUrl: $rawListingData["main_picture"],
 					dogsAllowed: null,
 					numberOfBedrooms: $rawListingData["bedrooms_count"],
@@ -86,14 +82,13 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
         return $listings;
     }
 
-    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): ListingData
+    public function getListingDetails(ListingData|Listing $listing): ListingData
     {
 
         if ($listing instanceof Listing) {
             $listing = ListingData::createFromListing($listing);
         }
 
-        $writeLog(LogType::Debug, "Fetching listing data from the API...");
         $response = $this->httpClient->request('GET', "https://api.wechalet.com/v1/listings/{$listing->internalId}");
 		$rawListingData = $response->toArray()["data"];
 
@@ -103,7 +98,6 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 			throw new WaitForRateLimitingException(3600);
 		}
 
-		$writeLog(LogType::Debug, "Requesting availabilities...");
 		$calendarResponse = $this->httpClient->request("GET", "https://api.wechalet.com/v1/listings/{$listing->internalId}/calendar", [
 			"query" => [
 				'start_date' => date("Y-m-d"),
@@ -126,13 +120,14 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 			}
         }
 
+		$descriptionData = $rawListingData["description"]["fr"]["description"] ? $rawListingData["description"]["fr"] : $rawListingData["description"]["en"];
         $detailedListing = new ListingData(
-            name: $listing->name,
+            name: $descriptionData["title"] ?? $descriptionData["name"] ?? $rawListingData["name"],
 			address: $listing->address,
 			url: $listing->url,
 			internalId: $listing->internalId,
             unavailabilities: $unavailabilities,
-            description: $listing->description,
+            description: $descriptionData["description"] . ($descriptionData["about_this_property"] ?? ""),
             imageUrl: $listing->imageUrl,
 			numberOfGuests: $listing->numberOfGuests,
 			numberOfBedrooms: $listing->numberOfBedrooms,

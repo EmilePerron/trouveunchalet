@@ -3,11 +3,9 @@
 namespace App\Crawler\Driver;
 
 use App\Crawler\AbstractHttpBrowserCrawlerDriver;
-use App\Crawler\Exception\WaitForRateLimitingException;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
-use App\Enum\LogType;
 use App\Enum\Site;
 use Closure;
 use DateTime;
@@ -40,7 +38,7 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 	) {
 	}
 
-    public function findAllListings(Site $site, Closure $enqueueListing, Closure $writeLog): array
+    public function findAllListings(Site $site, Closure $enqueueListing): array
     {
         $listings = [];
 		$scannedInternalIds = [];
@@ -48,7 +46,6 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 
 		do {
 			$offset = ($page - 1) * self::ITEMS_PER_PAGE;
-			$writeLog(LogType::Debug, "Fetching from the internal API for page {$page} (offset {$offset})...");
 			$paginationCursor = base64_encode('{"section_offset":1,"items_offset":' . $offset . ',"version":1}');
 
 			$response = $this->httpClient->request("POST", "https://www.airbnb.ca/api/v3/StaysSearch", [
@@ -274,14 +271,12 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
         return $listings;
     }
 
-    public function getListingDetails(ListingData|Listing $listing, Closure $writeLog): ListingData
+    public function getListingDetails(ListingData|Listing $listing): ListingData
     {
-
         if ($listing instanceof Listing) {
             $listing = ListingData::createFromListing($listing);
         }
 
-        $writeLog(LogType::Debug, "Fetching listing data from the API...");
 		$payload = [
 			"id" => base64_encode("StayListing:{$listing->internalId}"),
 			"pdpSectionsRequest" => [
@@ -360,7 +355,6 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 			}
 		}
 
-		$writeLog(LogType::Debug, "Requesting availabilities...");
         $calendarResponse = $this->httpClient->request('GET', "https://fr.airbnb.ca/api/v3/PdpAvailabilityCalendar", [
 			"headers" => [
 				"accept-language" => "fr-CA,fr,en;q=0.9",

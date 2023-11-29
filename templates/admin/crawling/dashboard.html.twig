@@ -4,68 +4,13 @@
 
 {% block stylesheets %}
     <style>
-        a { display: inline-block; background: var(--color-primary); color: white; padding: 1rem; margin: 3rem; text-decoration: none; font-weight: 600; }
-        a:hover { background-color: var(--color-primary-700); }
-        table { margin: 1rem auto; }
-        table, th, td { vertical-align: top; text-align: left; border-collapse: collapse; }
-        tr { border: none; border-bottom: 1rem solid var(--color-primary-050); }
-        th, td { padding: .5em 1em; font-size: .85rem; background-color: white; border: none; border-radius: .5em; }
-        details { width: 80ch; max-height: 200px; font-family: monospace; font-size: .9em; line-height: 1.25; overflow: scroll; white-space: nowrap; }
-        small { color: #999; }
+        main a { display: inline-block; background: var(--color-primary); color: white; padding: 1rem; margin: 3rem; text-decoration: none; font-weight: 600; }
+        main a:hover { background-color: var(--color-primary-700); }
     </style>
 {% endblock %}
 
 {% block body %}
-    <div style="text-align:center">
+    <main style="text-align:center">
         <a href="{{ path('admin_crawling_request_all_sites') }}">Request crawling for all sites</a>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Status</th>
-                <th>Site</th>
-                <th>Start</th>
-                <th>Duration</th>
-                <th>Logs</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for log in logs %}
-                <tr>
-                    <td>
-                        {% if log.failed %}
-                            <strong class="text-danger">failed</strong>
-                        {% elseif log.dateCompleted %}
-                            <strong class="text-success">done</strong>
-                        {% else %}
-                            <strong class="text-primary">in progress</strong>
-                        {% endif %}
-                    </td>
-                    <td>{{ log.site.value }}</td>
-                    <td>
-                        {{ log.dateStarted|ago }}
-                        <br>
-                        <small>{{ log.dateStarted|date('Y-m-d H:i:s') }}</small>
-                    </td>
-                    <td>
-                        {% if log.dateCompleted %}
-                            {{ (log.dateCompleted.timestamp - log.dateStarted.timestamp)|duration }}
-                        {% else %}
-                            N/A
-                        {% endif %}
-                    </td>
-                    <td>
-                        <details>
-                            <summary>View logs</summary>
-
-                            {% for log_message in log.logs %}
-                                <div class="{{ log_message.type.value == 'error' ? 'text-danger' : '' }}">{{ log_message|nl2br }}</div>
-                            {% endfor %}
-                        </details>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    </main>
 {% endblock %}
