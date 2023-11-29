@@ -153,7 +153,8 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
         $crawler->filter("#tab-description p")->each(function (Crawler $paragraph) use (&$description) {
             $description .= $paragraph->text(normalizeWhitespace: true) . "\n\n";
         });
-		$specsText = $crawler->filter("#tab-resume")->text(normalizeWhitespace: true);
+		$specsNode = $crawler->filter("#tab-resume");
+		$specsText = $specsNode->count() ? $specsNode->text(normalizeWhitespace: true) : "";
 		$numberOfGuests = preg_replace('/^.*?(\d+)\spersonne.*$/', '$1', $specsText) ?: null;
 		$numberOfBedrooms = preg_replace('/^.*?(\d+)\schambre.*$/', '$1', $specsText) ?: null;
 		$originalUrlButton = $crawler->filter("#btnReserverMaintenant");
