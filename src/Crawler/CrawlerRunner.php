@@ -115,7 +115,13 @@ class CrawlerRunner
 		$listing->setParentSite($site);
 		$this->fillListingFromCrawledDetails($listing, $listingDetails);
 		$this->entityManager->persist($listing);
-		$this->entityManager->flush();
+
+		try {
+			$this->entityManager->flush();
+		} catch (Exception $exception) {
+			$this->logger->error("Error in CrawlerRunner:crawlListing() for listing {$listing->getUrl()} - {$exception->getMessage()}", $exception->getTrace());
+			throw $exception;
+		}
 
 		$this->storage->updatePrimaryImageUrl($listing);
 
