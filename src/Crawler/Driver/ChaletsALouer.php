@@ -112,19 +112,20 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 			}
         });
         $unavailabilities = [];
+		$cutoffDate = new DateTimeImmutable("+ 6 months");
 
         foreach ($bookingInfo as $booking) {
-            $unavailability = new Unavailability(
+			$date = new DateTimeImmutable($booking['dateEtablissementReservation'] . ' 00:00:00');
+
+			if ($date > $cutoffDate) {
+				continue;
+			}
+
+            $unavailabilities[] = new Unavailability(
                 date: new DateTimeImmutable($booking['dateEtablissementReservation'] . ' 00:00:00'),
                 availableInAm: $booking['typeEtablissementReservation'] == 6,
                 availableInPm: $booking['typeEtablissementReservation'] == 5,
             );
-
-			if ($unavailability->date->format('Y') > date('Y') + 1) {
-				continue;
-			}
-
-			$unavailabilities[] = $unavailability;
         }
 
 		$minimumPricePerNight = null;
