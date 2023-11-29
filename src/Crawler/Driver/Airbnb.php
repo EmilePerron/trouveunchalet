@@ -410,7 +410,7 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 			numberOfBedrooms: count($sectionsData['SLEEPING_ARRANGEMENT_DEFAULT']['section']['arrangementDetails'] ?? [1]),
 			dogsAllowed: !isset($policies['SYSTEM_NO_PETS']),
 			hasWifi: isset($amenities['SYSTEM_WI_FI']),
-			minimumStayInDays: min($minimumNightsValues),
+			minimumStayInDays: $minimumNightsValues ? min($minimumNightsValues) : null,
 			minimumPricePerNight: $listing->minimumPricePerNight,
 			maximumPricePerNight: $listing->maximumPricePerNight,
 			latitude: $listing->latitude,
