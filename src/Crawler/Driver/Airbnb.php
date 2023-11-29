@@ -367,7 +367,9 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 				'currency' => 'CAD',
 				'variables' => json_encode([
 					"request" => [
-						"count" => 12,
+						// Count is reduced from the original 12 months to avoid massive amounts of unavailablities in our system
+						// (thinking this is what caused Sentry issue PHP-SYMFONY-A)
+						"count" => 4,
 						"listingId" => "{$listing->internalId}",
 						"month" => date('m'),
 						"year" => date('Y')
