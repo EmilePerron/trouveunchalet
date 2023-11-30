@@ -22,7 +22,7 @@ export function renderPricePerNight(listing) {
  * @param {string} listingId
  */
 export function getListingImageUrl(listingId) {
-	let imgxUrl = `/image/listing/${listingId}`;
+	let imgxUrl = `https://files.trouvetonchalet.ca/${listingId}/primary`;
 
 	return imgxUrl;
 }
