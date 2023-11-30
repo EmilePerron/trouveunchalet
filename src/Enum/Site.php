@@ -8,4 +8,5 @@ enum Site: string
     case ChaletsALouer = "chaletsalouer.com";
     case LeVertendre = "levertendre.com";
     case WeChalet = "wechalet.com";
+    case MonsieurChalets = "monsieurchalets.com";
 }

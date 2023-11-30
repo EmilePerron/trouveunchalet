@@ -19,3 +19,8 @@ wechalet.com:
   url: https://wechalet.com
   robots_txt_url: https://api.wechalet.com/robots.txt
   crawler: App\Crawler\Driver\WeChalet
+monsieurchalets.com:
+  name: MonsieurChalets
+  url: https://monsieurchalets.com
+  robots_txt_url: https://www.monsieurchalets.com/robots.txt
+  crawler: App\Crawler\Driver\MonsieurChalets
