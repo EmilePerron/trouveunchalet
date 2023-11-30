@@ -149,7 +149,7 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
             imageUrl: $listing->imageUrl,
 			numberOfGuests: $listing->numberOfGuests,
 			numberOfBedrooms: $listing->numberOfBedrooms,
-			dogsAllowed: in_array("pets_allowed", $propertyData["rules"]),
+			dogsAllowed: in_array("pets_allowed", $propertyData["rules"] ?? []),
 			hasWifi: $listing->hasWifi,
 			minimumStayInDays: $propertyData["rental_parameter"]["min_nights_to_rent"] ?? null,
 			minimumPricePerNight: min($propertyData['basic_pricing']['weekend_rate'] ?? PHP_INT_MAX, $listing->minimumPricePerNight),
