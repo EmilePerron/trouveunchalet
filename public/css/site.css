@@ -1,7 +1,7 @@
 
 /* Text-heavy pages */
 main.text { padding: 2rem 0; position: relative; overflow: hidden; }
-main.text .container > * { width: 60ch; max-width: 100%; }
+main.text .container > * { width: 60ch; max-width: calc(100% - 1rem); }
 main.text p { margin: 1rem; }
 main.text h2 { margin-top: 2rem; }
 main.text h3 { margin-top: 1rem; }
