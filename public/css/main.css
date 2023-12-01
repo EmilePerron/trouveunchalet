@@ -3,7 +3,7 @@ header a.brand { font-family: var(--font-family-fancy); font-weight: 600; text-d
 header a.brand i { margin-right: .5ch; }
 header a.brand:hover { color: var(--color-primary-500); }
 
-dialog#region-modal { padding: 2rem; margin: auto; text-align: left; border: none; border-radius: 0.5rem; box-shadow: 0 0 1rem rgb(0 0 0 / 25%); box-sizing: border-box; overflow: auto; }
+dialog#region-modal { width: min(40ch, 95vw); padding: 2rem; margin: auto; text-align: left; border: none; border-radius: 0.5rem; box-shadow: 0 0 1rem rgb(0 0 0 / 25%); box-sizing: border-box; overflow: auto; overflow: hidden auto; }
 dialog#region-modal::backdrop { background-color: rgb(0 0 0 / 20%); backdrop-filter: blur(3px);  opacity: 0; animation: fadeIn .25s ease-out .1s forwards; }
 dialog#region-modal[open] { opacity: 0; animation: fadeIn .25s ease-out .1s forwards, dropIn .25s ease-out .1s forwards; }
 dialog#region-modal .header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
