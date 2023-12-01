@@ -23,6 +23,10 @@ class AnalyticsEventListener
 			return;
 		}
 
+		if (str_starts_with($this->plausible->request->getPathInfo(), "/cron/")) {
+			return;
+		}
+
 		$this->plausible->trackEvent();
     }
 }
