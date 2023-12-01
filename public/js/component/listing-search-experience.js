@@ -1,4 +1,4 @@
-import { listingService } from "../service/listing-service.js";
+import { ListingServiceEvents, listingService } from "../service/listing-service.js";
 import "./listing-filters.js";
 import "./listing-list.js"
 import "./listing-map.js"
@@ -6,6 +6,7 @@ import "./listing-map.js"
 const stylesheet = document.createElement("style");
 stylesheet.innerHTML = `
 	listing-search-experience { }
+	listing-search-experience .results-count { color: var(--color-gray-700); }
 	listing-search-experience .header { display: flex; justify-content: space-between; align-items: flex-start; padding-top: 1.5rem; padding-bottom: 1rem; margin-bottom: 1.5rem; background-color: #fff; border-bottom: 1px solid var(--color-gray-100); position: sticky; top: 0; z-index: 2000; }
 	listing-search-experience [role="tablist"] { display: flex; justify-content: flex-start; gap: 1ch; }
 `;
@@ -31,6 +32,9 @@ export class ListingSearchExperience extends HTMLElement {
 		}
 
 		this.innerHTML = `
+			<div class="results-count">
+				<span>...</span> chalets correspondent à votre recherche
+			</div>
 			<div class="header">
 				<div class="tabs" id="result-tabs-wrapper">
 					<div role="tablist" aria-label="Mode de visionnement">
@@ -114,6 +118,10 @@ export class ListingSearchExperience extends HTMLElement {
 					tabs[tabFocus].focus();
 				}
 			});
+		});
+
+		window.addEventListener(ListingServiceEvents.EVENT_LOADED, () => {
+			this.querySelector('.results-count span').textContent = listingService.listings.length;
 		});
 	}
 }

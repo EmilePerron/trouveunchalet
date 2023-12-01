@@ -11,6 +11,8 @@ dialog#region-modal .header button.close-dialog i { rotate: 45deg; }
 dialog#region-modal nav a { display: block; margin-top: 1ch; color: var(--color-gray-900); }
 dialog#region-modal nav a:hover { color: var(--color-primary-600); }
 
+h1 { margin-bottom: .5rem; }
+
 footer { margin-top: 3rem; font-size: .9rem; line-height: 1.5; background-color: var(--color-gray-100); }
 footer .container { padding: 1rem 0; }
 footer a { color: var(--color-gray-700); }
