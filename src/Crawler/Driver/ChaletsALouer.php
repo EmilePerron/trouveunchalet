@@ -165,6 +165,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 		$numberOfGuests = preg_replace('/^.*?(\d+)\spersonne.*$/', '$1', $specsText) ?: null;
 		$numberOfBedrooms = preg_replace('/^.*?(\d+)\schambre.*$/', '$1', $specsText) ?: null;
 		$originalUrlButton = $crawler->filter("#btnReserverMaintenant");
+		$imageNode = $crawler->filter('link[rel="image_src"]');
 
 		// If the listing comes from another site and is simply indexed by ChaletALouer,
 		// save the link to the original website's listing page.
@@ -184,7 +185,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 			internalId: $listing->internalId,
             unavailabilities: $unavailabilities,
             description: $description,
-            imageUrl: $crawler->filter('link[rel="image_src"]')->attr('href'),
+            imageUrl: $imageNode->count() ? $imageNode->attr('href') : null,
             // Listings have a link with a specific search filter and the label "Animaux interdits" in listings that don't allow animals
             dogsAllowed: $crawler->filter('a[href*="&animauxPermis=0"]')->count() === 0,
             hasWifi: $crawler->filter('#tab-caracteristiques a[href*="acces-internet"]')->count() > 0,
