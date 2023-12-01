@@ -40,7 +40,7 @@ class ListingService {
 	constructor() {
 		// Load search and filtering data from the URL when possible.
 		const url = new URL(location.href);
-		this.searchRadius = url.searchParams.get("search_radius") ?? 150;
+		this.searchRadius = url.searchParams.get("search_radius") ?? 125;
 		this.latitude = url.searchParams.get("latitude") ?? "";
 		this.longitude = url.searchParams.get("longitude") ?? "";
 		this.dogsAllowed = (url.searchParams.get("dogs_allowed") ?? "") == 1 ? 1 : 0;

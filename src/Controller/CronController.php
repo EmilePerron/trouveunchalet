@@ -6,6 +6,7 @@ use App\Enum\Site;
 use App\Message\RequestCrawlingMessage;
 use App\Message\RequestStorageSync;
 use App\Message\RequestStorageSyncMessage;
+use App\Util\Warmup;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +45,16 @@ class CronController extends AbstractController
 		$bus->dispatch(new RequestStorageSyncMessage());
 
         return new Response("✅ Storage sync has been queued.");
+    }
+
+    #[Route('/cron/warmup-search-cache', name: 'cron_warmup_search_cache')]
+    public function warmupSearchCache(Warmup $warmup): Response
+    {
+		$this->checkAuthentication();
+
+		$warmup->warmupRegionSearches();
+
+        return new Response("✅ Warmed up all common region-based searches.");
     }
 
 	/**
