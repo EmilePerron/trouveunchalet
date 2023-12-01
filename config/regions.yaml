@@ -1,38 +1,20 @@
-montreal:
-  slug: montreal
-  name: Montréal
-  heading: Chalets à louer près de Montréal
-  latitude: 45.501690
-  longitude: -73.567253
+abitibi-temiscamingue:
+  slug: abitibi-temiscamingue
+  name: Abitibi-Témiscamingue
+  heading: Chalets à louer en Abitibi-Témiscamingue
+  latitude: 48.102336
+  longitude: -77.787572
   radius: 75
-  sector: Sud
+  sector: Ouest
 
-laval:
-  slug: laval
-  name: Laval
-  heading: Chalets à louer près de Laval
-  latitude: 45.606647
-  longitude: -73.712410
+bas-saint-laurent:
+  slug: bas-saint-laurent
+  name: Bas-Saint-Laurent
+  heading: Chalets à louer dans le Bas-Saint-Laurent
+  latitude: 48.158107
+  longitude: -69.011067
   radius: 75
-  sector: Sud
-
-outaouais:
-  slug: outaouais
-  name: Outaouais
-  heading: Chalets à louer en Outaouais
-  latitude: 45.443619
-  longitude: -73.466530
-  radius: 75
-  sector: Sud
-
-monteregie:
-  slug: monteregie
-  name: Montérégie
-  heading: Chalets à louer en Montérégie
-  latitude: 45.416386
-  longitude: -73.110435
-  radius: 75
-  sector: Sud
+  sector: Est
 
 cantons-de-lest:
   slug: cantons-de-lest
@@ -43,76 +25,21 @@ cantons-de-lest:
   radius: 75
   sector: Sud
 
-# Couldn't find a decent photo to use, so... I disabled it.
-# centre-du-quebec:
-#   slug: centre-du-quebec
-#   name: Centre-du-Québec
-#   heading: Chalets à louer dans le Centre-du-Québec
-#   latitude: 45.88643
-#   longitude: -72.501876
-#   radius: 50
-#   sector: Sud
-
-abitibi-temiscamingue:
-  slug: abitibi-temiscamingue
-  name: Abitibi-Témiscamingue
-  heading: Chalets à louer en Abitibi-Témiscamingue
-  latitude: 48.102336
-  longitude: -77.787572
-  radius: 75
-  sector: Ouest
-
-laurentides:
-  slug: laurentides
-  name: Laurentides
-  heading: Chalets à louer dans les Laurentides
-  latitude: 46.11588
-  longitude: -74.589143
-  radius: 75
-  sector: Ouest
-
-lanaudiere:
-  slug: lanaudiere
-  name: Lanaudière
-  heading: Chalets à louer à Launaudière
-  latitude: 46.072798
-  longitude: -73.888637
-  radius: 75
-  sector: Ouest
-
-mauricie:
-  slug: mauricie
-  name: Mauricie
-  heading: Chalets à louer en Mauricie
-  latitude: 46.674230
-  longitude: -72.873235
-  radius: 75
-  sector: Ouest
-
-saguenay-lac-saint-jean:
-  slug: saguenay-lac-saint-jean
-  name: Saguenay–Lac-Saint-Jean
-  heading: Chalets à louer au Saguenay–Lac-Saint-Jean
-  latitude: 48.512461
-  longitude: -71.886580
-  radius: 125
-  sector: Ouest
-
-quebec:
-  slug: quebec
-  name: Québec
-  heading: Chalets à louer près de Québec
-  latitude: 46.845573
-  longitude: -71.202096
-  radius: 100
-  sector: Est
-
 charlevoix:
   slug: charlevoix
   name: Charlevoix
   heading: Chalets à louer à Charlevoix
   latitude: 47.632945
   longitude: -70.231051
+  radius: 100
+  sector: Est
+
+chaudiere-appalaches:
+  slug: chaudiere-appalaches
+  name: Chaudière-Appalaches
+  heading: Chalets à louer à Chaudière-Appalaches
+  latitude: 45.5937941
+  longitude: -70.9346429
   radius: 100
   sector: Est
 
@@ -125,14 +52,14 @@ cote-nord:
   radius: 300
   sector: Est
 
-iles-de-la-madeleine:
-  slug: iles-de-la-madeleine
-  name: Îles-de-la-Madeleine
-  heading: Chalets à louer aux Îles-de-la-Madeleine
-  latitude: 47.38131
-  longitude: -61.856525
-  radius: 100
-  sector: Est
+eeyou-istchee-baie-james:
+  slug: eeyou-istchee-baie-james
+  name: Eeyou Istchee Baie-James
+  heading: Chalets à louer à Eeyou Istchee Baie-James
+  latitude: 50.553313
+  longitude: -77.297946
+  radius: 350
+  sector: Nord
 
 gaspesie:
   slug: gaspesie
@@ -143,23 +70,68 @@ gaspesie:
   radius: 200
   sector: Est
 
-bas-saint-laurent:
-  slug: bas-saint-laurent
-  name: Bas-Saint-Laurent
-  heading: Chalets à louer dans le Bas-Saint-Laurent
-  latitude: 48.158107
-  longitude: -69.011067
-  radius: 75
-  sector: Est
-
-chaudiere-appalaches:
-  slug: chaudiere-appalaches
-  name: Chaudière-Appalaches
-  heading: Chalets à louer à Chaudière-Appalaches
-  latitude: 45.5937941
-  longitude: -70.9346429
+iles-de-la-madeleine:
+  slug: iles-de-la-madeleine
+  name: Îles-de-la-Madeleine
+  heading: Chalets à louer aux Îles-de-la-Madeleine
+  latitude: 47.38131
+  longitude: -61.856525
   radius: 100
   sector: Est
+
+lanaudiere:
+  slug: lanaudiere
+  name: Lanaudière
+  heading: Chalets à louer à Launaudière
+  latitude: 46.072798
+  longitude: -73.888637
+  radius: 75
+  sector: Ouest
+
+laurentides:
+  slug: laurentides
+  name: Laurentides
+  heading: Chalets à louer dans les Laurentides
+  latitude: 46.11588
+  longitude: -74.589143
+  radius: 75
+  sector: Ouest
+
+laval:
+  slug: laval
+  name: Laval
+  heading: Chalets à louer près de Laval
+  latitude: 45.606647
+  longitude: -73.712410
+  radius: 75
+  sector: Sud
+
+mauricie:
+  slug: mauricie
+  name: Mauricie
+  heading: Chalets à louer en Mauricie
+  latitude: 46.674230
+  longitude: -72.873235
+  radius: 75
+  sector: Ouest
+
+monteregie:
+  slug: monteregie
+  name: Montérégie
+  heading: Chalets à louer en Montérégie
+  latitude: 45.416386
+  longitude: -73.110435
+  radius: 75
+  sector: Sud
+
+montreal:
+  slug: montreal
+  name: Montréal
+  heading: Chalets à louer près de Montréal
+  latitude: 45.501690
+  longitude: -73.567253
+  radius: 75
+  sector: Sud
 
 nunavik:
   slug: nunavik
@@ -170,11 +142,39 @@ nunavik:
   radius: 600
   sector: Nord
 
-eeyou-istchee-baie-james:
-  slug: eeyou-istchee-baie-james
-  name: Eeyou Istchee Baie-James
-  heading: Chalets à louer à Eeyou Istchee Baie-James
-  latitude: 50.553313
-  longitude: -77.297946
-  radius: 350
-  sector: Nord
+outaouais:
+  slug: outaouais
+  name: Outaouais
+  heading: Chalets à louer en Outaouais
+  latitude: 45.443619
+  longitude: -73.466530
+  radius: 75
+  sector: Sud
+
+quebec:
+  slug: quebec
+  name: Québec
+  heading: Chalets à louer près de Québec
+  latitude: 46.845573
+  longitude: -71.202096
+  radius: 100
+  sector: Est
+
+saguenay-lac-saint-jean:
+  slug: saguenay-lac-saint-jean
+  name: Saguenay–Lac-Saint-Jean
+  heading: Chalets à louer au Saguenay–Lac-Saint-Jean
+  latitude: 48.512461
+  longitude: -71.886580
+  radius: 125
+  sector: Ouest
+
+# Couldn't find a decent photo to use, so... I disabled it.
+# centre-du-quebec:
+#   slug: centre-du-quebec
+#   name: Centre-du-Québec
+#   heading: Chalets à louer dans le Centre-du-Québec
+#   latitude: 45.88643
+#   longitude: -72.501876
+#   radius: 50
+#   sector: Sud
