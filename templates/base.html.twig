@@ -60,9 +60,31 @@
                 {{ ('brand.chalet.name_html')|trans|raw }}
             </a>
 
-            <!--nav>
-                <a href="#">Explorer par région</a>
-            </nav-->
+			<div id="nav-wrapper">
+				<button type="button" aria-controls="region-modal" onclick="document.querySelector('#region-modal').showModal()">
+					<i class="fas fa-bars"></i>
+					Explorer par région
+				</button>
+
+				<dialog id="region-modal">
+					<div class="header">
+						<h2>Explorer par région</h2>
+
+						<button type="button" class="close-dialog" onclick="document.querySelector('#region-modal').close()">
+							<i class="fas fa-plus"></i>
+							<span class="tooltip">Fermer l'explorateur</span>
+						</button>
+					</div>
+
+					<nav>
+						{% for region in regions() %}
+							<a href="{{ path('region', { region: region.slug }) }}">
+								{{ region.name }}
+							</a>
+						{% endfor %}
+					</nav>
+				</dialog>
+			</div>
         </header>
 
         {% block body %}{% endblock %}

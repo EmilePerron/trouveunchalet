@@ -2,11 +2,14 @@ header { display: flex; justify-content: space-between; align-items: center; wid
 header a.brand { font-family: var(--font-family-fancy); font-weight: 600; text-decoration: none; color: inherit; transition: color .15s ease; }
 header a.brand i { margin-right: .5ch; }
 header a.brand:hover { color: var(--color-primary-500); }
-header nav { display: flex; justify-content: space-around; align-items: center; gap: 1rem; }
-header nav a { padding: .75rem 1em; font-size: .9rem; text-decoration: none; line-height: 1; color: var(--color-gray-600); -webkit-font-smoothing: auto; transition: all .15s ease; }
-header nav a:last-child { margin-right: -1em; }
-header nav a i { font-size: 1.1rem; }
-header nav a:hover { color: var(--color-gray-800); }
+
+dialog#region-modal { padding: 2rem; margin: auto; text-align: left; border: none; border-radius: 0.5rem; box-shadow: 0 0 1rem rgb(0 0 0 / 25%); box-sizing: border-box; overflow: auto; }
+dialog#region-modal::backdrop { background-color: rgb(0 0 0 / 20%); backdrop-filter: blur(3px);  opacity: 0; animation: fadeIn .25s ease-out .1s forwards; }
+dialog#region-modal[open] { opacity: 0; animation: fadeIn .25s ease-out .1s forwards, dropIn .25s ease-out .1s forwards; }
+dialog#region-modal .header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; }
+dialog#region-modal .header button.close-dialog i { rotate: 45deg; }
+dialog#region-modal nav a { display: block; margin-top: 1ch; color: var(--color-gray-900); }
+dialog#region-modal nav a:hover { color: var(--color-primary-600); }
 
 footer { margin-top: 3rem; font-size: .9rem; line-height: 1.5; background-color: var(--color-gray-100); }
 footer .container { padding: 1rem 0; }
@@ -41,7 +44,6 @@ footer hr + div { display: flex; gap: 1rem; font-size: .8rem; }
 #panel-map { border-radius: .5rem; overflow: hidden; }
 
 @media (max-width: 1080px) {
-	header { display: block; text-align: center; }
-	header a.brand i { display: block; margin-bottom: .5rem; }
-	header nav { display: none; } /* @TODO: make the navigation responsive */
+	header a.brand { font-size: 0; }
+	header a.brand i { font-size: 1.5rem; }
 }
