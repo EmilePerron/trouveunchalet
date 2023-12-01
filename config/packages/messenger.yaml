@@ -11,11 +11,14 @@ framework:
                     check_delayed_interval: 60000
                 retry_strategy:
                     service: App\Messenger\RetryStrategy
+            async_high_priority:
+                dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
             failed: "doctrine://default?queue_name=failed"
             # sync: 'sync://'
 
         routing:
             App\Message\RequestCrawlingMessage: async
+            App\Message\RequestStorageSyncMessage: async_high_priority
             #Symfony\Component\Mailer\Messenger\SendEmailMessage: async
             #Symfony\Component\Notifier\Message\ChatMessage: async
             #Symfony\Component\Notifier\Message\SmsMessage: async
