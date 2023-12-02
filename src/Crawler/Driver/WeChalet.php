@@ -133,6 +133,8 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 			numberOfBedrooms: $listing->numberOfBedrooms,
 			dogsAllowed: in_array("allow-pets", $rawListingData["house_rules"]),
 			hasWifi: in_array("wireless-internet", $rawListingData["amenities"]),
+			hasFireplace: in_array("indoor-fireplace", $rawListingData["amenities"]),
+			hasWoodStove: in_array("indoor-fireplace", $rawListingData["amenities"]) && in_array("firewood-included", $rawListingData["amenities"]),
 			minimumStayInDays: $rawListingData["booking_settings"]["min_stay_count"],
 			minimumPricePerNight: $listing->minimumPricePerNight,
 			maximumPricePerNight: $listing->maximumPricePerNight,

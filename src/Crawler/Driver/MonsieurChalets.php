@@ -3,6 +3,7 @@
 namespace App\Crawler\Driver;
 
 use App\Crawler\AbstractHttpBrowserCrawlerDriver;
+use App\Crawler\Exception\ListingNotFoundException;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
@@ -106,7 +107,13 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 		$crawler = $this->client->request('GET', $listing->url);
 		$pageDataJson = $crawler->filter('script#__NEXT_DATA__')->html();
 		$pageData = json_decode($pageDataJson, true);
-		$propertyData = $pageData['props']['pageProps']['property'];
+		$propertyData = $pageData['props']['pageProps']['property'] ?? null;
+
+		if ($propertyData === null) {
+			throw new ListingNotFoundException();
+		}
+
+		$amenities = array_filter(array_merge(...$propertyData['amenities']));
 
 		$calendarResponse = $this->httpClient->request('GET', "https://api.monsieurchalets.com/api/v1/property/{$listing->internalId}/booking_periods");
         $unavailabilities = [];
@@ -151,6 +158,8 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 			numberOfBedrooms: $listing->numberOfBedrooms,
 			dogsAllowed: in_array("pets_allowed", $propertyData["rules"] ?? []),
 			hasWifi: $listing->hasWifi,
+			hasFireplace: in_array('indoor_fireplace', $amenities),
+			hasWoodStove: in_array('indoor_fireplace', $amenities) && in_array('firewood_included', $amenities),
 			minimumStayInDays: $propertyData["rental_parameter"]["min_nights_to_rent"] ?? null,
 			minimumPricePerNight: min($propertyData['basic_pricing']['weekend_rate'] ?? PHP_INT_MAX, $listing->minimumPricePerNight),
 			maximumPricePerNight: max($propertyData['basic_pricing']['weekend_rate'] ?? 0, $listing->maximumPricePerNight),

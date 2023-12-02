@@ -189,6 +189,8 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
             // Listings have a link with a specific search filter and the label "Animaux interdits" in listings that don't allow animals
             dogsAllowed: $crawler->filter('a[href*="&animauxPermis=0"]')->count() === 0,
             hasWifi: $crawler->filter('#tab-caracteristiques a[href*="acces-internet"]')->count() > 0,
+            hasFireplace: $crawler->filter('#tab-caracteristiques a[href*="foyer-interieur"]')->count() > 0,
+			hasWoodStove: null, // No way to know for ChaletsALouer listings... :(
 			numberOfGuests: $numberOfGuests,
 			numberOfBedrooms: $numberOfBedrooms,
 			minimumStayInDays: $minimumStayDuration,

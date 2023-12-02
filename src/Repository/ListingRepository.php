@@ -121,15 +121,25 @@ class ListingRepository extends ServiceEntityRepository
 
     public function findFromListingData(Site $site, ListingData $listingData): ?Listing
     {
-        return $this->createQueryBuilder('l')
+        $queryBuilder = $this->createQueryBuilder('l')
             ->andWhere('l.parentSite = :site')
             ->setParameter('site', $site->value)
             ->andWhere("l.internalId = :internalId")
             ->setParameter('internalId', $listingData->internalId)
             ->getQuery()
             ->setCacheable(true)
-            ->setResultCacheLifetime(3600 * 24 * 30)
-            ->getOneOrNullResult();
+            ->setResultCacheLifetime(3600 * 24 * 30);
+
+		$result = $queryBuilder->getOneOrNullResult();
+
+		if (!$result) {
+			// When the listing isn't found, it'll likely be created right after.
+			// Expiring the cache prevents returning "no result" on subsequent queries due to this cache.
+			// This prevents errors of integrity constraint violations with duplicate records.
+			$queryBuilder->expireResultCache();
+		}
+
+		return $result;
     }
 
 	public function getUnwantedDuplicateListings(): array

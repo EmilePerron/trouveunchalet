@@ -57,6 +57,7 @@ abstract class AbstractGuestyDriver extends AbstractHttpBrowserCrawlerDriver
 		} while ($nextPaginationCursor !== null);
 
 		foreach ($rawResults as $rawResult) {
+			$description = $this->buildFullDescriptionFromRawResult($rawResult);
 			$listingData = new ListingData(
 				name: trim($rawResult['title']),
 				address: implode(' ', [
@@ -67,12 +68,14 @@ abstract class AbstractGuestyDriver extends AbstractHttpBrowserCrawlerDriver
 				]),
 				url: $this->getListingPageBaseUrl() . $rawResult['_id'],
 				internalId: $rawResult['_id'],
-				description: $this->buildFullDescriptionFromRawResult($rawResult),
+				description: $description,
 				imageUrl: $rawResult['picture']['thumbnail'],
 				numberOfBedrooms: $rawResult['bedrooms'],
 				numberOfGuests: $rawResult['accommodates'],
 				dogsAllowed: in_array("Pets allowed", $rawResult['amenities']),
 				hasWifi: in_array("Internet", $rawResult['amenities']) || in_array("Wireless Internet", $rawResult['amenities']),
+				hasFireplace: in_array("Indoor fireplace", $rawResult['amenities']),
+				hasWoodStove: str_contains(strtolower($description), "wood-burning"),
 			);
 			$listings[] = $listingData;
 			$enqueueListing($listingData);
@@ -133,6 +136,8 @@ abstract class AbstractGuestyDriver extends AbstractHttpBrowserCrawlerDriver
 			numberOfBedrooms: $listing->numberOfBedrooms,
             dogsAllowed: $listing->dogsAllowed,
 			hasWifi: $listing->hasWifi,
+			hasFireplace: $listing->hasFireplace,
+			hasWoodStove: $listing->hasWoodStove,
 			minimumStayInDays: $listingResponse['terms']['minNights'] ?? null,
 			minimumPricePerNight: $listingResponse['prices']['basePrice'],
 			maximumPricePerNight: $listingResponse['prices']['basePrice'],

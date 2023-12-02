@@ -94,6 +94,14 @@ class Listing
     #[ORM\Column(nullable: true)]
     private ?int $averagePricePerNight = null;
 
+    #[Groups(["summary"])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $hasWoodStove = null;
+
+    #[Groups(["summary"])]
+    #[ORM\Column(nullable: true)]
+    private ?bool $hasFireplace = null;
+
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
@@ -327,13 +335,37 @@ class Listing
 
 	#[ORM\PrePersist]
 	#[ORM\PreUpdate]
-    public function updateAveragePricePerNight(): static
+	public function updateAveragePricePerNight(): static
+	{
+	if (!$this->minimumPricePerNight || !$this->maximumPricePerNight) {
+		$this->averagePricePerNight = null;
+	} else {
+		$this->averagePricePerNight = round(($this->minimumPricePerNight + $this->maximumPricePerNight) / 2);
+	}
+
+		return $this;
+	}
+
+    public function isHasWoodStove(): ?bool
     {
-		if (!$this->minimumPricePerNight || !$this->maximumPricePerNight) {
-			$this->averagePricePerNight = null;
-		} else {
-			$this->averagePricePerNight = round(($this->minimumPricePerNight + $this->maximumPricePerNight) / 2);
-		}
+        return $this->hasWoodStove;
+    }
+
+    public function setHasWoodStove(?bool $hasWoodStove): static
+    {
+        $this->hasWoodStove = $hasWoodStove;
+
+        return $this;
+    }
+
+    public function isHasFireplace(): ?bool
+    {
+        return $this->hasFireplace;
+    }
+
+    public function setHasFireplace(?bool $hasFireplace): static
+    {
+        $this->hasFireplace = $hasFireplace;
 
         return $this;
     }

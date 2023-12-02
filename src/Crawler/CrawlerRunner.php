@@ -3,6 +3,7 @@
 namespace App\Crawler;
 
 use App\Config\SiteConfigLoader;
+use App\Crawler\Exception\ListingNotFoundException;
 use App\Crawler\Exception\MissingCrawlerException;
 use App\Crawler\Exception\RobotsTxtDisallowsCrawlingException;
 use App\Crawler\Model\ListingData;
@@ -107,11 +108,21 @@ class CrawlerRunner
 
 		$this->logger->info("Crawling for listing details: {$listingData->url}.");
 
-		$listingDetails = $driver->getListingDetails($listingData);
 		$existingListing = $this->listingRepository->findFromListingData($site, $listingData);
 
-		$listing = $existingListing ?: new Listing();
+		try {
+			$listingDetails = $driver->getListingDetails($listingData);
+		} catch (ListingNotFoundException) {
+			if ($existingListing) {
+				$this->logger->info("Listing {$listingData->url} was not found - removing it from the database.");
+				$this->entityManager->remove($existingListing);
+				$this->entityManager->flush();
+			}
 
+			return;
+		}
+
+		$listing = $existingListing ?: new Listing();
 		$listing->setParentSite($site);
 		$this->fillListingFromCrawledDetails($listing, $listingDetails);
 		$this->entityManager->persist($listing);
@@ -145,6 +156,8 @@ class CrawlerRunner
 		$listing->setMaximumNumberOfGuests($listingData->numberOfGuests);
 		$listing->setNumberOfBedrooms($listingData->numberOfBedrooms);
 		$listing->setHasWifi($listingData->hasWifi);
+		$listing->setHasFireplace($listingData->hasFireplace);
+		$listing->setHasWoodStove($listingData->hasWoodStove);
 		$listing->setMinimumStayInDays($listingData->minimumStayInDays ?: 1);
 		$listing->setMinimumPricePerNight($listingData->minimumPricePerNight);
 		$listing->setMaximumPricePerNight($listingData->maximumPricePerNight);
