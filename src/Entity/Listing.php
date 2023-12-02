@@ -83,15 +83,15 @@ class Listing
     #[ORM\Column(options: ["default" => 1])]
     private int $minimumStayInDays = 1;
 
-    #[Groups(["details"])]
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?int $minimumPricePerNight = null;
 
-    #[Groups(["details"])]
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?int $maximumPricePerNight = null;
 
-    #[Groups(["details"])]
+    #[Groups(["summary"])]
     #[ORM\Column(nullable: true)]
     private ?int $averagePricePerNight = null;
 
