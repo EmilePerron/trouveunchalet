@@ -9,7 +9,7 @@ stylesheet.innerHTML = `
 
 	#filters-dialog-toggle .active-count:not([hidden]) { display: flex; width: 2.5ch; aspect-ratio: 1/1; justify-content: center; align-items: center; font-size: .9em; line-height: 1.25; font-weight: 600; color: white; background-color: var(--color-primary-500); border-radius: 50%; position: absolute; top: -0.5ch; right: -0.5ch; }
 
-	dialog { padding: 2rem; margin: auto; border: none; border-radius: 0.5rem; box-shadow: 0 0 1rem rgb(0 0 0 / 25%); box-sizing: border-box; overflow: visible; }
+	dialog { width: min(60ch, 95vw); padding: 2rem; margin: auto; border: none; border-radius: 0.5rem; box-shadow: 0 0 1rem rgb(0 0 0 / 25%); box-sizing: border-box; overflow: auto; overflow: hidden auto; }
 	dialog::backdrop { background-color: rgb(0 0 0 / 20%); backdrop-filter: blur(3px);  opacity: 0; animation: fadeIn .25s ease-out .1s forwards; }
 	dialog[open] { opacity: 0; animation: fadeIn .25s ease-out .1s forwards, dropIn .25s ease-out .1s forwards; }
 
@@ -32,9 +32,9 @@ stylesheet.innerHTML = `
 	.characteristics-list { display: flex; justify-content: flex-start; align-items: flex-start; flex-wrap: wrap; gap: 1ch; }
 
 	.filter-button { font-family: inherit; position: relative; }
+	.filter-button label { display: flex; align-items: center; gap: 1ch; }
 	.filter-button label::before { content: ' '; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-	.filter-button label span:first-child { display: inline-block; padding: .5ch 1ch; font-size: .8rem; color: #fff; white-space: nowrap; background-color: var(--color-gray-900); border-radius: .5rem; position: absolute; bottom: 3rem; left: 50%; translate: -50%; opacity: 0; pointer-events: none; transition: opacity .2s ease-in-out; }
-	.filter-button label i + i { color: var(--color-primary-400); }
+	.filter-button label span { display: inline-block; font-size: .8rem; white-space: nowrap; }
 	.filter-button input { scale: 1.15; accent-color: var(--color-primary); outline: none; }
 	.filter-button:has(input:checked) { --button-color: var(--color-primary-100); background-color: var(--button-color); }
 	.filter-button:hover label span, .filter-button:focus-visible label span { opacity: 1; }
@@ -148,7 +148,6 @@ export class ListingFilters extends HTMLElement {
 								<label for="has-wood-stove-input">
 									<span>Poêle à bois</span>
 									<i class="fas fa-fireplace"></i>
-									<i class="fas fa-tree"></i>
 								</label>
 							</div>
 						</div>
