@@ -41,7 +41,7 @@
 				crossorigin="anonymous"
 			></script>
 			<script>
-				if (Sentry !== undefined) {
+				if (typeof Sentry !== 'undefined') {
 					Sentry.onLoad(function() {
 						Sentry.init({
 							// Performance Monitoring
