@@ -44,21 +44,20 @@ class Listing
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 7, nullable: true)]
     private ?string $longitude = null;
 
-    #[Groups(["summary"])]
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $url = null;
 
+    #[Groups(["details"])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?bool $dogsAllowed = null;
 
     #[ORM\Column(nullable: false, enumType: Site::class)]
     private ?Site $parentSite = null;
 
-    #[Groups(["summary"])]
     #[ORM\Column(length: 512, nullable: true)]
     private ?string $imageUrl = null;
 
@@ -68,37 +67,39 @@ class Listing
     #[ORM\OneToMany(mappedBy: 'listing', targetEntity: Unavailability::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $unavailabilities;
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?int $numberOfBedrooms = null;
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?int $maximumNumberOfGuests = null;
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?bool $hasWifi = null;
 
+    #[Groups(["details"])]
     #[ORM\Column(options: ["default" => 1])]
     private int $minimumStayInDays = 1;
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?int $minimumPricePerNight = null;
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?int $maximumPricePerNight = null;
 
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?int $averagePricePerNight = null;
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?bool $hasWoodStove = null;
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     #[ORM\Column(nullable: true)]
     private ?bool $hasFireplace = null;
 
@@ -179,7 +180,7 @@ class Listing
         return $this;
     }
 
-    #[Groups(["summary"])]
+    #[Groups(["details"])]
     public function getExcerpt(): ?string
     {
         return Excerpt::excerpt($this->description ?? "");

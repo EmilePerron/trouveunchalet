@@ -49,15 +49,9 @@ export class ListingListItem extends HTMLElement {
 			${FontawesomeStylesheet.outerHTML}
 			${ButtonStylesheet.outerHTML}
 			${stylesheet.outerHTML}
-			<a href="${listing.url}" target="_blank">
+			<a href="/chalet/${listing.id}" target="_blank">
 				<div class="gallery">
-					${
-						!listing?.imageUrl
-							? ""
-							: `
-						<img src="${getListingImageUrl(listing.id)}" alt="" width="4" height="3" loading="lazy">
-					`
-					}
+					<img src="${getListingImageUrl(listing.id)}" alt="" width="4" height="3" loading="lazy">
 				</div>
 				<div class="body">
 					<strong>${listing.name}</strong>

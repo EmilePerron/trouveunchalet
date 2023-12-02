@@ -111,13 +111,7 @@ export class ListingMapPopup extends HTMLElement {
 
 		this.#listingElement.innerHTML = `
 			<div class="gallery">
-				${
-					!listing?.imageUrl
-						? ""
-						: `
-					<img src="${getListingImageUrl(listing.id)}" alt="">
-				`
-				}
+				<img src="${getListingImageUrl(listing.id)}" alt="">
 			</div>
 			<div class="body">
 				<strong>${listing.name}</strong>
@@ -126,7 +120,7 @@ export class ListingMapPopup extends HTMLElement {
 			</div>
 		`;
 
-		this.#listingLink.href = listing.url;
+		this.#listingLink.href = `/chalet/${listing.id}`;
 	}
 }
 
