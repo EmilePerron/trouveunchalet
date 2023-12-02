@@ -27,6 +27,8 @@ class SearchController extends AbstractController
         $latitude = $request->query->get('latitude');
         $longitude = $request->query->get('longitude');
         $hasWifi = $request->query->get('has_wifi');
+        $hasFireplace = $request->query->get('has_fireplace');
+        $hasWoodStove = $request->query->get('has_wood_stove');
         $dogsAllowed = $request->query->get('dogs_allowed');
         $dateArrival = $request->query->get('date_arrival');
         $dateDeparture = $request->query->get('date_departure');
@@ -40,6 +42,8 @@ class SearchController extends AbstractController
                 maximumRange: $searchRadius,
 				dogsAllowed: $dogsAllowed,
 				hasWifi: $hasWifi,
+				hasFireplace: $hasFireplace,
+				hasWoodStove: $hasWoodStove,
 				fromDate: $dateArrival,
 				toDate: $dateDeparture,
             );

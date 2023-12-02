@@ -33,7 +33,8 @@ stylesheet.innerHTML = `
 
 	.filter-button { font-family: inherit; position: relative; }
 	.filter-button label::before { content: ' '; position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-	.filter-button label span { display: inline-block; padding: .5ch 1ch; font-size: .8rem; color: #fff; white-space: nowrap; background-color: var(--color-gray-900); border-radius: .5rem; position: absolute; bottom: 3rem; left: 50%; translate: -50%; opacity: 0; pointer-events: none; transition: opacity .2s ease-in-out; }
+	.filter-button label span:first-child { display: inline-block; padding: .5ch 1ch; font-size: .8rem; color: #fff; white-space: nowrap; background-color: var(--color-gray-900); border-radius: .5rem; position: absolute; bottom: 3rem; left: 50%; translate: -50%; opacity: 0; pointer-events: none; transition: opacity .2s ease-in-out; }
+	.filter-button label i + i { color: var(--color-primary-400); }
 	.filter-button input { scale: 1.15; accent-color: var(--color-primary); outline: none; }
 	.filter-button:has(input:checked) { --button-color: var(--color-primary-100); background-color: var(--button-color); }
 	.filter-button:hover label span, .filter-button:focus-visible label span { opacity: 1; }
@@ -133,6 +134,23 @@ export class ListingFilters extends HTMLElement {
 									<i class="fas fa-wifi"></i>
 								</label>
 							</div>
+
+							<div class="button filter-button">
+								<input type="checkbox" name="has_fireplace" value="1" id="has-fireplace-input" ${listingService.hasFireplace ? 'checked' : ''}>
+								<label for="has-fireplace-input">
+									<span>Foyer intérieur</span>
+									<i class="fas fa-fireplace"></i>
+								</label>
+							</div>
+
+							<div class="button filter-button">
+								<input type="checkbox" name="has_wood_stove" value="1" id="has-wood-stove-input" ${listingService.hasWoodStove ? 'checked' : ''}>
+								<label for="has-wood-stove-input">
+									<span>Poêle à bois</span>
+									<i class="fas fa-fireplace"></i>
+									<i class="fas fa-tree"></i>
+								</label>
+							</div>
 						</div>
 					</fieldset>
 
@@ -191,6 +209,8 @@ export class ListingFilters extends HTMLElement {
 		const data = new FormData(this.#form);
 
 		listingService.hasWifi = data.has("has_wifi") ? 1 : 0;
+		listingService.hasFireplace = data.has("has_fireplace") ? 1 : 0;
+		listingService.hasWoodStove = data.has("has_wood_stove") ? 1 : 0;
 		listingService.dogsAllowed = data.has("dogs_allowed") ? 1 : 0;
 		listingService.dateArrival = data.get("date_arrival");
 		listingService.dateDeparture = data.get("date_departure");

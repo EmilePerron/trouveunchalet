@@ -45,6 +45,8 @@ class ListingService {
 		this.longitude = url.searchParams.get("longitude") ?? "";
 		this.dogsAllowed = (url.searchParams.get("dogs_allowed") ?? "") == 1 ? 1 : 0;
 		this.hasWifi = (url.searchParams.get("has_wifi") ?? "") == 1 ? 1 : 0;
+		this.hasFireplace = (url.searchParams.get("has_fireplace") ?? "") == 1 ? 1 : 0;
+		this.hasWoodStove = (url.searchParams.get("has_wood_stove") ?? "") == 1 ? 1 : 0;
 		this.dateArrival = url.searchParams.get("date_arrival") ?? "";
 		this.dateDeparture = url.searchParams.get("date_departure") ?? "";
 
@@ -120,6 +122,22 @@ class ListingService {
 
 	set hasWifi(hasWifi) {
 		return this.#searchFilters.set("has_wifi", hasWifi);
+	}
+
+	get hasFireplace() {
+		return this.#searchFilters.get("has_fireplace") == 1 ? 1 : 0;
+	}
+
+	set hasFireplace(hasFireplace) {
+		return this.#searchFilters.set("has_fireplace", hasFireplace);
+	}
+
+	get hasWoodStove() {
+		return this.#searchFilters.get("has_fireplace") == 1 ? 1 : 0;
+	}
+
+	set hasWoodStove(hasWoodStove) {
+		return this.#searchFilters.set("has_wood_stove", hasWoodStove);
 	}
 
 	get dateArrival() {

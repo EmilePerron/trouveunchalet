@@ -34,7 +34,7 @@ class ListingRepository extends ServiceEntityRepository
      * @param integer $maximumRange (in KM)
      * @return array<int,Listing>
      */
-    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, ?string $fromDate = null, ?string $toDate = null, ?bool $hasWifi = null, ?bool $dogsAllowed = null): array
+    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, ?string $fromDate = null, ?string $toDate = null, ?bool $hasWifi = null, ?bool $hasFireplace = null, ?bool $hasWoodStove = null, ?bool $dogsAllowed = null): array
     {
         // The logic of this geographical serach has been heavily sourced from this article:
         // https://aaronfrancis.com/2021/efficient-distance-querying-in-my-sql
@@ -67,11 +67,27 @@ class ListingRepository extends ServiceEntityRepository
             ->setParameter('maxRangeInMeters', $maxRangeInMeters);
 
 		if ($hasWifi) {
-			$queryBuilder->andWhere("l.hasWifi = 1");
+			$queryBuilder
+				->andWhere("l.hasWifi IS NOT NULL")
+				->andWhere("l.hasWifi = 1");
+		}
+
+		if ($hasFireplace) {
+			$queryBuilder
+				->andWhere("l.hasFireplace IS NOT NULL")
+				->andWhere("l.hasFireplace = 1");
+		}
+
+		if ($hasWoodStove) {
+			$queryBuilder
+				->andWhere("l.hasWoodStove IS NOT NULL")
+				->andWhere("l.hasWoodStove = 1");
 		}
 
 		if ($dogsAllowed) {
-			$queryBuilder->andWhere("l.dogsAllowed = 1");
+			$queryBuilder
+				->andWhere("l.dogsAllowed IS NOT NULL")
+				->andWhere("l.dogsAllowed = 1");
 		}
 
         if ($fromDate && $toDate) {
