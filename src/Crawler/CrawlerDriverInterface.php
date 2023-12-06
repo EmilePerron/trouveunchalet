@@ -25,4 +25,12 @@ interface CrawlerDriverInterface
      * availabilities.
      */
     public function getListingDetails(ListingData|Listing $listing): ListingData;
+
+    /**
+     * Fetches the availabilities for a given listing and update the provided
+	 * listing's `unavailabilities` property.
+	 *
+	 * More changes and updates may be done to the listing if desired.
+     */
+    public function updateAvailabilities(ListingData &$listing): void;
 }

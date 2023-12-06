@@ -355,6 +355,33 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 			}
 		}
 
+        $detailedListing = new ListingData(
+            name: $listing->name,
+			address: $listing->address,
+			url: $listing->url,
+			internalId: $listing->internalId,
+            description: $sectionsData['DESCRIPTION_DEFAULT']['section']['htmlDescription']['htmlText'] ?? $listing->description,
+            imageUrl: $listing->imageUrl,
+			numberOfGuests: $sectionsData['BOOK_IT_SIDEBAR']['section']['maxGuestCapacity'] ?? null,
+			numberOfBedrooms: count($sectionsData['SLEEPING_ARRANGEMENT_DEFAULT']['section']['arrangementDetails'] ?? [1]),
+			dogsAllowed: !isset($policies['SYSTEM_NO_PETS']),
+			hasWifi: isset($amenities['SYSTEM_WI_FI']),
+			hasFireplace: isset($amenities['SYSTEM_FIREPLACE']),
+			hasWoodStove: isset($amenities['SYSTEM_FIREPLACE']) && str_contains($amenities['SYSTEM_FIREPLACE'], 'bois'),
+			minimumPricePerNight: $listing->minimumPricePerNight,
+			maximumPricePerNight: $listing->maximumPricePerNight,
+			latitude: $listing->latitude,
+			longitude: $listing->longitude,
+        );
+
+        return $detailedListing;
+    }
+
+    public function updateAvailabilities(ListingData &$listingData): void
+	{
+		$minimumNightsValues = [];
+		$unavailabilities = [];
+
         $calendarResponse = $this->httpClient->request('GET', "https://fr.airbnb.ca/api/v3/PdpAvailabilityCalendar", [
 			"headers" => [
 				"accept-language" => "fr-CA,fr,en;q=0.9",
@@ -370,7 +397,7 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 						// Count is reduced from the original 12 months to avoid massive amounts of unavailablities in our system
 						// (thinking this is what caused Sentry issue PHP-SYMFONY-A)
 						"count" => 4,
-						"listingId" => "{$listing->internalId}",
+						"listingId" => "{$listingData->internalId}",
 						"month" => date('m'),
 						"year" => date('Y')
 					]
@@ -378,9 +405,6 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 				'extensions' => '{"persistedQuery":{"version":1,"sha256Hash":"8f08e03c7bd16fcad3c92a3592c19a8b559a0d0855a84028d1163d4733ed9ade"}}'
 			]
 		]);
-
-		$minimumNightsValues = [];
-		$unavailabilities = [];
 
 		foreach ($calendarResponse->toArray()["data"]["merlin"]["pdpAvailabilityCalendar"]["calendarMonths"] as $monthData) {
 			foreach ($monthData['days'] as $dayData) {
@@ -398,27 +422,7 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 			}
         }
 
-        $detailedListing = new ListingData(
-            name: $listing->name,
-			address: $listing->address,
-			url: $listing->url,
-			internalId: $listing->internalId,
-            unavailabilities: $unavailabilities,
-            description: $sectionsData['DESCRIPTION_DEFAULT']['section']['htmlDescription']['htmlText'] ?? $listing->description,
-            imageUrl: $listing->imageUrl,
-			numberOfGuests: $sectionsData['BOOK_IT_SIDEBAR']['section']['maxGuestCapacity'] ?? null,
-			numberOfBedrooms: count($sectionsData['SLEEPING_ARRANGEMENT_DEFAULT']['section']['arrangementDetails'] ?? [1]),
-			dogsAllowed: !isset($policies['SYSTEM_NO_PETS']),
-			hasWifi: isset($amenities['SYSTEM_WI_FI']),
-			hasFireplace: isset($amenities['SYSTEM_FIREPLACE']),
-			hasWoodStove: isset($amenities['SYSTEM_FIREPLACE']) && str_contains($amenities['SYSTEM_FIREPLACE'], 'bois'),
-			minimumStayInDays: $minimumNightsValues ? min($minimumNightsValues) : null,
-			minimumPricePerNight: $listing->minimumPricePerNight,
-			maximumPricePerNight: $listing->maximumPricePerNight,
-			latitude: $listing->latitude,
-			longitude: $listing->longitude,
-        );
-
-        return $detailedListing;
-    }
+		$listingData->unavailabilities = $unavailabilities;
+		$listingData->minimumStayInDays = $minimumNightsValues ? min($minimumNightsValues) : null;
+	}
 }
