@@ -14,13 +14,16 @@ find available rentals that match their criteria and availabilities.
 ## Setting up the project
 
 1. Clone the repository.
-2. Install dependencies with Composer:
+2. Set up the following environment variables (e.g. in a `env.local` file):
 	```bash
-	composer install
+	DIGITALOCEAN_SPACES_ENDPOINT=
+	DIGITALOCEAN_SPACES_ID=
+	DIGITALOCEAN_SPACES_SECRET=
+	DIGITALOCEAN_SPACES_BUCKET=
 	```
-3. Install the browser drivers:
+3. Start the project with Docker Composer
 	```bash
-	vendor/bin/bdi detect drivers
+	docker compose up
 	```
 
 ## Data sources
