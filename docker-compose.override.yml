@@ -12,7 +12,7 @@ services:
       args:
         SUPERVISOR_BASE_STAGE: app_php_dev
     environment:
-      SERVER_NAME: localhost, trouvetonchalet.local
+      SERVER_NAME: localhost, trouvetonchalet.local, www.trouvetonchalet.local
 
   ###> symfony/mailer ###
   mailer:

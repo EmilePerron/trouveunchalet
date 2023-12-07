@@ -5,6 +5,10 @@
 
 {$SERVER_NAME}
 
+# Redirect www. to non-www
+@www header_regexp www Host ^www\.(.*)$
+redir @www https://{re.www.1} 301
+
 log
 
 route {
