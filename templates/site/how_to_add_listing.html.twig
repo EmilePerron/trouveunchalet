@@ -7,6 +7,8 @@
 {% endblock %}
 
 {% block body %}
+	<script type="module" src="{{ asset('js/component/listing-validator.js') }}"></script>
+
 	<main class="text">
 		<div class="container">
 			<h1>Comment ajouter ma propriété à TrouveTonChalet.ca?</h1>
@@ -26,6 +28,10 @@
 			<h2>Si votre chalet n'est pas encore affiché en ligne</h2>
 			<p>Nous ne permettons pas d'ajouter des propriétés directement à notre système.</p>
 			<p>Nous vous suggérons donc de faire afficher votre chalet sur l'une des plateformes que nous supportons (voir la liste ci-haut).</p>
+
+			<h2>Vérifier si ma propriété est indexée</h2>
+			<p>Si votre chalet est déjà affiché sur l'un des sites mentionnés ci-haut, vous pouvez valider qu'il est bien indexé par notre système en soumettant l'URL de votre chalet ci-dessous.</p>
+			<listing-validator style="margin: 1rem; margin-top: 2rem;"></listing-validator>
 
 			<h2>Des questions?</h2>
 			<p>Si vous avez des questions ou des commentaires, n'hésitez pas à <a href="{{ path('contact') }}">nous contacter</a>!</p>

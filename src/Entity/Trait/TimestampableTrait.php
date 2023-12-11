@@ -7,6 +7,7 @@ namespace App\Entity\Trait;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Adds created at and updated at timestamps to entities.
@@ -15,9 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 trait TimestampableTrait
 {
+	#[Groups('timestamps')]
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private DateTimeImmutable $dateCreated;
 
+	#[Groups('timestamps')]
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
     private DateTimeImmutable $dateUpdated;
 
