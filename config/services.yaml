@@ -25,7 +25,7 @@ services:
     geocoding_cache_adapter:
         class: Symfony\Component\Cache\Adapter\DoctrineDbalAdapter
         arguments:
-            - "%env(DATABASE_URL)%"
+            - "@doctrine.dbal.default_connection"
 
     geocoding_cache:
         class: Symfony\Component\Cache\Psr16Cache
@@ -35,7 +35,7 @@ services:
     app_cache_adapter:
         class: Symfony\Component\Cache\Adapter\DoctrineDbalAdapter
         arguments:
-            - "%env(DATABASE_URL)%"
+            - "@doctrine.dbal.default_connection"
 
     app_cache:
         class: Symfony\Component\Cache\Psr16Cache
