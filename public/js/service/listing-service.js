@@ -43,6 +43,8 @@ class ListingService {
 		this.searchRadius = url.searchParams.get("search_radius") ?? 125;
 		this.latitude = url.searchParams.get("latitude") ?? "";
 		this.longitude = url.searchParams.get("longitude") ?? "";
+		this.numberOfGuests = url.searchParams.get("number_of_guests") ?? "";
+		this.numberOfBedrooms = url.searchParams.get("number_of_bedrooms") ?? "";
 		this.dogsAllowed = (url.searchParams.get("dogs_allowed") ?? "") == 1 ? 1 : 0;
 		this.hasWifi = (url.searchParams.get("has_wifi") ?? "") == 1 ? 1 : 0;
 		this.hasFireplace = (url.searchParams.get("has_fireplace") ?? "") == 1 ? 1 : 0;
@@ -106,6 +108,30 @@ class ListingService {
 
 	set longitude(longitude) {
 		return this.#searchFilters.set("longitude", longitude);
+	}
+
+	get dogsAllowed() {
+		return this.#searchFilters.get("dogs_allowed") == 1 ? 1 : 0;
+	}
+
+	set dogsAllowed(dogsAllowed) {
+		return this.#searchFilters.set("dogs_allowed", dogsAllowed);
+	}
+
+	get numberOfGuests() {
+		return this.#searchFilters.get("number_of_guests") ?? "";
+	}
+
+	set numberOfGuests(numberOfGuests) {
+		return this.#searchFilters.set("number_of_guests", numberOfGuests);
+	}
+
+	get numberOfBedrooms() {
+		return this.#searchFilters.get("number_of_bedrooms") ?? "";
+	}
+
+	set numberOfBedrooms(numberOfBedrooms) {
+		return this.#searchFilters.set("number_of_bedrooms", numberOfBedrooms);
 	}
 
 	get dogsAllowed() {

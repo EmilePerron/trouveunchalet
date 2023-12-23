@@ -116,6 +116,21 @@ export class ListingFilters extends HTMLElement {
 					</fieldset>
 
 					<fieldset>
+						<legend>Occupants</legend>
+						<div class="filters-datepicker">
+							<span class="input-wrapper">
+								<label for="input-number-of-guests">Nombre de personnes</label>
+								<input type="number" name="number_of_guests" id="input-number-of-guests" placeholder=" " step="1" inputmode="numeric" pattern="\d*" min="1" value="${listingService.numberOfGuests ?? ''}">
+							</span>
+
+							<span class="input-wrapper">
+								<label for="input-number-of-bedrooms">Nombre de chambres</label>
+								<input type="number" name="number_of_bedrooms" id="input-number-of-bedrooms" placeholder=" " step="1" inputmode="numeric" pattern="\d*" min="1" value="${listingService.numberOfBedrooms ?? ''}">
+							</span>
+						</div>
+					</fieldset>
+
+					<fieldset>
 						<legend>Caractéristiques</legend>
 
 						<div class="characteristics-list">
@@ -213,6 +228,8 @@ export class ListingFilters extends HTMLElement {
 		listingService.dogsAllowed = data.has("dogs_allowed") ? 1 : 0;
 		listingService.dateArrival = data.get("date_arrival");
 		listingService.dateDeparture = data.get("date_departure");
+		listingService.numberOfGuests = data.get("number_of_guests");
+		listingService.numberOfBedrooms = data.get("number_of_bedrooms");
 		listingService.search();
 
 		this.#activeFilterCountElement.textContent = listingService.numberOfActiveFilters;

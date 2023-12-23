@@ -32,6 +32,8 @@ class SearchController extends AbstractController
         $dogsAllowed = $request->query->get('dogs_allowed');
         $dateArrival = $request->query->get('date_arrival');
         $dateDeparture = $request->query->get('date_departure');
+        $numberOfGuests = $request->query->get('number_of_guests') ?: null;
+        $numberOfBedrooms = $request->query->get('number_of_bedrooms') ?: null;
         $searchRadius = min(abs($request->query->getInt('search_radius') ?: 250), 1000);
         $listings = [];
 
@@ -46,6 +48,8 @@ class SearchController extends AbstractController
 				hasWoodStove: $hasWoodStove,
 				fromDate: $dateArrival,
 				toDate: $dateDeparture,
+				numberOfGuests: $numberOfGuests,
+				numberOfBedrooms: $numberOfBedrooms,
             );
         }
 

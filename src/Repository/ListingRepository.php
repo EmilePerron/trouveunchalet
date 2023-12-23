@@ -34,7 +34,7 @@ class ListingRepository extends ServiceEntityRepository
      * @param integer $maximumRange (in KM)
      * @return array<int,Listing>
      */
-    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, ?string $fromDate = null, ?string $toDate = null, ?bool $hasWifi = null, ?bool $hasFireplace = null, ?bool $hasWoodStove = null, ?bool $dogsAllowed = null): array
+    public function searchByLocation(float $latitude, float $longitude, int $maximumRange, ?string $fromDate = null, ?string $toDate = null, ?bool $hasWifi = null, ?bool $hasFireplace = null, ?bool $hasWoodStove = null, ?bool $dogsAllowed = null, ?int $numberOfGuests = null, ?int $numberOfBedrooms = null): array
     {
         // The logic of this geographical serach has been heavily sourced from this article:
         // https://aaronfrancis.com/2021/efficient-distance-querying-in-my-sql
@@ -65,6 +65,19 @@ class ListingRepository extends ServiceEntityRepository
             ->setParameter('userLat', $latitude)
             ->setParameter('userLng', $longitude)
             ->setParameter('maxRangeInMeters', $maxRangeInMeters);
+
+		if ($numberOfGuests) {
+			$queryBuilder
+				->andWhere("l.maximumNumberOfGuests IS NOT NULL")
+				->andWhere("l.maximumNumberOfGuests >= :numberOfGuests")
+				->setParameter('numberOfGuests', $numberOfGuests);
+		}
+		if ($numberOfBedrooms) {
+			$queryBuilder
+				->andWhere("l.numberOfBedrooms IS NOT NULL")
+				->andWhere("l.numberOfBedrooms >= :numberOfBedrooms")
+				->setParameter('numberOfBedrooms', $numberOfBedrooms);
+		}
 
 		if ($hasWifi) {
 			$queryBuilder
