@@ -1,6 +1,6 @@
 framework:
     messenger:
-        failure_transport: failed
+        # failure_transport: failed
 
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
@@ -13,7 +13,7 @@ framework:
                     service: App\Messenger\RetryStrategy
             async_high_priority:
                 dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
-            failed: "doctrine://default?queue_name=failed"
+            # failed: "doctrine://default?queue_name=failed"
             # sync: 'sync://'
 
         routing:
