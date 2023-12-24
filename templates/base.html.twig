@@ -7,6 +7,12 @@
         <title>{% block title %}Welcome!{% endblock %} - {{ ('brand.chalet.name')|trans }}</title>
         <link rel="icon" href="{{ absolute_url(asset('fontawesome/svgs/solid/house-tree.svg')) }}">
 
+		<script>
+			if (typeof navigator.serviceWorker !== 'undefined') {
+				navigator.serviceWorker.register('service-worker.js')
+			}
+		</script>
+
 		<meta name="description" content="Trouvez votre escapade de rêves en quelques minutes parmis des milliers de chalets au Québec!">
 
 		<meta property="og:type" content="website" />
