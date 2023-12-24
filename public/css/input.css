@@ -1,8 +1,8 @@
-input:is([type="text"], [type="date"], [type="password"], [type="tel"], [type="number"], [type="url"]) { display: inline-block; padding: 0.75em 1.25em; font-family: var(--font-family); font-size: .9rem; font-weight: 400; color: var(--color-gray-900); background-color: white; border: 1px solid var(--color-gray-200); border-radius: 0.5em; transition: all .15s ease; }
+input:is([type="text"], [type="date"], [type="password"], [type="tel"], [type="number"], [type="url"]) { display: inline-block; padding: 0.75em 1.25em; font-family: var(--font-family); font-size: 1rem; font-weight: 400; color: var(--color-gray-900); background-color: white; border: 1px solid var(--color-gray-200); border-radius: 0.5em; transition: all .15s ease; }
 input:is([type="url"]) { width: min(50ch, calc(100vw - 15ch)); max-width: 100%; }
 
 .input-wrapper { display: inline-block; position: relative; }
-.input-wrapper label { font-size: .9rem; color: var(--color-gray-400); position: absolute; top: .75em; left: 1.25em; pointer-events: none; transition: all .25s ease; }
+.input-wrapper label { font-size: 1rem; color: var(--color-gray-400); position: absolute; top: .75em; left: 1.25em; pointer-events: none; transition: all .25s ease; }
 .input-wrapper:has(input:not(:placeholder-shown)) label,
 .input-wrapper:has(input:focus) label { font-size: .7rem; font-weight: 600; color: var(--color-gray-800); top: -1.35rem; left: .75rem; }
 .input-wrapper:has(input:not(:placeholder-shown):not(:focus-visible)) label { top: -1rem; }
