@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>{% block title %}Welcome!{% endblock %} - {{ ('brand.chalet.name')|trans }}</title>
         <link rel="icon" href="{{ absolute_url(asset('fontawesome/svgs/solid/house-tree.svg')) }}">
+		<link rel="manifest" href="/manifest.json" />
 
 		<script>
 			if (typeof navigator.serviceWorker !== 'undefined') {
