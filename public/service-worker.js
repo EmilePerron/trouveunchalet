@@ -71,8 +71,6 @@ self.addEventListener('fetch', event => {
 		return;
 	}
 
-	console.log(requestUrl);
-
 	// Stale-while-revalidate
 	// similar to HTTP's stale-while-revalidate: https://www.mnot.net/blog/2007/12/12/stale
 	// Upgrade from Jake's to Surma's: https://gist.github.com/surma/eb441223daaedf880801ad80006389f1
