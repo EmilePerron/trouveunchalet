@@ -1,6 +1,7 @@
 import { convertListingToGeoJsonFeature } from "../geojson.js";
 import { ListingServiceEvents, listingService } from "../service/listing-service.js";
 import "./listing-map-popup.js";
+import circle from "https://cdn.jsdelivr.net/npm/@turf/circle@6.5.0/+esm";
 
 document.head.insertAdjacentHTML("beforeend", `
 	<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css">
@@ -93,6 +94,8 @@ export class ListingMap extends HTMLElement {
 			this.#mapInitialization.then(() => {
 				this.#renderListings();
 
+				this.#map.getSource("search_radius_circle").setData(this.#generateSearchRadiusCircle());
+
 				if (listingService.latitude != this.#map.getCenter().lat) {
 					const url = new URL(location.href);
 
@@ -140,12 +143,28 @@ export class ListingMap extends HTMLElement {
 
 		await new Promise((resolve) => {
 			map.on("load", () => {
+				map.addSource("search_radius_circle", {
+					type: "geojson",
+					data: this.#generateSearchRadiusCircle(),
+				});
+
 				map.addSource("listings", {
 					type: "geojson",
 					data: sourceDataTemplate,
 					cluster: true,
 					// clusterMaxZoom: 15, // Max zoom to cluster points on
 					clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
+				});
+
+				map.addLayer({
+					id: "search-radius-circle",
+					type: "line",
+					source: "search_radius_circle",
+					paint: {
+						"line-color": "#56906e",
+						"line-opacity": 0.5,
+						"line-width": 5,
+					},
 				});
 
 				map.addLayer({
@@ -213,8 +232,6 @@ export class ListingMap extends HTMLElement {
 							}
 						});
 					});
-
-					console.log(clusterChildren);
 
 					let shouldOpenBrowsingPopup = true;
 					let previousCoordinate = clusterChildren[0].geometry.coordinates;
@@ -303,7 +320,7 @@ export class ListingMap extends HTMLElement {
 		const mapBounds = this.#map.getBounds();
 		const longitudeDiff = Math.abs(mapBounds._ne.lng - mapBounds._sw.lng);
 		const latitudeDiff = Math.abs(mapBounds._ne.lng - mapBounds._sw.lng);
-		const averageDiff = (longitudeDiff + latitudeDiff) / 2;
+		const averageDiff = Math.min(longitudeDiff, latitudeDiff) / 2;
 		const distanceInKm = averageDiff * 111.139;
 
 		return Math.ceil(distanceInKm / 2);
@@ -343,6 +360,19 @@ export class ListingMap extends HTMLElement {
 			updatedData.features = listingService.listings.map(convertListingToGeoJsonFeature);
 			source.setData(updatedData);
 		});
+	}
+
+	#generateSearchRadiusCircle() {
+		return circle(
+			// center
+			[listingService.longitude, listingService.latitude],
+			// radius
+			listingService.searchRadius,
+			{
+				steps: 128,
+				units: 'kilometers',
+			}
+		)
 	}
 }
 
