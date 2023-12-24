@@ -1,0 +1,25 @@
+{
+  "background_color": "#ffffff",
+  "description": "Trouvez votre escapade de rêves en quelques minutes parmis des milliers de chalets au Québec!",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Trouve ton Chalet",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "short_name": "trouvetonchalet.ca",
+  "start_url": "/",
+  "theme_color": "#3a614a",
+  "categories": [
+    "lifestyle",
+    "travel"
+  ],
+  "screenshots": [],
+  "icons": [
+    {
+      "src": "https://trouvetonchalet.ca/fontawesome/svgs/solid/house-tree.svg"
+    }
+  ],
+  "shortcuts": [],
+  "id": "trouvetonchalet",
+  "lang": "fr"
+}
