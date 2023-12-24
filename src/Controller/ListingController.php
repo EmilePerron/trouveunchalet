@@ -19,6 +19,6 @@ class ListingController extends AbstractController
     #[Route('/chalet/{id}', name: 'listing')]
     public function listing(Listing $listing): Response
     {
-		return new RedirectResponse($listing->getUrl(), 302);
+		return new RedirectResponse($listing->getUrl(), 301);
     }
 }
