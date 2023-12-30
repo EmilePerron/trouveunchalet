@@ -84,7 +84,6 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 
     public function getListingDetails(ListingData|Listing $listing): ListingData
     {
-
         if ($listing instanceof Listing) {
             $listing = ListingData::createFromListing($listing);
         }
@@ -98,6 +97,33 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 			throw new WaitForRateLimitingException(3600);
 		}
 
+		$unavailabilities = $this->fetchAvailabilitiesOnly($listing);
+		$descriptionData = $rawListingData["description"]["fr"]["description"] ? $rawListingData["description"]["fr"] : $rawListingData["description"]["en"];
+
+        $detailedListing = new ListingData(
+            name: $descriptionData["title"] ?? $descriptionData["name"] ?? $rawListingData["name"],
+			address: $listing->address,
+			url: $listing->url,
+			internalId: $listing->internalId,
+            unavailabilities: $unavailabilities,
+            description: $descriptionData["description"] . ($descriptionData["about_this_property"] ?? ""),
+            imageUrl: $listing->imageUrl,
+			numberOfGuests: $listing->numberOfGuests,
+			numberOfBedrooms: $listing->numberOfBedrooms,
+			dogsAllowed: in_array("allow-pets", $rawListingData["house_rules"]),
+			hasWifi: in_array("wireless-internet", $rawListingData["amenities"]),
+			hasFireplace: in_array("indoor-fireplace", $rawListingData["amenities"]),
+			hasWoodStove: in_array("indoor-fireplace", $rawListingData["amenities"]) && in_array("firewood-included", $rawListingData["amenities"]),
+			minimumStayInDays: $rawListingData["booking_settings"]["min_stay_count"],
+			minimumPricePerNight: $listing->minimumPricePerNight,
+			maximumPricePerNight: $listing->maximumPricePerNight,
+        );
+
+        return $detailedListing;
+    }
+
+    public function fetchAvailabilitiesOnly(ListingData &$listing): null|array
+	{
 		$calendarResponse = $this->httpClient->request("GET", "https://api.wechalet.com/v1/listings/{$listing->internalId}/calendar", [
 			"query" => [
 				'start_date' => date("Y-m-d"),
@@ -120,26 +146,6 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 			}
         }
 
-		$descriptionData = $rawListingData["description"]["fr"]["description"] ? $rawListingData["description"]["fr"] : $rawListingData["description"]["en"];
-        $detailedListing = new ListingData(
-            name: $descriptionData["title"] ?? $descriptionData["name"] ?? $rawListingData["name"],
-			address: $listing->address,
-			url: $listing->url,
-			internalId: $listing->internalId,
-            unavailabilities: $unavailabilities,
-            description: $descriptionData["description"] . ($descriptionData["about_this_property"] ?? ""),
-            imageUrl: $listing->imageUrl,
-			numberOfGuests: $listing->numberOfGuests,
-			numberOfBedrooms: $listing->numberOfBedrooms,
-			dogsAllowed: in_array("allow-pets", $rawListingData["house_rules"]),
-			hasWifi: in_array("wireless-internet", $rawListingData["amenities"]),
-			hasFireplace: in_array("indoor-fireplace", $rawListingData["amenities"]),
-			hasWoodStove: in_array("indoor-fireplace", $rawListingData["amenities"]) && in_array("firewood-included", $rawListingData["amenities"]),
-			minimumStayInDays: $rawListingData["booking_settings"]["min_stay_count"],
-			minimumPricePerNight: $listing->minimumPricePerNight,
-			maximumPricePerNight: $listing->maximumPricePerNight,
-        );
-
-        return $detailedListing;
-    }
+		return $unavailabilities;
+	}
 }

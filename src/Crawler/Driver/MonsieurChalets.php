@@ -114,7 +114,34 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 		}
 
 		$amenities = array_filter(array_merge(...$propertyData['amenities']));
+		$unavailabilities = $this->fetchAvailabilitiesOnly($listing);
 
+        $detailedListing = new ListingData(
+            name: $propertyData["name_fr"] . ' | ' . $propertyData['sub_name_fr'],
+			address: $listing->address,
+			url: $listing->url,
+			internalId: $listing->internalId,
+            unavailabilities: $unavailabilities,
+            description: $propertyData['description_fr'] ?? null,
+            imageUrl: $listing->imageUrl,
+			numberOfGuests: $listing->numberOfGuests,
+			numberOfBedrooms: $listing->numberOfBedrooms,
+			dogsAllowed: in_array("pets_allowed", $propertyData["rules"] ?? []),
+			hasWifi: $listing->hasWifi,
+			hasFireplace: in_array('indoor_fireplace', $amenities),
+			hasWoodStove: in_array('indoor_fireplace', $amenities) && in_array('firewood_included', $amenities),
+			minimumStayInDays: $propertyData["rental_parameter"]["min_nights_to_rent"] ?? null,
+			minimumPricePerNight: min($propertyData['basic_pricing']['weekend_rate'] ?? PHP_INT_MAX, $listing->minimumPricePerNight),
+			maximumPricePerNight: max($propertyData['basic_pricing']['weekend_rate'] ?? 0, $listing->maximumPricePerNight),
+			latitude: $propertyData['latitude'],
+			longitude: $propertyData['longitude'],
+        );
+
+        return $detailedListing;
+    }
+
+    public function fetchAvailabilitiesOnly(ListingData &$listing): null|array
+	{
 		$calendarResponse = $this->httpClient->request('GET', "https://api.monsieurchalets.com/api/v1/property/{$listing->internalId}/booking_periods");
         $unavailabilities = [];
 		$today = new DateTime();
@@ -146,27 +173,6 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 			);
         }
 
-        $detailedListing = new ListingData(
-            name: $propertyData["name_fr"] . ' | ' . $propertyData['sub_name_fr'],
-			address: $listing->address,
-			url: $listing->url,
-			internalId: $listing->internalId,
-            unavailabilities: $unavailabilities,
-            description: $propertyData['description_fr'] ?? null,
-            imageUrl: $listing->imageUrl,
-			numberOfGuests: $listing->numberOfGuests,
-			numberOfBedrooms: $listing->numberOfBedrooms,
-			dogsAllowed: in_array("pets_allowed", $propertyData["rules"] ?? []),
-			hasWifi: $listing->hasWifi,
-			hasFireplace: in_array('indoor_fireplace', $amenities),
-			hasWoodStove: in_array('indoor_fireplace', $amenities) && in_array('firewood_included', $amenities),
-			minimumStayInDays: $propertyData["rental_parameter"]["min_nights_to_rent"] ?? null,
-			minimumPricePerNight: min($propertyData['basic_pricing']['weekend_rate'] ?? PHP_INT_MAX, $listing->minimumPricePerNight),
-			maximumPricePerNight: max($propertyData['basic_pricing']['weekend_rate'] ?? 0, $listing->maximumPricePerNight),
-			latitude: $propertyData['latitude'],
-			longitude: $propertyData['longitude'],
-        );
-
-        return $detailedListing;
-    }
+		return $unavailabilities;
+	}
 }

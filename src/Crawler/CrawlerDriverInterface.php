@@ -3,6 +3,7 @@
 namespace App\Crawler;
 
 use App\Crawler\Model\ListingData;
+use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
 use App\Enum\Site;
 use Closure;
@@ -25,4 +26,19 @@ interface CrawlerDriverInterface
      * availabilities.
      */
     public function getListingDetails(ListingData|Listing $listing): ListingData;
+
+    /**
+     * Fetches only the availabilities for a given property, without any
+	 * additional data.
+	 *
+	 * If the site does not have a way to do this without loading everything,
+	 * this returns `null`.
+	 *
+	 * `$listing` is passed by reference to allow the drivers to update any
+	 * other metadata about the listing if the availabilities endpoint contains
+	 * relevant information that isn't available elsewhere.
+	 *
+	 * @return null|array<int,Unavailability>
+     */
+    public function fetchAvailabilitiesOnly(ListingData &$listing): null|array;
 }

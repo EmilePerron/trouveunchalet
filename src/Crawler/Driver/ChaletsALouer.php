@@ -200,4 +200,10 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 
         return $detailedListing;
     }
+
+    public function fetchAvailabilitiesOnly(ListingData &$listing): null|array
+	{
+		// ChaletsALouer does not have a specific API endpoint for retrieving availabilities.
+        return null;
+	}
 }

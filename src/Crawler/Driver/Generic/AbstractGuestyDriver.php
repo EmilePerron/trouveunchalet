@@ -90,17 +90,42 @@ abstract class AbstractGuestyDriver extends AbstractHttpBrowserCrawlerDriver
             $listing = ListingData::createFromListing($listing);
         }
 
-		$listingRequestUrl = "https://app.guesty.com/api/pm-websites-backend/listings/{$listing->internalId}";
-        $listingRequest = $this->httpClient->request('GET', $listingRequestUrl, [
+        $listingRequest = $this->httpClient->request('GET', "https://app.guesty.com/api/pm-websites-backend/listings/{$listing->internalId}", [
 			"headers" => [
 				"Origin" => $this->getOriginUrl(),
 			],
 		]);
 		$listingResponse = $listingRequest->toArray();
 
+		$unavailabilities = $this->fetchAvailabilitiesOnly($listing);
+
+        $detailedListing = new ListingData(
+            name: $listing->name,
+			address: $listing->address,
+			url: $listing->url,
+			internalId: $listing->internalId,
+            unavailabilities: $unavailabilities,
+            description: $this->buildFullDescriptionFromRawResult($listingResponse),
+            imageUrl: $listing->imageUrl,
+			numberOfGuests: $listing->numberOfGuests,
+			numberOfBedrooms: $listing->numberOfBedrooms,
+            dogsAllowed: $listing->dogsAllowed,
+			hasWifi: $listing->hasWifi,
+			hasFireplace: $listing->hasFireplace,
+			hasWoodStove: $listing->hasWoodStove,
+			minimumStayInDays: $listingResponse['terms']['minNights'] ?? null,
+			minimumPricePerNight: $listingResponse['prices']['basePrice'],
+			maximumPricePerNight: $listingResponse['prices']['basePrice'],
+        );
+
+        return $detailedListing;
+    }
+
+    public function fetchAvailabilitiesOnly(ListingData &$listing): null|array
+	{
 		$today = date('Y-m-d');
 		$toDate = (new DateTime("+ 2 years"))->format('Y-m-d');
-		$calendarUrl = "{$listingRequestUrl}/calendar?from={$today}&to={$toDate}";
+		$calendarUrl = "https://app.guesty.com/api/pm-websites-backend/listings/{$listing->internalId}/calendar?from={$today}&to={$toDate}";
 		$calendarRequest = $this->httpClient->request('GET', $calendarUrl, [
 			"headers" => [
 				"Origin" => $this->getOriginUrl(),
@@ -124,27 +149,8 @@ abstract class AbstractGuestyDriver extends AbstractHttpBrowserCrawlerDriver
 			$unavailabilities[] = $unavailability;
         }
 
-        $detailedListing = new ListingData(
-            name: $listing->name,
-			address: $listing->address,
-			url: $listing->url,
-			internalId: $listing->internalId,
-            unavailabilities: $unavailabilities,
-            description: $this->buildFullDescriptionFromRawResult($listingResponse),
-            imageUrl: $listing->imageUrl,
-			numberOfGuests: $listing->numberOfGuests,
-			numberOfBedrooms: $listing->numberOfBedrooms,
-            dogsAllowed: $listing->dogsAllowed,
-			hasWifi: $listing->hasWifi,
-			hasFireplace: $listing->hasFireplace,
-			hasWoodStove: $listing->hasWoodStove,
-			minimumStayInDays: $listingResponse['terms']['minNights'] ?? null,
-			minimumPricePerNight: $listingResponse['prices']['basePrice'],
-			maximumPricePerNight: $listingResponse['prices']['basePrice'],
-        );
-
-        return $detailedListing;
-    }
+		return $unavailabilities;
+	}
 
 	private function buildFullDescriptionFromRawResult(array $rawResult): string
 	{

@@ -355,6 +355,34 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 			}
 		}
 
+		$unavailabilities = $this->fetchAvailabilitiesOnly($listing);
+
+        $detailedListing = new ListingData(
+            name: $listing->name,
+			address: $listing->address,
+			url: $listing->url,
+			internalId: $listing->internalId,
+            unavailabilities: $unavailabilities,
+            description: $sectionsData['DESCRIPTION_DEFAULT']['section']['htmlDescription']['htmlText'] ?? $listing->description,
+            imageUrl: $listing->imageUrl,
+			numberOfGuests: $sectionsData['BOOK_IT_SIDEBAR']['section']['maxGuestCapacity'] ?? null,
+			numberOfBedrooms: count($sectionsData['SLEEPING_ARRANGEMENT_DEFAULT']['section']['arrangementDetails'] ?? [1]),
+			dogsAllowed: !isset($policies['SYSTEM_NO_PETS']),
+			hasWifi: isset($amenities['SYSTEM_WI_FI']),
+			hasFireplace: isset($amenities['SYSTEM_FIREPLACE']),
+			hasWoodStove: isset($amenities['SYSTEM_FIREPLACE']) && str_contains($amenities['SYSTEM_FIREPLACE'], 'bois'),
+			minimumStayInDays: $listing->minimumStayInDays,
+			minimumPricePerNight: $listing->minimumPricePerNight,
+			maximumPricePerNight: $listing->maximumPricePerNight,
+			latitude: $listing->latitude,
+			longitude: $listing->longitude,
+        );
+
+        return $detailedListing;
+    }
+
+    public function fetchAvailabilitiesOnly(ListingData &$listing): null|array
+	{
         $calendarResponse = $this->httpClient->request('GET', "https://fr.airbnb.ca/api/v3/PdpAvailabilityCalendar", [
 			"headers" => [
 				"accept-language" => "fr-CA,fr,en;q=0.9",
@@ -398,27 +426,8 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 			}
         }
 
-        $detailedListing = new ListingData(
-            name: $listing->name,
-			address: $listing->address,
-			url: $listing->url,
-			internalId: $listing->internalId,
-            unavailabilities: $unavailabilities,
-            description: $sectionsData['DESCRIPTION_DEFAULT']['section']['htmlDescription']['htmlText'] ?? $listing->description,
-            imageUrl: $listing->imageUrl,
-			numberOfGuests: $sectionsData['BOOK_IT_SIDEBAR']['section']['maxGuestCapacity'] ?? null,
-			numberOfBedrooms: count($sectionsData['SLEEPING_ARRANGEMENT_DEFAULT']['section']['arrangementDetails'] ?? [1]),
-			dogsAllowed: !isset($policies['SYSTEM_NO_PETS']),
-			hasWifi: isset($amenities['SYSTEM_WI_FI']),
-			hasFireplace: isset($amenities['SYSTEM_FIREPLACE']),
-			hasWoodStove: isset($amenities['SYSTEM_FIREPLACE']) && str_contains($amenities['SYSTEM_FIREPLACE'], 'bois'),
-			minimumStayInDays: $minimumNightsValues ? min($minimumNightsValues) : null,
-			minimumPricePerNight: $listing->minimumPricePerNight,
-			maximumPricePerNight: $listing->maximumPricePerNight,
-			latitude: $listing->latitude,
-			longitude: $listing->longitude,
-        );
+		$listing->minimumStayInDays = $minimumNightsValues ? min($minimumNightsValues) : null;
 
-        return $detailedListing;
-    }
+		return $unavailabilities;
+	}
 }
