@@ -14,6 +14,8 @@ use App\Message\RequestCrawlingMessage;
 use App\Repository\ListingRepository;
 use App\Util\Geocoder;
 use App\Util\Storage;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -100,46 +102,75 @@ class CrawlerRunner
 		$this->entityManager->flush();
     }
 
-    public function crawlListing(Site $site, ListingData $listingData): void
+    public function crawlListing(Site $site, ListingData $listingData, bool $forceFullCrawl = false): void
     {
 		$this->checkIfCrawlingIsAllowedByRobotsTxt($site);
 
+		$isFullCrawl = true;
 		$driver = $this->getDriver($site);
 
-		$this->logger->info("Crawling for listing details: {$listingData->url}.");
-
 		$existingListing = $this->listingRepository->findFromListingData($site, $listingData);
+		$updatedUnavailabilities = null;
 
-		try {
-			$listingDetails = $driver->getListingDetails($listingData);
-		} catch (ListingNotFoundException) {
-			if ($existingListing) {
-				$this->logger->info("Listing {$listingData->url} was not found - removing it from the database.");
-				$this->entityManager->remove($existingListing);
-				$this->entityManager->flush();
+		if ($existingListing) {
+			$lastFullCrawlDate = $existingListing->getDateLastCompletelyCrawled();
+			$this->logger->info("Matched listing data to existing listing {$existingListing->getId()}, last fully crawled on {$lastFullCrawlDate->format('Y-m-d H:i:s')}");
+
+			// If we've already crawled this in the past 3 days, try to only refresh the availabilities to reduce the load on the crawled site.
+			if (!$forceFullCrawl && $lastFullCrawlDate >= new DateTime("-3 days")) {
+				$this->logger->info("Already crawled recently - attempting to refresh availabilities only.");
+				$updatedUnavailabilities = $driver->fetchAvailabilitiesOnly($listingData);
+
+				if ($updatedUnavailabilities !== null) {
+					$isFullCrawl = false;
+				}
 			}
+		}
 
-			return;
+		if (!$isFullCrawl) {
+			$listingDetails = ListingData::createFromListing($existingListing);
+			$listingDetails->unavailabilities = $updatedUnavailabilities;
+		} else {
+			$this->logger->info("Crawling for listing details: {$listingData->url}.");
+
+			try {
+				$listingDetails = $driver->getListingDetails($listingData);
+			} catch (ListingNotFoundException) {
+				if ($existingListing) {
+					$this->logger->info("Listing {$listingData->url} was not found - removing it from the database.");
+					$this->entityManager->remove($existingListing);
+					$this->entityManager->flush();
+				}
+
+				return;
+			}
 		}
 
 		$listing = $existingListing ?: new Listing();
 		$listing->setParentSite($site);
+
+		if ($isFullCrawl) {
+			$listing->setDateLastCompletelyCrawled(new DateTimeImmutable());
+		}
+
 		$this->fillListingFromCrawledDetails($listing, $listingDetails);
 		$this->entityManager->persist($listing);
 		$this->entityManager->flush();
 
-		$this->storage->updatePrimaryImageUrl($listing);
+		if ($isFullCrawl) {
+			$this->storage->updatePrimaryImageUrl($listing);
 
-		if (!$listing->getLatitude()) {
-			$geolocation = $this->geocoder->geocodeListing($listing);
+			if (!$listing->getLatitude()) {
+				$geolocation = $this->geocoder->geocodeListing($listing);
 
-			if (!$geolocation) {
-				$this->logger->error("Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
-			} else {
-				$listing->setLatitude($geolocation->getCoordinates()->getLatitude());
-				$listing->setLongitude($geolocation->getCoordinates()->getLongitude());
-				$this->entityManager->persist($listing);
-				$this->entityManager->flush();
+				if (!$geolocation) {
+					$this->logger->error("Could not geocode listing {$listing->getId()} - zero results for address {$listing->getAddress()}.");
+				} else {
+					$listing->setLatitude($geolocation->getCoordinates()->getLatitude());
+					$listing->setLongitude($geolocation->getCoordinates()->getLongitude());
+					$this->entityManager->persist($listing);
+					$this->entityManager->flush();
+				}
 			}
 		}
     }

@@ -7,6 +7,8 @@ use App\Entity\Trait\UlidTrait;
 use App\Enum\Site;
 use App\Repository\ListingRepository;
 use App\Util\Excerpt;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -103,9 +105,14 @@ class Listing
     #[ORM\Column(nullable: true)]
     private ?bool $hasFireplace = null;
 
+	#[Groups('timestamps')]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private DateTimeImmutable $dateLastCompletelyCrawled;
+
     public function __construct()
     {
         $this->unavailabilities = new ArrayCollection();
+		$this->dateLastCompletelyCrawled = new DateTimeImmutable();
     }
 
     public function getName(): ?string
@@ -370,4 +377,16 @@ class Listing
 
         return $this;
     }
+
+	public function getDateLastCompletelyCrawled(): DateTimeImmutable
+	{
+		return $this->dateLastCompletelyCrawled;
+	}
+
+	public function setDateLastCompletelyCrawled(DateTimeInterface $dateLastCompletelyCrawled): self
+	{
+		$this->dateLastCompletelyCrawled = DateTimeImmutable::createFromInterface($dateLastCompletelyCrawled);
+
+		return $this;
+	}
 }
