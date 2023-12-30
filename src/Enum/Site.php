@@ -5,8 +5,8 @@ namespace App\Enum;
 enum Site: string
 {
     case Airbnb = "airbnb.ca";
-    case ChaletsALouer = "chaletsalouer.com";
     case LeVertendre = "levertendre.com";
     case WeChalet = "wechalet.com";
     case MonsieurChalets = "monsieurchalets.com";
+    case ChaletsALouer = "chaletsalouer.com";
 }
