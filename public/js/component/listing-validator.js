@@ -19,6 +19,11 @@ export class ListingValidator extends HTMLElement {
 	#form;
 
 	/**
+	 * @type HTMLButtonlement
+	 */
+	#button;
+
+	/**
 	 * @type HTMLElement
 	 */
 	#resultElement;
@@ -46,6 +51,7 @@ export class ListingValidator extends HTMLElement {
 		`;
 
 		this.#form = this.shadowRoot.querySelector('form');
+		this.#button = this.#form.querySelector('button');
 		this.#resultElement = this.shadowRoot.querySelector('#listing-validation-result');
 
 		this.#form.addEventListener('submit', e => this.#submitForm(e));
@@ -53,6 +59,8 @@ export class ListingValidator extends HTMLElement {
 
 	#submitForm(e) {
 		e.preventDefault();
+
+		this.#button.disabled = true;
 
 		fetch('/api/host/listing-validator', {
 			body: new FormData(this.#form),
@@ -76,6 +84,8 @@ export class ListingValidator extends HTMLElement {
 					`;
 				}
 			)
+		}).finally(() => {
+			this.#button.disabled = false;
 		});
 	}
 }
