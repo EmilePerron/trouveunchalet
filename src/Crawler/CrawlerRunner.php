@@ -6,6 +6,7 @@ use App\Config\SiteConfigLoader;
 use App\Crawler\Exception\ListingNotFoundException;
 use App\Crawler\Exception\MissingCrawlerException;
 use App\Crawler\Exception\RobotsTxtDisallowsCrawlingException;
+use App\Crawler\Exception\WaitForRateLimitingException;
 use App\Crawler\Model\ListingData;
 use App\Entity\Listing;
 use App\Entity\Unavailability;
@@ -108,42 +109,53 @@ class CrawlerRunner
 
 		$isFullCrawl = true;
 		$driver = $this->getDriver($site);
+		$waitForRateLimitResetTimestamp = $this->appCache->get("ratelimit_reset_{$site->value}");
+
+		// Wait for rate limiting to reset for that site/driver
+		if ($waitForRateLimitResetTimestamp && $waitForRateLimitResetTimestamp > time()) {
+			throw new WaitForRateLimitingException($waitForRateLimitResetTimestamp - time());
+		}
 
 		$existingListing = $this->listingRepository->findFromListingData($site, $listingData);
 		$updatedUnavailabilities = null;
 
-		if ($existingListing) {
-			$lastFullCrawlDate = $existingListing->getDateLastCompletelyCrawled();
-			$this->logger->info("Matched listing data to existing listing {$existingListing->getId()}, last fully crawled on {$lastFullCrawlDate->format('Y-m-d H:i:s')}");
+		try {
+			if ($existingListing) {
+				$lastFullCrawlDate = $existingListing->getDateLastCompletelyCrawled();
+				$this->logger->info("Matched listing data to existing listing {$existingListing->getId()}, last fully crawled on {$lastFullCrawlDate->format('Y-m-d H:i:s')}");
 
-			// If we've already crawled this in the past 3 days, try to only refresh the availabilities to reduce the load on the crawled site.
-			if (!$forceFullCrawl && $lastFullCrawlDate >= new DateTime("-3 days")) {
-				$this->logger->info("Already crawled recently - attempting to refresh availabilities only.");
-				$updatedUnavailabilities = $driver->fetchAvailabilitiesOnly($listingData);
+				// If we've already crawled this in the past 3 days, try to only refresh the availabilities to reduce the load on the crawled site.
+				if (!$forceFullCrawl && $lastFullCrawlDate >= new DateTime("-3 days")) {
+					$this->logger->info("Already crawled recently - attempting to refresh availabilities only.");
+					$updatedUnavailabilities = $driver->fetchAvailabilitiesOnly($listingData);
 
-				if ($updatedUnavailabilities !== null) {
-					$isFullCrawl = false;
+					if ($updatedUnavailabilities !== null) {
+						$isFullCrawl = false;
+					}
 				}
 			}
-		}
 
-		if (!$isFullCrawl) {
-			$listingDetails = ListingData::createFromListing($existingListing);
-			$listingDetails->unavailabilities = $updatedUnavailabilities;
-		} else {
-			$this->logger->info("Crawling for listing details: {$listingData->url}.");
+			if (!$isFullCrawl) {
+				$listingDetails = ListingData::createFromListing($existingListing);
+				$listingDetails->unavailabilities = $updatedUnavailabilities;
+			} else {
+				$this->logger->info("Crawling for listing details: {$listingData->url}.");
 
-			try {
-				$listingDetails = $driver->getListingDetails($listingData);
-			} catch (ListingNotFoundException) {
-				if ($existingListing) {
-					$this->logger->info("Listing {$listingData->url} was not found - removing it from the database.");
-					$this->entityManager->remove($existingListing);
-					$this->entityManager->flush();
+				try {
+					$listingDetails = $driver->getListingDetails($listingData);
+				} catch (ListingNotFoundException) {
+					if ($existingListing) {
+						$this->logger->info("Listing {$listingData->url} was not found - removing it from the database.");
+						$this->entityManager->remove($existingListing);
+						$this->entityManager->flush();
+					}
+
+					return;
 				}
-
-				return;
 			}
+		} catch (WaitForRateLimitingException $waitForRateLimitException) {
+			$this->appCache->set("ratelimit_reset_{$site->value}", time() + $waitForRateLimitException->delayInSeconds, $waitForRateLimitException->delayInSeconds);
+			throw $waitForRateLimitException;
 		}
 
 		$listing = $existingListing ?: new Listing();
