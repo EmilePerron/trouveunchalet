@@ -122,6 +122,7 @@ COPY docker/caddy/Caddyfile /etc/caddy/Caddyfile
 
 # Use supervisord to run both PHP-FPM and Caddy
 COPY docker/php/supervisord.conf /etc/supervisor/supervisord.conf
+COPY docker/php/supervisord-messenger-only.conf /etc/supervisor/supervisord-messenger-only.conf
 
 # Expose ports
 EXPOSE 80
