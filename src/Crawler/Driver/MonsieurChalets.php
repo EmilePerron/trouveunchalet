@@ -70,7 +70,7 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 
 			foreach ($responseData['items'] as $rawListingData) {
 				$id = $rawListingData["id"];
-				$urlDir1 = strtolower(trim($slugger->slug($rawListingData["addresses"][0]["administrative_area"])));
+				$urlDir1 = strtolower(trim($slugger->slug($rawListingData["addresses"][0]["mrc"] ?? $rawListingData["addresses"][0]["administrative_area"])));
 				$urlDir2 = strtolower(trim($slugger->slug($rawListingData["addresses"][0]["city"] ?? "la-conception")));
 				$listingSlug = $rawListingData['handle'];
 
