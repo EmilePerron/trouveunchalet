@@ -10,7 +10,7 @@ stylesheet.innerHTML = `
 	a:hover { opacity: .65; }
 
 	.gallery { width: 100%; height: auto; aspect-ratio: 4/3; line-height: 0; background-color: var(--color-primary-050); border-radius: .75rem; overflow: hidden; }
-	img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+	object, img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
 
 	.body { width: 100%; }
 	strong { display: block; font-size: 1rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -51,7 +51,9 @@ export class ListingListItem extends HTMLElement {
 			${stylesheet.outerHTML}
 			<a href="/chalet/${listing.id}" target="_blank">
 				<div class="gallery">
-					<img src="${getListingImageUrl(listing.id)}" alt="" width="4" height="3" loading="lazy">
+					<object data="${getListingImageUrl(listing.id)}" type="image/jpeg" width="4" height="3">
+						<img src="/image/no-image-available.webp" alt="" width="4" height="3">
+					</object>
 				</div>
 				<div class="body">
 					<strong>${listing.name}</strong>

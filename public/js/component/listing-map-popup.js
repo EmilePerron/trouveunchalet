@@ -7,7 +7,7 @@ stylesheet.innerHTML = `
 	:host { }
 	.listing { display: flex; flex-direction: column; width: min(250px, 70vw); gap: .5rem; }
 	.gallery { width: 100%; aspect-ratio: 4/3; background-color: var(--color-gray-100); border-radius: .25rem; }
-	img { width: 100%; height: 100%; object-fit: cover; }
+	object, img { width: 100%; height: 100%; object-fit: cover; }
 
 	.price span { font-weight: 600; }
 
@@ -111,7 +111,9 @@ export class ListingMapPopup extends HTMLElement {
 
 		this.#listingElement.innerHTML = `
 			<div class="gallery">
-				<img src="${getListingImageUrl(listing.id)}" alt="">
+				<object data="${getListingImageUrl(listing.id)}" type="image/jpeg">
+					<img src="/image/no-image-available.webp" alt="">
+				</object>
 			</div>
 			<div class="body">
 				<strong>${listing.name}</strong>
