@@ -19,6 +19,8 @@
 ###< symfony/phpunit-bridge ###
 
 .DS_Store
+.user.ini
+php.ini
 
 /drivers
 
