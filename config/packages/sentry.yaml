@@ -7,6 +7,11 @@ when@prod:
         register_error_listener: false
         register_error_handler: false
 
+        options:
+            excluded_exceptions:
+                - 'Symfony\Component\Routing\Exception\ResourceNotFoundException'
+                - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+
         # Specify a fixed sample rate
         # traces_sample_rate: 0.1
         # Set a sampling rate for profiling - this is relative to traces_sample_rate
