@@ -3,6 +3,7 @@
 namespace App\Crawler\Driver;
 
 use App\Crawler\AbstractHttpBrowserCrawlerDriver;
+use App\Crawler\Exception\ListingNotFoundException;
 use App\Crawler\Exception\WaitForRateLimitingException;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
@@ -10,6 +11,7 @@ use App\Entity\Listing;
 use App\Enum\Site;
 use Closure;
 use DateTimeImmutable;
+use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -90,7 +92,16 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
         }
 
         $response = $this->httpClient->request('GET', "https://api.wechalet.com/v1/listings/{$listing->internalId}");
-		$rawListingData = $response->toArray()["data"];
+
+		try {
+			$rawListingData = $response->toArray()["data"];
+		} catch (ClientException $exception) {
+			if ($exception->getCode() === 404) {
+				throw new ListingNotFoundException();
+			}
+
+			throw $exception;
+		}
 
 		$this->checkForRateLimiting($response);
 
