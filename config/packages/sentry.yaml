@@ -8,7 +8,7 @@ when@prod:
         register_error_handler: false
 
         options:
-            excluded_exceptions:
+            ignore_exceptions:
                 - 'Symfony\Component\Routing\Exception\ResourceNotFoundException'
                 - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
 
