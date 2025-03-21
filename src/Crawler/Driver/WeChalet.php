@@ -11,6 +11,7 @@ use App\Enum\Site;
 use Closure;
 use DateTimeImmutable;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * Overview of this crawler:
@@ -29,8 +30,6 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
     public function findAllListings(Site $site, Closure $enqueueListing): array
     {
         $listings = [];
-
-		// @TODO: handle rate limiting (X-Ratelimit-Limit and X-Ratelimit-Remaining headers)
 
 		$page = 1;
 		$lastPage = null;
@@ -77,6 +76,8 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 
 			$lastPage = $responseData['meta']['last_page'];
 			$page++;
+
+			$this->checkForRateLimiting($response);
 		} while ($page <= $lastPage);
 
         return $listings;
@@ -91,11 +92,7 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
         $response = $this->httpClient->request('GET', "https://api.wechalet.com/v1/listings/{$listing->internalId}");
 		$rawListingData = $response->toArray()["data"];
 
-		// Retry later if rate limit is about to be reached
-		$headers = $response->getHeaders();
-		if ($headers['x-ratelimit-remaining'] <= 3) {
-			throw new WaitForRateLimitingException(3600);
-		}
+		$this->checkForRateLimiting($response);
 
 		$unavailabilities = $this->fetchAvailabilitiesOnly($listing);
 		$descriptionData = $rawListingData["description"]["fr"]["description"] ? $rawListingData["description"]["fr"] : $rawListingData["description"]["en"];
@@ -130,6 +127,8 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
 			]
 		]);
 
+		$this->checkForRateLimiting($calendarResponse);
+
         $unavailabilities = [];
 
         foreach ($calendarResponse->toArray()["data"] as $monthData) {
@@ -147,5 +146,18 @@ class WeChalet extends AbstractHttpBrowserCrawlerDriver
         }
 
 		return $unavailabilities;
+	}
+
+	/**
+	 * @throws WaitForRateLimitingException
+	 */
+	protected function checkForRateLimiting(ResponseInterface $response): void
+	{
+		$headers = $response->getHeaders();
+
+		// Retry later if rate limit is about to be reached
+		if ($headers['x-ratelimit-remaining'] <= 3) {
+			throw new WaitForRateLimitingException(3600);
+		}
 	}
 }
