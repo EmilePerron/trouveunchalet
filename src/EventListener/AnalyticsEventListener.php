@@ -27,6 +27,10 @@ class AnalyticsEventListener
 			return;
 		}
 
+		if (!$terminateEvent->getResponse()->isSuccessful()) {
+			return;
+		}
+
 		$this->plausible->trackEvent();
     }
 }
