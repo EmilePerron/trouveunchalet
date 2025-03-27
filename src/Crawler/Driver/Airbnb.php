@@ -3,6 +3,7 @@
 namespace App\Crawler\Driver;
 
 use App\Crawler\AbstractHttpBrowserCrawlerDriver;
+use App\Crawler\Exception\WaitForRateLimitingException;
 use App\Crawler\Model\ListingData;
 use App\Crawler\Model\Unavailability;
 use App\Entity\Listing;
@@ -11,6 +12,7 @@ use Closure;
 use DateTime;
 use DateTimeImmutable;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * Overview of this crawler:
@@ -225,6 +227,9 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 					]
 				]
 			]);
+
+			$this->checkForRateLimiting($response);
+
 			$responseData = $response->toArray();
 			$rawListings = $responseData['data']['presentation']['staysSearch']['results']['searchResults'];
 
@@ -334,6 +339,8 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 			],
 		]);
 
+		$this->checkForRateLimiting($response);
+
 		$rawSectionsData = $response->toArray()["data"]["presentation"]["stayProductDetailPage"]["sections"]["sections"];
 		$sectionsData = [];
 
@@ -407,6 +414,8 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 			]
 		]);
 
+		$this->checkForRateLimiting($calendarResponse);
+
 		$minimumNightsValues = [];
 		$unavailabilities = [];
 
@@ -429,5 +438,16 @@ class Airbnb extends AbstractHttpBrowserCrawlerDriver
 		$listing->minimumStayInDays = $minimumNightsValues ? min($minimumNightsValues) : null;
 
 		return $unavailabilities;
+	}
+
+	/**
+	 * @throws WaitForRateLimitingException
+	 */
+	protected function checkForRateLimiting(ResponseInterface $response): void
+	{
+		// Retry later if rate limiting is reached.
+		if ($response->getStatusCode() === 429) {
+			throw new WaitForRateLimitingException(600);
+		}
 	}
 }
