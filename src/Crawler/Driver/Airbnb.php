@@ -19,7 +19,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  * - Everything is API driven, so we make use of that.
  * - The bulk of the info is already available and filled at the "find all listings" phase.
  * - The "find all listings" API endpoint is paginated.
- * - Rate limiting is... limiting! We're restricted to 300 requests per [unknown time period]. Probably IP based.
+ * - Rate limiting is... limiting! We're restricted to 300 requests per [unknown time period]. Probably IP based. Returns a 429 upon reaching limit.
  */
 class Airbnb extends AbstractHttpBrowserCrawlerDriver
 {
