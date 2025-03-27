@@ -21,6 +21,7 @@ framework:
     assets:
         base_urls:
             - "%main_asset_base_url%"
+        version: '%env(ASSET_VERSION)%'
 
     # Locales and internationalization
     set_locale_from_accept_language: true
