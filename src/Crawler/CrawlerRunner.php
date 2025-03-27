@@ -92,6 +92,11 @@ class CrawlerRunner
 
 			if (isset($originalListings[$index])) {
 				unset($originalListings[$index]);
+			} else {
+				$this->bus->dispatch(new RequestCrawlingMessage(
+					site: $site->value,
+					listingData: $roughListingData,
+				));
 			}
 		}
 
