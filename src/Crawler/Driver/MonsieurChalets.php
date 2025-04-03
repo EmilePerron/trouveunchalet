@@ -40,7 +40,7 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 		$lastPage = null;
 
 		do {
-			$response = $this->httpClient->request("POST", "https://api.monsieurchalets.com/api/v1/properties", [
+			$response = $this->httpClient->request("POST", "https://api.monsieurchalets.com/api/v1/public/search/properties", [
 				"body" => [
 					[
 						"limit" => $itemsPerPage,
@@ -143,7 +143,7 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 
     public function fetchAvailabilitiesOnly(ListingData &$listing): null|array
 	{
-		$calendarResponse = $this->httpClient->request('GET', "https://api.monsieurchalets.com/api/v1/property/{$listing->internalId}/booking_periods");
+		$calendarResponse = $this->httpClient->request('GET', "https://api.monsieurchalets.com/api/v1/public/property/{$listing->internalId}/booking_periods");
 
 		// Retry later if rate limit is about to be reached
 		$headers = $calendarResponse->getHeaders();
