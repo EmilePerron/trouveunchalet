@@ -54,8 +54,17 @@
 							// Performance Monitoring
 							tracesSampleRate: 0.1, // Capture 10% of the transactions
 							// Session Replay
-							// replaysSessionSampleRate: 0.05, // This sets the sample rate at 5%. You may want to change it to 100% while in development and then sample at a lower rate in production.
-							// replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+							replaysSessionSampleRate: 0.05, // Capture 5% of visits as replays
+							replaysOnErrorSampleRate: 1.0, // Capture all replays where errors occured.
+
+							integrations: [
+								Sentry.replayIntegration({
+									// The site contains or requests no personal information, so disable masking and blocking in replays
+									maskAllText: false,
+									blockAllMedia: false,
+								}),
+								Sentry.replayCanvasIntegration(),
+							]
 						});
 					});
 				}
