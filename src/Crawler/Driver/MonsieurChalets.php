@@ -70,14 +70,26 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 
 			foreach ($responseData['items'] as $rawListingData) {
 				$id = $rawListingData["id"];
-				$urlDir1 = strtolower(trim($slugger->slug($rawListingData["addresses"][0]["mrc"] ?? $rawListingData["addresses"][0]["administrative_area"])));
-				$urlDir2 = strtolower(trim($slugger->slug($rawListingData["addresses"][0]["city"] ?? "la-conception")));
 				$listingSlug = $rawListingData['handle'];
+
+				// Build the URL
+				// This logic is based on a TS function named `getUniquePropertyUrl` in their frontend codebase.
+				$urlParts = [];
+				if ($administrativeArea = $rawListingData["addresses"][0]["administrative_area"] ?? null) {
+					$urlParts[] = strtolower(trim($slugger->slug($administrativeArea)));
+				}
+				if ($city = $rawListingData["addresses"][0]["city"] ?? null) {
+					$urlParts[] = strtolower(trim($slugger->slug($city)));
+				} else if ($mrc = $rawListingData["addresses"][0]["mrc"] ?? null) {
+					$urlParts[] = strtolower(trim($slugger->slug($mrc)));
+				}
+				$urlParts[] = $listingSlug;
+				$urlPath = implode('/', array_filter($urlParts));
 
 				$listingData = new ListingData(
 					name: $rawListingData["name_fr"] ?? $rawListingData["name_en"] ?? null,
 					address: $rawListingData["addresses"][0]["full_address"] ?? null,
-					url: "https://www.monsieurchalets.com/chalets-a-louer/{$urlDir1}/{$urlDir2}/{$listingSlug}",
+					url: "https://www.monsieurchalets.com/chalets-a-louer/{$urlPath}",
 					internalId: $id,
 					imageUrl: $rawListingData["photos"][0]["image"]["url"] ?? null,
 					dogsAllowed: null,
@@ -106,7 +118,7 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
         }
 
 		$crawler = $this->client->request('GET', $listing->url);
-		$pageDataJson = $crawler->filter('script#__NEXT_DATA__')->html();
+		$pageDataJson = $crawler->filter('script#__NEXT_DATA__')->innerText();
 		$pageData = json_decode($pageDataJson, true);
 		$propertyData = $pageData['props']['pageProps']['property'] ?? null;
 
@@ -114,7 +126,7 @@ class MonsieurChalets extends AbstractHttpBrowserCrawlerDriver
 			throw new ListingNotFoundException();
 		}
 
-		$amenities = array_filter(array_merge(...$propertyData['amenities']));
+		$amenities = array_filter($propertyData['amenities']);
 		$unavailabilities = $this->fetchAvailabilitiesOnly($listing);
 
         $detailedListing = new ListingData(
