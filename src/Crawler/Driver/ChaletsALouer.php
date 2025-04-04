@@ -96,10 +96,10 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 			if (str_contains($scriptContent, "var lat = ")) {
 				$latStartPos = strpos($scriptContent, "var lat = ") + 10;
 				$latEndPos = strpos($scriptContent, ';', $latStartPos + 1) + 1;
-				$latitude = substr($scriptContent, $latStartPos, $latEndPos - $latStartPos);
+				$latitude = floatval(substr($scriptContent, $latStartPos, $latEndPos - $latStartPos));
 				$lngStartPos = strpos($scriptContent, "var lng = ") + 10;
 				$lngEndPos = strpos($scriptContent, ';', $lngStartPos + 1) + 1;
-				$longitude = substr($scriptContent, $lngStartPos, $lngEndPos - $lngStartPos);
+				$longitude = floatval(substr($scriptContent, $lngStartPos, $lngEndPos - $lngStartPos));
 			}
 
 			if (str_contains($scriptContent, "var tableauDates = ")) {
