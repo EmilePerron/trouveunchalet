@@ -23,6 +23,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ORM\Entity(repositoryClass: ListingRepository::class)]
 #[ORM\Index(columns: ["parent_site", "internal_id"])]
+#[ORM\Index(columns: ["latitude"])]
+#[ORM\Index(columns: ["longitude"])]
 #[ORM\UniqueConstraint(columns: ["parent_site", "internal_id"])]
 #[ORM\HasLifecycleCallbacks]
 class Listing
