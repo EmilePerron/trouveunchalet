@@ -15,6 +15,10 @@ export function renderPricePerNight(listing) {
 		return `<span>${listing.maximumPricePerNight}$</span> / nuit`;
 	}
 
+	if (listing.minimumPricePerNight && !listing.maximumPricePerNight) {
+		return `<span>À partir de ${listing.minimumPricePerNight}$</span> / nuit`;
+	}
+
 	return `<span>${listing.minimumPricePerNight}$</span> - <span>${listing.maximumPricePerNight}$</span> / nuit`;
 }
 
