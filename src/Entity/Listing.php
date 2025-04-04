@@ -347,11 +347,13 @@ class Listing
 	#[ORM\PreUpdate]
 	public function updateAveragePricePerNight(): static
 	{
-	if (!$this->minimumPricePerNight || !$this->maximumPricePerNight) {
 		$this->averagePricePerNight = null;
-	} else {
-		$this->averagePricePerNight = round(($this->minimumPricePerNight + $this->maximumPricePerNight) / 2);
-	}
+
+		if ($this->minimumPricePerNight && $this->maximumPricePerNight) {
+			$this->averagePricePerNight = round(($this->minimumPricePerNight + $this->maximumPricePerNight) / 2);
+		} else if ($this->minimumPricePerNight && !$this->maximumPricePerNight) {
+			$this->averagePricePerNight = $this->minimumPricePerNight;
+		}
 
 		return $this;
 	}

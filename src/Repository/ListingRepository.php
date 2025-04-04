@@ -47,7 +47,7 @@ class ListingRepository extends ServiceEntityRepository
         $roughBoundingBox = Geography::createBoundingBox($latitude, $longitude, $maximumRange);
 
         $queryBuilder = $this->createQueryBuilder('l')
-			->addSelect('COALESCE(l.averagePricePerNight, 9999999) AS HIDDEN sortingPrice')
+			->addSelect('COALESCE(l.averagePricePerNight, COALESCE(l.minimumPricePerNight, 9999999)) AS HIDDEN sortingPrice')
             // Ignore listings without latitude or longitude
             ->andWhere('l.latitude IS NOT NULL')
             ->andWhere('l.longitude IS NOT NULL')
