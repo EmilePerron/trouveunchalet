@@ -21,11 +21,11 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
         $crawler = $this->client->request("GET", "https://www.chaletsalouer.com/fr/location-de-chalet/?rechercheActive=1");
 
         while (true) {
-            $elements = $crawler->filter("#container-listing .container-listing-chalet:not(.incitatif)");
+            $elements = $crawler->filter("#result-container-list .item-etablissement:not(.incitatif)");
 
             $elements->each(function (Crawler $element) use (&$listings, &$enqueueListing) {
-                $headingLink = $element->filter("h2 a.nomEtablissement");
-                $locationElement = $element->filter(".details .text > p:first-child");
+                $headingLink = $element->filter("a.title");
+                $locationElement = $element->filter(".location > span:first-child");
                 $internalIdElement = $element->filter("[data-noetablissement]");
 
                 $internalId = $internalIdElement->attr("data-noetablissement");
@@ -42,7 +42,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
             });
 
             // Move on to the next page
-            $nextPageLink = $crawler->filter(".pager strong + a");
+            $nextPageLink = $crawler->filter(".pagination .active + a");
 
             if ($nextPageLink->count() === 0) {
                 break;
@@ -87,9 +87,20 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
          */
 		$stayInfo = [];
 		$minimumStayDuration = null;
+		$latitude = null;
+		$longitude = null;
 
-        $crawler->filter("script:not([src])")->each(function (Crawler $script) use (&$bookingInfo, &$stayInfo, &$minimumStayDuration) {
+        $crawler->filter("script:not([src])")->each(function (Crawler $script) use (&$bookingInfo, &$stayInfo, &$minimumStayDuration, &$latitude, &$longitude) {
             $scriptContent = $script->html();
+
+			if (str_contains($scriptContent, "var lat = ")) {
+				$latStartPos = strpos($scriptContent, "var lat = ") + 10;
+				$latEndPos = strpos($scriptContent, ';', $latStartPos + 1) + 1;
+				$latitude = substr($scriptContent, $latStartPos, $latEndPos - $latStartPos);
+				$lngStartPos = strpos($scriptContent, "var lng = ") + 10;
+				$lngEndPos = strpos($scriptContent, ';', $lngStartPos + 1) + 1;
+				$longitude = substr($scriptContent, $lngStartPos, $lngEndPos - $lngStartPos);
+			}
 
 			if (str_contains($scriptContent, "var tableauDates = ")) {
 				$jsonStartPos = strpos($scriptContent, "var tableauDates = ") + 19;
@@ -130,7 +141,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 
 		$minimumPricePerNight = null;
 		$maximumPricePerNight = null;
-		$crawler->filter("table.tarifsMoyens tr.tableauMoyen")->each(function (Crawler $row) use (&$minimumPricePerNight, &$maximumPricePerNight) {
+		$crawler->filter('table.tarifs tr')->each(function (Crawler $row) use (&$minimumPricePerNight, &$maximumPricePerNight) {
 			try {
 				$label = $row->children()->eq(0)->text();
 				$numberOfNights = intval(preg_replace('/^.*?(\d+)\s(nuit|jour).*$/i', '$1', $label));
@@ -142,29 +153,31 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 				}
 
 				$minimum = round(intval(str_replace(' ', '', $row->children()->eq(1)->text())) / $numberOfNights);
-				$maximum = round(intval(str_replace(' ', '', $row->children()->eq(2)->text())) / $numberOfNights);
-
 				if ($minimumPricePerNight === null || $minimum < $minimumPricePerNight) {
 					$minimumPricePerNight = $minimum;
 				}
 
-				if ($maximumPricePerNight === null || $maximum < $maximumPricePerNight) {
-					$maximumPricePerNight = $maximum;
+				if ($row->children()->count() > 2) {
+					$maximum = round(intval(str_replace(' ', '', $row->children()->eq(2)->text())) / $numberOfNights);
+					if ($maximumPricePerNight === null || $maximum < $maximumPricePerNight) {
+						$maximumPricePerNight = $maximum;
+					}
 				}
 			} catch (Exception $exception) {
 				$this->logger->error("Error occured while fetching prices: {$exception->getMessage()}", $exception->getTrace());
 			}
 		});
 
+		$address = $crawler->filter('#etablissement-info .location')->text(normalizeWhitespace: true) ?: $listing->address;
         $description = "";
-        $crawler->filter("#tab-description p")->each(function (Crawler $paragraph) use (&$description) {
-            $description .= $paragraph->text(normalizeWhitespace: true) . "\n\n";
+        $crawler->filter('.anchor[name="resume"] + div > *')->each(function (Crawler $node) use (&$description) {
+            $description .= $node->text(normalizeWhitespace: true) . "\n\n";
         });
-		$specsNode = $crawler->filter("#tab-resume");
+		$specsNode = $crawler->filter('.anchor[name="caracteristiques"] + div');
 		$specsText = $specsNode->count() ? $specsNode->text(normalizeWhitespace: true) : "";
 		$numberOfGuests = preg_replace('/^.*?(\d+)\spersonne.*$/', '$1', $specsText) ?: null;
 		$numberOfBedrooms = preg_replace('/^.*?(\d+)\schambre.*$/', '$1', $specsText) ?: null;
-		$originalUrlButton = $crawler->filter("#btnReserverMaintenant");
+		$originalUrlButton = $crawler->filter("#lienFicheSiteInternet");
 		$imageNode = $crawler->filter('link[rel="image_src"]');
 
 		// If the listing comes from another site and is simply indexed by ChaletALouer,
@@ -172,7 +185,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 		if ($originalUrlButton->count()) {
 			$listing = new ListingData(
 				name: $listing->name,
-				address: $listing->address,
+				address: $address,
 				url: $originalUrlButton->attr('href'),
 				internalId: $listing->internalId,
 			);
@@ -180,7 +193,7 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
 
         $detailedListing = new ListingData(
             name: $listing->name,
-			address: $listing->address,
+			address: $address,
 			url: $listing->url,
 			internalId: $listing->internalId,
             unavailabilities: $unavailabilities,
@@ -188,14 +201,16 @@ class ChaletsALouer extends AbstractHttpBrowserCrawlerDriver
             imageUrl: $imageNode->count() ? $imageNode->attr('href') : null,
             // Listings have a link with a specific search filter and the label "Animaux interdits" in listings that don't allow animals
             dogsAllowed: $crawler->filter('a[href*="&animauxPermis=0"]')->count() === 0,
-            hasWifi: $crawler->filter('#tab-caracteristiques a[href*="acces-internet"]')->count() > 0,
-            hasFireplace: $crawler->filter('#tab-caracteristiques a[href*="foyer-interieur"]')->count() > 0,
+            hasWifi: $crawler->filter('#etablissement-content a[href*="/wifi/"]')->count() > 0,
+            hasFireplace: $crawler->filter('#etablissement-content a[href*="foyer-interieur"]')->count() > 0,
 			hasWoodStove: null, // No way to know for ChaletsALouer listings... :(
 			numberOfGuests: $numberOfGuests,
 			numberOfBedrooms: $numberOfBedrooms,
 			minimumStayInDays: $minimumStayDuration,
 			minimumPricePerNight: $minimumPricePerNight,
 			maximumPricePerNight: $maximumPricePerNight,
+			latitude: $latitude,
+			longitude: $longitude,
         );
 
         return $detailedListing;
