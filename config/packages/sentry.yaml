@@ -11,6 +11,8 @@ when@prod:
             ignore_exceptions:
                 - 'Symfony\Component\Routing\Exception\ResourceNotFoundException'
                 - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+                - 'App\Crawler\Exception\ListingNotFoundException'
+                - 'App\Crawler\Exception\WaitForRateLimitingException'
 
         # Specify a fixed sample rate
         # traces_sample_rate: 0.1
